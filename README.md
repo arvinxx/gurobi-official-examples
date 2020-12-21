@@ -21,7 +21,7 @@
 
 ### 介绍
 
-- [x] [数学优化建模简介](https://github.com/Gurobi/modeling-examples/tree/master/intro_to_modeling)
+- [x] [数学优化建模简介](./Intro%20To%20Modeling/README.md)
 
 ### 初级
 
