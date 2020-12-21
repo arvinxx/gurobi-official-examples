@@ -21,7 +21,7 @@
 
 ### 介绍
 
-- [x] [数学优化建模简介](./Intro%20To%20Modeling)
+- [x] [数学优化建模简介](./documents/IntroToModeling)
 
 ### 初级
 
