@@ -20,9 +20,9 @@ Jupyter Notebook，您必须具有 Gurobi 许可证。如果您没有，则可�
 申请 [评估许可证](https://www.gurobi.com/downloads/request-an-evaluation-license/) ，或以 *学术用户*
 的身份下载 [免费许可证](https://www.gurobi.com/academia/academic-program-and-licenses) 。
 
-## HTML Example URL
+## 查看网页版
 
-https://gurobi.github.io/modeling-examples/intro_to_modeling/introduction_to_modeling.html
+本案例也包含了一个网页版本 如果你没有 Jupter Notebook 的话，可以直接查看网页版来学习。➡️ [传送门](https://arvinxx.github.io/gurobi-official-examples/introduction-to-modeling)
 
 Copyright © 2020 Gurobi Optimization, LLC
 
