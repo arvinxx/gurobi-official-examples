@@ -46,6 +46,10 @@
 - [ ] [Standard Pooling](https://github.com/Gurobi/modeling-examples/tree/master/pooling)
 - [ ] [Traveling Salesman](https://github.com/Gurobi/modeling-examples/tree/master/traveling_salesman)
 
+## 
+
+原地址：https://github.com/Gurobi/modeling-examples
+
 ## 协议
 
 本目录下的文件采用的协议为 Apache 2.0 license,版权归 Gurobi 所有

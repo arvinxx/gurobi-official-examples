@@ -8,16 +8,11 @@
 
 这个建模案例处在初学者级别，我们假设您了解 Python 并且您已经掌握一些知识关于建立数学优化模型。
 
-## Motivation
+## 动机
 
-Over the last ten years, smartphones have revolutionized our lives in ways that go well beyond how we communicate.
-Besides calling, texting, and emailing, more than two billion people around the world now use these devices to navigate,
-to book cab rides, to compare product reviews and prices, to follow the news, to watch movies, to listen to music, to
-play video games,to take photographs, to participate in social media, and for numerous other applications.
+在过去的十年里，智能手机彻底改变了我们的生活，远远超出了我们的沟通方式。除了打电话,发短信,发邮件,现在全世界有超过二十亿人使用这些设备导航到书出租车,比较产品评论和价格,遵循新闻,看电影,听音乐,玩游戏,拍照,参与社交媒体,和许多其他应用程序。
 
-A cellular network is a network of handheld smartphones in which each phone communicates with the telephone network by
-radio waves through a local antenna at a cellular base station (cell tower). One important problem is the placement of
-cell towers to provide signal coverage to the largest number of people.
+蜂窝网络是一种手持式智能手机网络，其中每部手机通过蜂窝基站(蜂窝基站)的本地天线通过无线电波与电话网络进行通信。一个重要的问题是如何安置手机信号塔，以便向最多的人提供信号覆盖。
 
 ## Problem Description
 
@@ -30,17 +25,15 @@ provide coverage to the largest percentage of the population possible
 
 A mixed-integer programming (MIP) formulation for the Cell Tower Coverage Problem..
 
-## Licensing
 
-In order to run this Jupyter Notebook properly, you must have a valid Gurobi license. If you do not have one, you can
-request
-an [evaluation license](https://www.gurobi.com/downloads/request-an-evaluation-license/?utm_source=Github&utm_medium=website_JupyterME&utm_campaign=CommercialDataScience)
-as a *commercial user*, or download
-a [free license](https://www.gurobi.com/academia/academic-program-and-licenses/?utm_source=Github&utm_medium=website_JupyterME&utm_campaign=AcademicDataScience)
-as an *academic user*.
 
-## HTML Example URL
+## 协议
 
-https://gurobi.github.io/modeling-examples/cell_tower_coverage/cell_tower.html
+你可以通过单击 [此处](https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip) 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，你必须具有 Gurobi 许可证。如果你没有，则可以**商业用户身份**申请 [试用许可证](https://www.gurobi.com/downloads/request-an-evaluation-license/)，或以**学术用户身份**下载 [免费许可证](https://www.gurobi.com/academia/academic-program-and-licenses)。
+## 查看网页版
+
+本案例也包含了一个网页版本 如果你没有 Jupter Notebook  的话，可以直接查看网页版来学习。➡️ [传送门](https://arvinxx.github.io/gurobi-official-examples/cell-tower-coverage)
 
 Copyright © 2020 Gurobi Optimization, LLC
+
+翻译 By Arvin Xu
