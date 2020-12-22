@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>introduction-to-modeling</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>facility-location</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14272,19 +14272,42 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="&#25968;&#23398;&#20248;&#21270;&#24314;&#27169;&#31616;&#20171;">&#25968;&#23398;&#20248;&#21270;&#24314;&#27169;&#31616;&#20171;<a class="anchor-link" href="#&#25968;&#23398;&#20248;&#21270;&#24314;&#27169;&#31616;&#20171;">&#182;</a></h1><h2 id="&#30446;&#26631;&#21644;&#20808;&#20915;&#26465;&#20214;">&#30446;&#26631;&#21644;&#20808;&#20915;&#26465;&#20214;<a class="anchor-link" href="#&#30446;&#26631;&#21644;&#20808;&#20915;&#26465;&#20214;">&#182;</a></h2><p>该建模示例的目的是在混合整数规划（MIP）问题的公式化中介绍关键元素。对于MIP问题公式的每个组成部分，我们提供描述，相关的Python代码以及描述该组成部分的数学符号。</p>
-<p>为了完全理解此部分的内容，读者应：</p>
-<ul>
-<li>熟悉Python。</li>
-<li>有相关学科背景，包括但不限于工程、计算机科学、经济学、统计学等各类“硬核”科学，或包含定量模型和方法的任一学科。</li>
-</ul>
-<p>读者还应查询 Gurobi Python API 的相关 <a href="https://www.gurobi.com/resources/?category-filter=documentation">文档</a>。此外，在《混合整数线性编程的系列教程》视频中详细介绍了此文档的内容。</p>
-<p>你可以在 <a href="https://www.gurobi.com/resource/tutorial-mixed-integer-linear-programming/">这里</a> 观看视频教程</p>
+<h1 id="&#35774;&#26045;&#36873;&#22336;-Facility-Location">&#35774;&#26045;&#36873;&#22336; Facility Location<a class="anchor-link" href="#&#35774;&#26045;&#36873;&#22336;-Facility-Location">&#182;</a></h1><p>等级：初级</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;<a class="anchor-link" href="#&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#182;</a></h2><p>在此示例中，我们将解决设施位置问题，即我们要建立仓库以供应一定数量的超级市场。我们将构建此问题的混合整数编程（MIP）模型，在Gurobi Python界面中实现此模型，并计算最佳解决方案。</p>
+<p>该建模示例处于初级阶段，我们假设您了解Python，并且具有一些有关构建数学优化模型的知识。</p>
 <p><strong>注意：</strong> 你可以通过单击 <a href="https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip">此处</a> 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，您必须具有 Gurobi 许可证。如果您没有，则可以<strong>商业用户身份</strong>申请 <a href="https://www.gurobi.com/downloads/request-an-evaluation-license/">试用许可证</a>，或以<strong>学术用户身份</strong>下载 <a href="https://www.gurobi.com/academia/academic-program-and-licenses">免费许可证</a>。</p>
-<h2 id="&#38382;&#39064;&#25551;&#36848;">&#38382;&#39064;&#25551;&#36848;<a class="anchor-link" href="#&#38382;&#39064;&#25551;&#36848;">&#182;</a></h2><p>假如有一家咨询公司，它有三个空缺职位：Tester（测试）、Java Developer（Java开发）和 Architect（架构师）。这三个职位的候选人是：Carlos、Joe 和 Monika。
-这家咨询公司对每个候选人进行了能力测试，以评估他们完成每项职位的能力。这些测试的结果称为 「匹配分数」（matching scores）。假设一个职位只能分配一个候选人，并且最多可以为一个候选人分配一个职位。</p>
-<p>我们的目标是：确定候选人和职位的分配，以使每个职位都得到满足。每个候选人最多分配一个岗位，分配后的总「匹配得分」最大。</p>
-<h2 id="&#25968;&#23398;&#20248;&#21270;">&#25968;&#23398;&#20248;&#21270;<a class="anchor-link" href="#&#25968;&#23398;&#20248;&#21270;">&#182;</a></h2><p>数学优化（也称为数学编程）是一种声明性方法，其中建模者制定了一个优化问题，该问题捕获了复杂决策问题的关键特征。然后 Gurobi 使用最先进的数学和计算机科学技术来解决这一类数学优化问题。</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="&#21160;&#26426;">&#21160;&#26426;<a class="anchor-link" href="#&#21160;&#26426;">&#182;</a></h2><p>设施选址问题的研究（也称为位置分析）是运筹学和计算几何学的一个分支，与设施的最佳布置有关，以最大程度地降低运输成本，同时考虑避免在房屋附近放置危险材料以及竞争对手设施的位置等因素。</p>
+<p>费马-韦伯问题（Fermat-Weber Problem）是17世纪提出的最早的设施选址问题之一。</p>
+<p>费马-韦伯问题可以描述如下：</p>
+<blockquote><p>给定一个平面中的三个点，找到第四个点，使得其到三个给定点的距离之和最小。</p>
+</blockquote>
+<p>该问题可以解释为设施位置问题的一种形式，其中假设所有目的地的每距离运输成本都相同。</p>
+<p>设施选址问题在许多行业都有应用。对于供应链管理和物流，该问题可用于寻找商店、工厂、仓库等的最佳位置。其他应用范围包括公共政策（例如在城市中安置警察）、电信（例如网络中的蜂窝塔），甚至还有粒子物理学（例如，排斥电荷之间的分离距离）。设施选址问题的另一个应用是确定天然气输送设备的位置。最后，设施选址问题可应用于聚类分析。</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="&#38382;&#39064;&#25551;&#36848;">&#38382;&#39064;&#25551;&#36848;<a class="anchor-link" href="#&#38382;&#39064;&#25551;&#36848;">&#182;</a></h2><p>英国的一家大型连锁超市需要为其在英格兰北部开设的一系列超市建立仓库。超级市场的位置已经确定，但是仓库的位置尚未确定。</p>
+<p>目前已经确定了若干仓库的备选地点，但必须就建立多少个仓库以及在哪些候选地点建立仓库作出决定。</p>
+<p>建设多个仓库是有好处的，因为这将减少卡车从仓库到超市的平均行驶距离，从而降低运输成本。但是，建一个仓库有一定的固定成本。</p>
+<p>在这个例子中，我们的目标是找到运输成本和建造新仓库成本之间的最佳权衡。</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="&#35299;&#20915;&#26041;&#27861;">&#35299;&#20915;&#26041;&#27861;<a class="anchor-link" href="#&#35299;&#20915;&#26041;&#27861;">&#182;</a></h2><p>数学优化（也称为数学编程）是一种声明性方法，其中建模者制定了一个优化问题，该问题捕获了复杂决策问题的关键特征。然后 Gurobi 使用最先进的数学和计算机科学技术来解决这一类数学优化问题。</p>
 <p>数学优化模型具有五个组成部分：</p>
 <ul>
 <li>数据集（Sets）</li>
@@ -14293,12 +14316,119 @@ a.anchor-link {
 <li>约束（Constraints）</li>
 <li>目标函数（Objective function(s)）</li>
 </ul>
+<p>我们现在提出了一个设施选址问题的 MIP 模型。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>以下 Python 代码导入了 Gurobi 模块，并将 <code>GRB</code> 类导入了主命名空间。</p>
+<h2 id="&#27169;&#22411;&#21046;&#23450;">&#27169;&#22411;&#21046;&#23450;<a class="anchor-link" href="#&#27169;&#22411;&#21046;&#23450;">&#182;</a></h2><h3 id="&#32034;&#24341;&#21644;&#38598;&#21512;">&#32034;&#24341;&#21644;&#38598;&#21512;<a class="anchor-link" href="#&#32034;&#24341;&#21644;&#38598;&#21512;">&#182;</a></h3><p>$i \in I$: 超市（或客户）位置的索引和集合。</p>
+<p>$j \in J$: 候选仓库（或设施）位置的索引和集合。</p>
+<h3 id="&#21442;&#25968;">&#21442;&#25968;<a class="anchor-link" href="#&#21442;&#25968;">&#182;</a></h3><p>$f_{j} \in \mathbb{R}^+$: 与建造设施 $j$ 有关的固定成本，其中 $j \in J$。</p>
+<p>$d_{i,j} \in \mathbb{R}^+$: 设施  $j \in J$ 和 客户 $i \in I$ 的距离。</p>
+<p>$c_{i,j} \in \mathbb{R}^+$: 候选设施 $j \in J$ 和客户 $i \in I$ 之间的运输成本。 我们假设此成本与设施与客户之间的距离成比例。
+也就是说， $c_{i,j} = \alpha \cdot d_{i,j}$，其中 $\alpha$ 是每英里的运输成本，将其调整为货车在五年内的平均行程开销。</p>
+<h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>$select_{j} \in \{0, 1 \}$: 如果我们在候选位置 $j \in J$ 中建立设施，则此变量等于1，否则为0；</p>
+<p>$0 \leq assign_{i,j} \leq 1$: 这个非负连续变量决定了客户 $i\in I$ 从设施 $j \in J$ 收到的货量占总供货量的比例。</p>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>总成本</strong>：我们想要把开办和运营这些设施的总成本降到最低。这是建设设施的成本和运输成本的总和。这个总成本衡量了建造一个新设施的成本与五年内总运输成本之间的权衡。</li>
+</ul>
+\begin{equation}
+\text{Max} \quad Z = \sum_{j \in J} f_{j} \cdot select_{j} + \sum_{j \in J} \sum_{i \in I} c_{i,j} \cdot assign_{i,j}
+\tag{0}
+\end{equation}<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>客户需求</strong>。对于每个客户$i \in I$，确保满足其需求。即，每个客户从每个设施收到的分配比之和必须等于1：</li>
+</ul>
+\begin{equation}
+\sum_{j \in J} assign_{i,j} = 1 \quad \forall i \in I
+\tag{1}
+\end{equation}<ul>
+<li><strong>运输</strong>。 我们需要确保让已建设的设施 $j \in J$ 进行运输。</li>
+</ul>
+\begin{equation}
+assign_{i,j} \leq select_{j} \quad \forall i \in I \quad \forall j \in J
+\tag{2}
+\end{equation}
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Python-&#23454;&#29616;">Python &#23454;&#29616;<a class="anchor-link" href="#Python-&#23454;&#29616;">&#182;</a></h2><p>本案例包含 2 个超市和 9 个仓库备选地址。下表提供了各超市的坐标。</p>
+<table>
+<thead><tr>
+<th><i></i></th>
+<th>坐标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>超市 1</td>
+<td>(0,1.5)</td>
+</tr>
+<tr>
+<td>超市 2</td>
+<td>(2.5,1.2)</td>
+</tr>
+</tbody>
+</table>
+<p>下表显示了候选仓库的坐标和建造仓库的固定成本（单位：百万英镑）。</p>
+<table>
+<thead><tr>
+<th><i></i></th>
+<th>坐标</th>
+<th>固定成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>仓库 1</td>
+<td>(0,0)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>仓库 2</td>
+<td>(0,1)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>仓库 3</td>
+<td>(0,2)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>仓库 4</td>
+<td>(1,0)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>仓库 5</td>
+<td>(1,1)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>仓库 6</td>
+<td>(1,2)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>仓库 7</td>
+<td>(2,0)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>仓库 8</td>
+<td>(2,1)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>仓库 9</td>
+<td>(2,2)</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>每英里的成本为一百万英镑。</p>
+<h2 id="&#20195;&#30721;&#23454;&#29616;">&#20195;&#30721;&#23454;&#29616;<a class="anchor-link" href="#&#20195;&#30721;&#23454;&#29616;">&#182;</a></h2><p>导入 Gurobi 的 Python 模块和相关 Python 库。然后用给定的数据初始化数据结构。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14307,8 +14437,22 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gp</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 官方测试版本 Gurobi v9.0.0 &amp; Python 3.7.0</span>
+
+<span class="c1"># 译者测试版本 Gurobi v9.1.0 &amp; Python 3.8.6</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+
+<span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gp</span>
 <span class="kn">from</span> <span class="nn">gurobipy</span> <span class="kn">import</span> <span class="n">GRB</span>
+
+
+<span class="c1"># 参数</span>
+<span class="n">customers</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">1.2</span><span class="p">)]</span>
+<span class="n">facilities</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">setup_cost</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">cost_per_mile</span> <span class="o">=</span> <span class="mi">1</span>
 </pre></div>
 
      </div>
@@ -14319,10 +14463,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#20505;&#36873;&#20154;&#20998;&#37197;&#38382;&#39064;">&#20505;&#36873;&#20154;&#20998;&#37197;&#38382;&#39064;<a class="anchor-link" href="#&#20505;&#36873;&#20154;&#20998;&#37197;&#38382;&#39064;">&#182;</a></h2><h3 id="Data">Data<a class="anchor-link" href="#Data">&#182;</a></h3><p>列表 $R$ 包含三个候选人的名称：Carlos，Joe 和 Monika。
-列表 $J$ 包含职位的名称：Tester（测试），Java Developer（Java开发） 和 Architect（架构）。</p>
-<p>$r \in R$：索引和候选人集。候选人 $r$ 属于候选人集 $R$。</p>
-<p>$j \in j$：索引和职位集。职位 $j$ 属于职位集 $J$。</p>
+<h3 id="&#39044;&#22788;&#29702;">&#39044;&#22788;&#29702;<a class="anchor-link" href="#&#39044;&#22788;&#29702;">&#182;</a></h3><p>我们定义了一个函数来确定每个设施和客户站点之间的欧式距离。此外，我们还计算了设施选址问题的MIP模型公式所需的关键参数。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14331,9 +14472,22 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 候选人集和职位集</span>
-<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Monika&#39;</span><span class="p">]</span>
-<span class="n">J</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Tester&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 此函数确定设施和客户站点之间的欧式距离</span>
+
+<span class="k">def</span> <span class="nf">compute_distance</span><span class="p">(</span><span class="n">loc1</span><span class="p">,</span> <span class="n">loc2</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">loc1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">loc2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">loc1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">loc2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">dx</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">dy</span><span class="o">*</span><span class="n">dy</span><span class="p">)</span>
+
+<span class="c1"># 计算MIP模型的关键参数</span>
+
+<span class="n">num_facilities</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">facilities</span><span class="p">)</span>
+<span class="n">num_customers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">customers</span><span class="p">)</span>
+<span class="n">cartesian_prod</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_customers</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_facilities</span><span class="p">)))</span>
+
+<span class="c1"># 计算运输成本</span>
+
+<span class="n">shipping_cost</span> <span class="o">=</span> <span class="p">{(</span><span class="n">c</span><span class="p">,</span><span class="n">f</span><span class="p">):</span> <span class="n">cost_per_mile</span><span class="o">*</span><span class="n">compute_distance</span><span class="p">(</span><span class="n">customers</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">facilities</span><span class="p">[</span><span class="n">f</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">cartesian_prod</span><span class="p">}</span>
 </pre></div>
 
      </div>
@@ -14344,31 +14498,28 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>以下匹配得分表中列出了每种候选人参与每种职位的能力：</p>
-<p><img src="https://gw.alipayobjects.com/zos/antfincdn/NWZW0Xv%24Ms/1d4ac105-34ee-446b-8974-77cdc9410763.png" alt="scores"></p>
-<p>对于每个候选人 $r$ 和职位 $j$，都有一个对应的匹配得分 $s$。匹配的分数 $s$ 只能接受 0 到 100 之间的值。</p>
-<p>也就是说，对于 $r \in R $ 和 $j \in J$ ，都有 $s_{r,j} \in [0,100]$ 。</p>
-<p>我们使用 Gurobi Python 的<code>multidict</code> 函数来初始化一个或多个字典。该函数以字典为参数。键代表候选人和职位的可能组合。</p>
+<h3 id="&#27169;&#22411;&#37096;&#32626;">&#27169;&#22411;&#37096;&#32626;<a class="anchor-link" href="#&#27169;&#22411;&#37096;&#32626;">&#182;</a></h3><p>现在我们通过定义决策变量、约束条件和目标函数来确定设备选址问题的MIP模型。然后进行优化计算，Gurobi会找到建造设施的可行解，使总成本最小化。</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 匹配分数数据</span>
-<span class="n">combinations</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
-    <span class="p">(</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;Tester&#39;</span><span class="p">):</span> <span class="mi">53</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">):</span> <span class="mi">27</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">):</span> <span class="mi">13</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Tester&#39;</span><span class="p">):</span> <span class="mi">80</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">):</span> <span class="mi">47</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">):</span> <span class="mi">67</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Monika&#39;</span><span class="p">,</span> <span class="s1">&#39;Tester&#39;</span><span class="p">):</span> <span class="mi">53</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Monika&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">):</span> <span class="mi">73</span><span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Monika&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">):</span> <span class="mi">47</span>
-<span class="p">})</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># MIP 模型</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s1">&#39;facility_location&#39;</span><span class="p">)</span>
+
+<span class="n">select</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">num_facilities</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Select&#39;</span><span class="p">)</span>
+<span class="n">assign</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">cartesian_prod</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Assign&#39;</span><span class="p">)</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">assign</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span><span class="n">f</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">select</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="n">cartesian_prod</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Setup2ship&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">gp</span><span class="o">.</span><span class="n">quicksum</span><span class="p">(</span><span class="n">assign</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span><span class="n">f</span><span class="p">)]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_facilities</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_customers</span><span class="p">)),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Demand&#39;</span><span class="p">)</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">select</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">setup_cost</span><span class="p">)</span><span class="o">+</span><span class="n">assign</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shipping_cost</span><span class="p">),</span> <span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
 </pre></div>
 
      </div>
@@ -14376,10 +14527,60 @@ a.anchor-link {
 </div>
 </div>
 
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Using license file c:\gurobi\gurobi.lic
+Set parameter TokenServer to value SANTOS-SURFACE-
+Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (win64)
+Optimize a model with 20 rows, 27 columns and 54 nonzeros
+Model fingerprint: 0x0939f503
+Variable types: 18 continuous, 9 integer (9 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [5e-01, 4e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Presolve time: 0.00s
+Presolved: 20 rows, 27 columns, 54 nonzeros
+Variable types: 18 continuous, 9 integer (9 binary)
+
+Root relaxation: objective 4.723713e+00, 15 iterations, 0.00 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+*    0     0               0       4.7237129    4.72371  0.00%     -    0s
+
+Explored 0 nodes (15 simplex iterations) in 0.02 seconds
+Thread count was 8 (of 8 available processors)
+
+Solution count 1: 4.72371 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>以下构造函数创建一个空的 Model 对象 <code>m</code> 。我们通过传递字符串 <code>"RAP"</code> 作为参数来指定模型名称。 Model 对象 <code>m</code> 包含一个优化问题。该优化问题由一组决策变量，一组约束和目标函数组成。</p>
+<h2 id="&#20998;&#26512;">&#20998;&#26512;<a class="anchor-link" href="#&#20998;&#26512;">&#182;</a></h2><p>优化模型的结果表明，最小总成本价值为472万英镑。让我们看看达到最佳结果的解决方案。</p>
+<h3 id="&#20179;&#24211;&#24314;&#35774;&#35745;&#21010;">&#20179;&#24211;&#24314;&#35774;&#35745;&#21010;<a class="anchor-link" href="#&#20179;&#24211;&#24314;&#35774;&#35745;&#21010;">&#182;</a></h3><p>该计划决定在哪个厂址的位置建立仓库。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14388,8 +14589,11 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 声明并初始化模型</span>
-<span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s1">&#39;RAP&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 显示决策变量的最佳值</span>
+
+<span class="k">for</span> <span class="n">facility</span> <span class="ow">in</span> <span class="n">select</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">select</span><span class="p">[</span><span class="n">facility</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> 建立仓库的地址为： </span><span class="si">{</span><span class="n">facility</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14409,8 +14613,8 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Using license file /Users/arvinxx/gurobi.lic
-Academic license - for non-commercial use only - expires 2021-02-01
+<pre>
+ Build a warehouse at location 4.
 </pre>
 </div>
 </div>
@@ -14422,221 +14626,20 @@ Academic license - for non-commercial use only - expires 2021-02-01
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h2><p>为了解决此分配问题，我们需要确定将哪个候选人分配给哪个职位。我们为职位的每种可能候选人分配引入一个决策变量。因此，我们有 9 个决策变量。</p>
-<p>为了简化模型公式的数学符号，我们定义了以下候选人和职位的指标:</p>
-<p><img src="https://gw.alipayobjects.com/zos/antfincdn/LEzDic7PJB/81d8f5f2-7a92-49c4-b3a0-11879715e2fd.png" alt="variables"></p>
-<p>例如，$x_{2,1}$ 是与将候选人 Joe 分配给职位岗位 Tester 的决策变量。因此，如果$r \in R$ 被分配给 $j \in J$，则决策变量 $x_{r,j}$ 等于1，否则为0。</p>
-<p><code>Model.addVars()</code> 方法为 Model 对象创建决策变量。此方法返回包含新创建的决策变量。该变量类型为 Gurobi 专有的 <code>tupledict</code> 对象。我们将 <code>combinations</code> 对象作为指定变量索引的第一个参数。<code>name</code> 关键字用于为新创建的决策变量命名。默认情况下，变量被假定为非负数。</p>
+<h3 id="&#36816;&#36755;&#35745;&#21010;">&#36816;&#36755;&#35745;&#21010;<a class="anchor-link" href="#&#36816;&#36755;&#35745;&#21010;">&#182;</a></h3><p>这个计划决定了从每个工厂发送到每个客户的出货量的百分比。</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 为RAP模型创建决策变量</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">combinations</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;assign&quot;</span><span class="p">)</span>
-</pre></div>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 从工厂到客户的运输方案</span>
 
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#32844;&#20301;&#38480;&#21046;">&#32844;&#20301;&#38480;&#21046;<a class="anchor-link" href="#&#32844;&#20301;&#38480;&#21046;">&#182;</a></h2><p>现在我们讨论与职位相关的约束。这些约束条件需要确保每个职位都恰好由一个候选人安排。</p>
-<p>Tester 职位的约束要求将候选人1（Carlos），候选人2（Joe）或候选人3（Monika）分配给该 职位。这对应于以下约束。</p>
-<p>约束 (Tester=1)</p>
-$$
-x_{1,1} + x_{2,1} + x_{3,1} = 1
-$$<p>类似地，Java职位和架构师职位的约束可以定义如下。</p>
-<p>约束 (Java Developer = 2)</p>
-$$
-x_{1,2} + x_{2,2} + x_{3,2} = 1
-$$<p>约束 (Architect = 3)</p>
-$$
-x_{1,3} + x_{2,3} + x_{3,3} = 1
-$$<p>职位约束由下表的列定义。</p>
-<p><img src="https://gw.alipayobjects.com/zos/antfincdn/wCDVAxhuEU/642de4a4-eae6-496b-8237-98a3acebf283.png" alt="jobs"></p>
-<p>通常情况下，可以将 Tester 职位的约束定义如下。</p>
-$$
-x_{1,1} + x_{2,1} + x_{3,1} = \sum_{r=1}^{3 } x_{r,1} =  \sum_{r \in R} x_{r,1} = 1
-$$<p>可以以类似简洁的方式定义所有职位约束。对于$j \in J$，取所有候选人的决策变量的总和。我们可以如下编写相应的职位约束。</p>
-$$
-\sum_{r \in R} x_{r,j} = 1
-$$<p>Gurobi 的 <code>Model.addConstrs()</code> 方法定义了 Model 对象 <code>m</code> 的职位约束。此方法返回职位约束的变量，该变量类型也为 <code>tupledict</code>。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 创建职位约束</span>
-<span class="n">jobs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">J</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;job&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>此方法的第一个参数 <code>x.sum(‘*’, j)</code> 是 sum 方法，它定义职位约束的 LHS 如下：</p>
-<p>对于职位 $J$ 中的每个职位 $j$ ，取所有候选人上决策变量的总和。<code>==</code> 定义了一个相等约束，数字 1 是这些约束的RHS。</p>
-<p>这些约束意味着每个职位只能分配一个候选人。第二个参数是此类约束的名称。</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#20505;&#36873;&#20154;&#32422;&#26463;">&#20505;&#36873;&#20154;&#32422;&#26463;<a class="anchor-link" href="#&#20505;&#36873;&#20154;&#32422;&#26463;">&#182;</a></h2><p>候选人约束需要确保至多为每个候选人分配一个职位。也就是说，可能不是所有的候选人都被分配了。
-比如这样约束：Carlos 最多分配一个职位: 职位1(Tester)、职位2 (Java)或职位3(架构师)。这个约束如下书写：</p>
-<p>约束 (Carlos=1)</p>
-$$
-x_{1, 1} + x_{1, 2} + x_{1, 3}  \leq 1.
-$$<p>这个约束使它们的值小于或等于1，以允许 Carlos 不被分配到任何职位的可能性。同样，对候选人 Joe 和 Monika 的约束可以定义如下:</p>
-<p>约束 (Joe=2)</p>
-$$
-x_{2, 1} + x_{2, 2} + x_{2, 3}  \leq 1.
-$$<p>约束 (Monika=3)</p>
-$$
-x_{3, 1} + x_{3, 2} + x_{3, 3}  \leq 1.
-$$<p>请注意，候选人约束是由下表的行定义的。</p>
-<p><img src="https://gw.alipayobjects.com/zos/antfincdn/Kaf%26AdwmYU/0dd89ba0-5688-4618-b3dd-4c26571e976f.png" alt="resources"></p>
-<p>候选人 Carlos 的约束可以定义如下。</p>
-$$
-x_{1, 1} + x_{1, 2} + x_{1, 3} = \sum_{j=1}^{3 } x_{1,j} = \sum_{j \in J} x_{1,j} \leq 1.
-$$<p>同样，每个约束都可以用简洁的方式书写。对于$r \in R$，对所有职位的决策变量求和。我们可以将相应的候选人约束写如下。</p>
-$$
-\sum_{j \in J} x_{r,j} \leq  1.
-$$<p>Gurbo 的 <code>Model.addConstrs()</code> 方法定义了 Model 对象 <code>m</code> 的候选人约束。
-此方法的第一个参数 <code>x.sum(r, ‘*’)</code> 是求和方法，它定义候选人约束的LHS如下： 对于候选人集 $R$ 中的每个候选人$r$，对所有职位进行决策变量的求和。<code>&lt;=</code>定义了一个更少或相等的约束，约束的 RHS 是 1。这些限制意味着每个候选人最多只能分配1个职位。</p>
-<p>第二个参数是此类约束的名称。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 创建候选人约束</span>
-<span class="n">resources</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="s1">&#39;*&#39;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">R</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;resource&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h2><p>目标函数是使满足职位和候选人约束的职位的总匹配得分最大化。</p>
-<p>对于测试人员职位，如果分配了候选人Carlos，其匹配分数为 $53x_{1,1}$, 如果分配了候选人 Joe，匹配分数为 $80x_{2,1}$, 如果分配了候选人 Monika，匹配分数为  $53x_{3,1}$。</p>
-<p>因此，Tester职位的匹配分数如下，其中该总和中的决策变量只有一项值为 1。</p>
-$$
-53x_{1,1} + 80x_{2,1} + 53x_{3,1}. 
-$$<p>类似地，Java开发人员和架构师职位的匹配分数定义如下。Java开发人员职位的匹配分数是:</p>
-$$
-27x_{1, 2} + 47x_{2, 2} + 73x_{3, 2}.
-$$<p>架构师职位的匹配分数是:</p>
-$$
-13x_{1, 3} + 67x_{2, 3} + 47x_{3, 3}.
-$$<p>总匹配得分为下表中每个单元格的总和。</p>
-<p><img src="https://gw.alipayobjects.com/zos/antfincdn/irHnhJepQ8/188b942e-a9d6-4248-8cfb-54accd1c84fb.png" alt="objfcn"></p>
-<p>目标是使分配的总匹配分数最大化。因此，目标函数定义如下。</p>
-\begin{equation}
-\text{Maximize} \quad (53x_{1,1} + 80x_{2,1} + 53x_{3,1}) \; +
-\end{equation}\begin{equation}
-\quad (27x_{1, 2} + 47x_{2, 2} + 73x_{3, 2}) \; +
-\end{equation}\begin{equation}
-\quad (13x_{1, 3} + 67x_{2, 3} + 47x_{3, 3}).
-\end{equation}<p>目标函数中括号中的每一项可以表示为:</p>
-\begin{equation}
-(53x_{1,1} + 80x_{2,1} + 53x_{3,1}) = \sum_{r \in R} s_{r,1}x_{r,1}.
-\end{equation}\begin{equation}
-(27x_{1, 2} + 47x_{2, 2} + 73x_{3, 2}) = \sum_{r \in R} s_{r,2}x_{r,2}.
-\end{equation}\begin{equation}
-(13x_{1, 3} + 67x_{2, 3} + 47x_{3, 3}) = \sum_{r \in R} s_{r,3}x_{r,3}.
-\end{equation}<p>因此，目标函数可以简写为：</p>
-\begin{equation}
-\text{Maximize} \quad \sum_{j \in J} \sum_{r \in R} s_{r,j}x_{r,j}.
-\end{equation}<p>Gurobi 的 <code>Model.setobobjective()</code> 方法定义了 Model 对象 <code>m</code> 的目标函数。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 目标:使所有职位的总匹配分数最大化</span>
-<span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">scores</span><span class="p">),</span> <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>第一个参数指定了目标函数的表达式。</p>
-<blockquote><p>注意：匹配的分数参数 score 和分配决策变量 x 都是在 <code>combinations</code> 的键上定义的。因此，我们可以使用<code>x.prod(score)</code> 的方式,得到 score 矩阵与 x 变量矩阵的元素乘法的和。</p>
-</blockquote>
-<p>第二个参数<code>GRB.MAXIMIZE</code>， <code>MAXIMIZE</code>，是优化核心目标。在这种情况下，我们想要 <strong>最大化</strong> 所有分配的总匹配分数。</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>我们使用 Gurobi 的 <code>write()</code> 方法将模型公式写入 <code>RAP.lp</code> 文件。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 保存模型以供查看</span>
-<span class="n">m</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;RAP.lp&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><img src="https://gw.alipayobjects.com/zos/antfincdn/J6j1Hm9Kis/8afcfa53-9d62-462d-a228-de904d9c72ed.png" alt="RAP"></p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>我们使用 Gurobi 的 <code>optimize()</code> 方法来为模型对象 <code>m</code> 定义的问题求解。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 运行优化引擎</span>
-<span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">customer</span><span class="p">,</span> <span class="n">facility</span> <span class="ow">in</span> <span class="n">assign</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">assign</span><span class="p">[</span><span class="n">customer</span><span class="p">,</span> <span class="n">facility</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> 超市 </span><span class="si">{</span><span class="n">customer</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> 从工厂 </span><span class="si">{</span><span class="n">facility</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> 接受 </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">assign</span><span class="p">[</span><span class="n">customer</span><span class="p">,</span> <span class="n">facility</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> % of 的需求&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14656,24 +14659,10 @@ $$<p>总匹配得分为下表中每个单元格的总和。</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (mac64)
-Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
-Optimize a model with 6 rows, 9 columns and 18 nonzeros
-Model fingerprint: 0xb6602fb2
-Coefficient statistics:
-  Matrix range     [1e+00, 1e+00]
-  Objective range  [1e+01, 8e+01]
-  Bounds range     [0e+00, 0e+00]
-  RHS range        [1e+00, 1e+00]
-Presolve time: 0.00s
-Presolved: 6 rows, 9 columns, 18 nonzeros
+<pre>
+ Supermarket 1 recieves from Warehouse 4 100.0 % of its demand.
 
-Iteration    Objective       Primal Inf.    Dual Inf.      Time
-       0    4.6000000e+32   1.800000e+31   4.600000e+02      0s
-       5    1.9300000e+02   0.000000e+00   0.000000e+00      0s
-
-Solved in 5 iterations and 0.01 seconds
-Optimal objective  1.930000000e+02
+ Supermarket 2 recieves from Warehouse 4 100.0 % of its demand.
 </pre>
 </div>
 </div>
@@ -14685,449 +14674,13 @@ Optimal objective  1.930000000e+02
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>使用 Gurobi 的<code>Model.getVars()</code> 方法来检索模型对象 <code>m</code> 中所有变量。</p>
-<p><code>.x</code> 属性用于查询当前可行解下的变量值，<code>.varName</code> 属性用于获得决策变量的名称。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 显示决策变量的值</span>
-<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">getVars</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">varName</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-
-<span class="c1"># 显示最佳总匹配分数</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;匹配得分总分: &#39;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">objVal</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>assign[Carlos,Tester] 1.0
-assign[Joe,Architect] 1.0
-assign[Monika,JavaDeveloper] 1.0
-匹配得分总分:  193.0
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>最佳分配方案是：</p>
-<ul>
-<li>Carlos -&gt; Tester, 匹配得分为 53</li>
-<li>Joe -&gt; Architect, 匹配得分为 of 67</li>
-<li>Monika -&gt;  Java Developer, 匹配得分为 73.</li>
-</ul>
-<p>最大匹配得分的总分为193分。</p>
+<h2 id="&#32467;&#35770;">&#32467;&#35770;<a class="anchor-link" href="#&#32467;&#35770;">&#182;</a></h2><p>在此示例中，我们解决了一个设施选址问题，即我们要建立仓库以供应大量的超市，同时最大程度地减少建造仓库的固定总成本和从仓库到超市的可变运输总成本。我们学习了如何将问题表达为MIP模型。此外，我们还学习了如何实现 MIP 模型并使用 Gurobi 对其求解。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#20855;&#26377;&#39044;&#31639;&#32422;&#26463;&#30340;&#20505;&#36873;&#20154;&#20998;&#37197;&#38382;&#39064;">&#20855;&#26377;&#39044;&#31639;&#32422;&#26463;&#30340;&#20505;&#36873;&#20154;&#20998;&#37197;&#38382;&#39064;<a class="anchor-link" href="#&#20855;&#26377;&#39044;&#31639;&#32422;&#26463;&#30340;&#20505;&#36873;&#20154;&#20998;&#37197;&#38382;&#39064;">&#182;</a></h2><p>现在，假设存在一个固定成本 $C_{r,j}$，将 $r \in R$ 分配给$j \in J$。另外一个条件则是：可以用于职位分配的预算 $B$ 是有限的。</p>
-<p>将Carlos、Joe 或 Monika 分配给任何职位的成本分别为 $\$1000$、$\$2000$ 和 $\$3000$。可用预算为$\$5000$。</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="&#25968;&#25454;">&#25968;&#25454;<a class="anchor-link" href="#&#25968;&#25454;">&#182;</a></h3><p>列表 $R$ 包含三个候选人的名称: Carlos、Joe 和 Monika。
-列表 $J$ 包含职位职位的名称：Tester，Java Developer 和 Architect。</p>
-<p>我们使用Gurobi的 <code>multidict</code> 方法初始化两个字典：</p>
-<ul>
-<li><code>scores</code> 定义每种候选人和职位组合的匹配分数。</li>
-<li><code>cost</code> 定义为职位分配候选人相关的固定成本。</li>
-</ul>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 候选人和职位集</span>
-<span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Monika&#39;</span><span class="p">]</span>
-<span class="n">J</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Tester&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">]</span>
-
-<span class="c1"># 匹配分数数据</span>
-<span class="c1"># cost 以千美元为单位</span>
-<span class="n">combinations</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
-    <span class="p">(</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;Tester&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">53</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="p">(</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="p">(</span><span class="s1">&#39;Carlos&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
-    <span class="p">(</span><span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Tester&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-    <span class="p">(</span><span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">47</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-    <span class="p">(</span><span class="s1">&#39;Joe&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">67</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
-    <span class="p">(</span><span class="s1">&#39;Monika&#39;</span><span class="p">,</span> <span class="s1">&#39;Tester&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">53</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="p">,</span>
-    <span class="p">(</span><span class="s1">&#39;Monika&#39;</span><span class="p">,</span> <span class="s1">&#39;JavaDeveloper&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">73</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-    <span class="p">(</span><span class="s1">&#39;Monika&#39;</span><span class="p">,</span> <span class="s1">&#39;Architect&#39;</span><span class="p">):</span> <span class="p">[</span><span class="mi">47</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="p">})</span>
-
-<span class="c1"># 可用预算（千美元）</span>
-<span class="n">budget</span> <span class="o">=</span> <span class="mi">5</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>以下构造函数创建一个空的 Model 对象 <code>m</code> 。我们通过传递字符串 <code>"RAP2"</code> 作为参数来指定模型名称。 Model 对象 <code>m</code> 包含一个优化问题。该优化问题由一组决策变量，一组约束和目标函数组成。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 声明和初始化模型</span>
-<span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s1">&#39;RAP2&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>如果 $r \in R$ 被分配给 $j \in J$，则决策变量 $x_{r,j}$ 为1，否则为0。</p>
-<p><code>Model.addVars()</code> 方法定义模型对象“ m”的决策变量。</p>
-<p>由于存在预算限制，因此可能不会安排所有职位。为了解决这个问题，我们定义了一个新的决策变量，该变量指示是否安排了职位。</p>
-<p>如果职位 $j \in J$ 没有被安排，$g_{j}$ = 1，否则为0。这个变量是一个中间变量，它指示一个职位不被安排。</p>
-<p><strong><em>备注：</em></strong> 对于 <code>RAP</code> 的先前公式，我们将赋值变量定义为非负且连续的，这是<code>Model.addVars()</code> 方法的 <code>vtype</code> 参数的默认值。</p>
-<p>然而，在 RAP2 中，由于我们添加到模型中的预算约束，我们需要显式地将这些变量定义为布尔变量。在 <code>addvars()</code> 中添加 <code>vtype=GRB.BINARY</code> 参数，将该决策变量定义为布尔类型。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 为 RAP2 模型创建决策变量</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">combinations</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;assign&quot;</span><span class="p">)</span>
-
-<span class="c1"># 为 RAP2 模型创建差距变量</span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;gap&quot;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="&#32844;&#20301;&#38480;&#21046;">&#32844;&#20301;&#38480;&#21046;<a class="anchor-link" href="#&#32844;&#20301;&#38480;&#21046;">&#182;</a></h3><p>由于我们预算有限，无法为职位分配候选人，因此可能无法安排所有职位。对于职位约束，存在两种可能性，即该职位有候选人安排，或者没有被安排。因此我们需要声明一个变量 $g_j$ 捕获后一种可能性。因此，职位约束如下。</p>
-<p>对于 $j \in J$，必须给职位分配一个候选人，或者必须将相应的 $g_j$ 变量设为1:</p>
-$$
-\sum_{r \: \in \: R} x_{r,\; j} + g_{j} = 1.
-$$
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 创建职位限制</span>
-<span class="n">jobs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="n">g</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>  <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">J</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;job&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="&#20505;&#36873;&#20154;&#38480;&#21046;">&#20505;&#36873;&#20154;&#38480;&#21046;<a class="anchor-link" href="#&#20505;&#36873;&#20154;&#38480;&#21046;">&#182;</a></h3><p>候选人约束需要确保至多为每个候选人分配一个职位。也就是说，可能不是所有的候选人都被分配了。因此，将候选人约束写如下。</p>
-<p>对于$r \in R$，最多只能给该候选人分配一个职位:</p>
-$$
-\sum_{j \: \in \: J} x_{r,\; j} \leq 1.
-$$
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 创建候选人约束</span>
-<span class="n">resources</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="s1">&#39;*&#39;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">R</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;resource&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="&#39044;&#31639;&#32422;&#26463;">&#39044;&#31639;&#32422;&#26463;<a class="anchor-link" href="#&#39044;&#31639;&#32422;&#26463;">&#182;</a></h3><p>该约束条件确保分配候选人以满足职位要求的成本不超过可用预算。任务和预算的成本以千美元计。</p>
-<p>如果分配了候选人 Carlos，则安排 Tester 职位的成本为 $1x_{1,1}$，如果分配了候选人 Joe，则成本为 $2x_{2,1}$，如果为候选人 Monika，则为 $3x_{3,1}$。</p>
-<p>因此，完成Tester职位的成本如下，其中该总和中的至多一项不为零。</p>
-$$
-1x_{1,1} + 2x_{2,1} + 3x_{3,1}. 
-$$<p>同样，安排 Java Developer 和 Architect 职位的成本定义如下。</p>
-<p>安排 Java Developer 职位的成本是：</p>
-$$
-1x_{1, 2} + 2x_{2, 2} + 3x_{3, 2}.
-$$<p>安排 Architect 职位的成本为：</p>
-$$
-1x_{1, 3} + 2x_{2, 3} + 3x_{3, 3}.
-$$<p>因此，填补职位空缺的总成本应该小于或等于可用的预算。</p>
-\begin{equation}
-(1x_{1,1} + 2x_{2,1} + 3x_{3,1}) \; +
-\end{equation}\begin{equation}
-(1x_{1, 2} + 2x_{2, 2} + 3x_{3, 2}) \; +
-\end{equation}\begin{equation}
-(1x_{1, 3} + 2x_{2, 3} + 3x_{3, 3}) \leq 5
-\end{equation}<p>预算约束中的括号中的每一项可以表示为:</p>
-\begin{equation}
-(1x_{1,1} + 2x_{2,1} + 3x_{3,1}) = \sum_{r \in R} C_{r,1}x_{r,1}.
-\end{equation}\begin{equation}
-(1x_{1, 2} + 2x_{2, 2} + 3x_{3, 2}) = \sum_{r \in R} C_{r,2}x_{r,2}.
-\end{equation}\begin{equation}
-(1x_{1, 3} + 2x_{2, 3} + 3x_{3, 3}) = \sum_{r \in R} C_{r,3}x_{r,3}.
-\end{equation}<p>因此，预算约束可以简写为:</p>
-\begin{equation}
-\sum_{j \in J} \sum_{r \in R} C_{r,j}x_{r,j} \leq B.
-\end{equation}<p>代码如下：</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">budget</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">budget</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;budget&#39;</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Gurobi 的 <code>Model. addconstr()</code> 方法定义了 Model 对象 <code>m</code> 的预算约束。</p>
-<p>此方法的第一个参数 <code>x.prod(costs)</code> 定义了预算约束的LHS。 <code>&lt;=</code> 定义了一个更少或相等的约束，并且 <code>budget</code> 是约束的RHS。
-该约束条件是分配候选人以满足职位需求的总成本不能超过可用预算。</p>
-<p>第二个参数是此约束的名称。</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h2><p>目标函数类似于 RAP。目标中的第一项是职位的总匹配分数。在这个 RAP 的扩展中，可能不是所有的职位都被填满了;然而，我们要严厉惩罚这种可能性。为了达到这个目的，我们在目标函数中有第二项，它将所有职位岗位的缺口变量的总和乘以一个比较大的惩罚值 $M$。</p>
-<p>目标功能类似于 RAP。目标中的第一项是职位的总匹配分数。在 RAP2 中，可能并非所有职位都已完成。因此，我们要严重惩罚这种可能性。为此目的，我们在目标函数中有第二项，它求和所有职位上的差距变量的总和，然后乘以一个较大的惩罚值 $M$。</p>
-<p>注意，匹配分数的最大值是100，而我们给$M$的值是101。$M$ 值背后的基本原理是：巨大的差值大大降低了总匹配分数值。</p>
-<p>因此，目标函数是最大化职位的总匹配分数减去差距变量等于1的惩罚值。
-$$
-\max \; \sum_{j \; \in \; J} \sum_{r \; \in \; R} s_{r,j}x_{r,j} -M \sum_{j \in J} g_{j}
-$$</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 因未提供职位空缺而受到的惩罚</span>
-<span class="n">M</span> <span class="o">=</span> <span class="mi">101</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 目标：最大化职位的总匹配分数</span>
-<span class="c1"># 空缺职位将受到惩罚</span>
-<span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">-</span> <span class="n">M</span><span class="o">*</span><span class="n">g</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 运行优化引擎</span>
-<span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (mac64)
-Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
-Optimize a model with 7 rows, 12 columns and 30 nonzeros
-Model fingerprint: 0xf3c6f8c8
-Variable types: 3 continuous, 9 integer (9 binary)
-Coefficient statistics:
-  Matrix range     [1e+00, 3e+00]
-  Objective range  [1e+01, 1e+02]
-  Bounds range     [1e+00, 1e+00]
-  RHS range        [1e+00, 5e+00]
-Presolve time: 0.00s
-Presolved: 7 rows, 12 columns, 30 nonzeros
-Variable types: 0 continuous, 12 integer (12 binary)
-Found heuristic solution: objective 52.0000000
-
-Root relaxation: objective 1.350000e+02, 4 iterations, 0.00 seconds
-
-    Nodes    |    Current Node    |     Objective Bounds      |     Work
- Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
-
-     0     0  135.00000    0    2   52.00000  135.00000   160%     -    0s
-     0     0  121.66667    0    7   52.00000  121.66667   134%     -    0s
-     0     0     cutoff    0        52.00000   52.00000  0.00%     -    0s
-
-Cutting planes:
-  Gomory: 1
-  GUB cover: 1
-  RLT: 1
-
-Explored 1 nodes (7 simplex iterations) in 0.03 seconds
-Thread count was 12 (of 12 available processors)
-
-Solution count 1: 52 
-
-Optimal solution found (tolerance 1.00e-04)
-Best objective 5.200000000000e+01, best bound 5.200000000000e+01, gap 0.0000%
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>目标函数的定义包括不安排职位的惩罚。然而，我们感兴趣的是当所有的职位不被填满时的最优总匹配分值。为此，我们需要使用匹配分值 $s_{r,j}$ 和分配决策变量 $x_{r,j}$ 计算总匹配分值。</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 根据分配变量计算总匹配得分</span>
-<span class="n">total_matching_score</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">varName</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> 
-        <span class="n">total_matching_score</span> <span class="o">+=</span> <span class="n">scores</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total matching score: &#39;</span><span class="p">,</span> <span class="n">total_matching_score</span><span class="p">)</span>  
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>assign[Joe,Tester] 1.0
-assign[Monika,JavaDeveloper] 1.0
-Total matching score:  153.0
-</pre>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="&#20998;&#26512;">&#20998;&#26512;<a class="anchor-link" href="#&#20998;&#26512;">&#182;</a></h3>
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>回想一下，预算是$\$5,000$，与分配三个候选人相关的总成本是$\$6,000$。这意味着没有足够的预算来分配我们拥有的三种候选人。因此，Gurobi 优化器必须选择两个候选人来满足职位需求（放着一个职位没人干），并使总匹配分数最大化。</p>
-<p>最大匹配的两个分数分别是80%( Joe-&gt; 测试人员)和73% (Monika -&gt; Java开发人员)。最低的分数是13%(建筑师职位的Carlos)。</p>
-<p>将 Joe 分配给测试人员的职位，将Monika分配给Java开发人员的职位，而没有人分配给架构师的职位需要花费 $\$5,000$，并且产生的匹配总分为153。这是由 Gurobi 优化器找到的最优解决方案。</p>
+<h2 id="&#21442;&#32771;&#36164;&#26009;">&#21442;&#32771;&#36164;&#26009;<a class="anchor-link" href="#&#21442;&#32771;&#36164;&#26009;">&#182;</a></h2><p>[1] Laporte, Gilbert, Stefan Nickel, and Saldanha da Gama, Francisco. Location Science. Springer, 2015.</p>
 
 </div>
 </div>
