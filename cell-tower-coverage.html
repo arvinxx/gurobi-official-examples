@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>facility_location</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>cell-tower-coverage</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14272,160 +14272,234 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="&#35774;&#26045;&#20301;&#32622;-Facility-Location">&#35774;&#26045;&#20301;&#32622; Facility Location<a class="anchor-link" href="#&#35774;&#26045;&#20301;&#32622;-Facility-Location">&#182;</a></h1><p>等级：初级</p>
+<h1 id="&#20449;&#21495;&#22612;&#35206;&#30422;">&#20449;&#21495;&#22612;&#35206;&#30422;<a class="anchor-link" href="#&#20449;&#21495;&#22612;&#35206;&#30422;">&#182;</a></h1>
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;<a class="anchor-link" href="#&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#182;</a></h2><p>在此示例中，我们将解决一个简单的覆盖问题：如何构建一个信号塔网络以提供信号覆盖给尽可能多的人。我们将构建业务问题的数学模型，然后用 Gurobi Python API 进行建模，并计算最佳解决方案。</p>
+<p>该建模示例处于初级阶段，我们假设你了解Python，并且具有一些有关构建数学优化模型的知识。</p>
+<p><strong>注意：</strong> 你可以通过单击 <a href="https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip">此处</a> 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，你必须具有 Gurobi 许可证。如果你没有，则可以<strong>商业用户身份</strong>申请 <a href="https://www.gurobi.com/downloads/request-an-evaluation-license/">试用许可证</a>，或以<strong>学术用户身份</strong>下载 <a href="https://www.gurobi.com/academia/academic-program-and-licenses">免费许可证</a>。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;<a class="anchor-link" href="#&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#182;</a></h2><p>在此示例中，我们将解决设施位置问题，即我们要建立仓库以供应一定数量的超级市场。我们将构建此问题的混合整数编程（MIP）模型，在Gurobi Python界面中实现此模型，并计算最佳解决方案。</p>
-<p>该建模示例处于初级阶段，我们假设您了解Python，并且具有一些有关构建数学优化模型的知识。</p>
-<p><strong>Note:</strong> You can download the repository containing this and other examples by clicking <a href="https://github.com/Gurobi/modeling-examples/archive/master.zip">here</a>. In order to run this Jupyter Notebook properly, you must have a Gurobi license. If you do not have one, you can request an <a href="https://www.gurobi.com/downloads/request-an-evaluation-license/?utm_source=Github&amp;utm_medium=website_JupyterME&amp;utm_campaign=CommercialDataScience">evaluation license</a> as a <em>commercial user</em>, or download a <a href="https://www.gurobi.com/academia/academic-program-and-licenses/?utm_source=Github&amp;utm_medium=website_JupyterME&amp;utm_campaign=AcademicDataScience">free license</a> as an <em>academic user</em>.</p>
+<h2 id="&#21160;&#26426;">&#21160;&#26426;<a class="anchor-link" href="#&#21160;&#26426;">&#182;</a></h2><p>在过去的十年里，智能手机彻底改变了我们的生活，远远超出了我们的沟通方式。除了打电话,发短信,发邮件,现在全世界有超过二十亿人使用这些设备导航到书出租车,比较产品评论和价格,遵循新闻,看电影,听音乐,玩游戏,拍照,参与社交媒体,和许多其他应用程序。</p>
+<p>蜂窝网络是一种手持式智能手机网络，其中每部手机通过蜂窝基站(蜂窝基站)的本地天线通过无线电波与电话网络进行通信。一个重要的问题是如何安置手机信号塔，以便向最多的人提供信号覆盖。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">&#182;</a></h2><p>The study of facility location problems -also known as location analysis [1]- is a branch of operations research and computational geometry concerned with the optimal placement of facilities to minimize transportation costs while considering factors like avoiding placing hazardous materials near housing, and the location of  competitors' facilities.</p>
-<p>The Fermat-Weber problem, formulated in the 17'th century, was one of the first facility location problems ever proposed. 
-The Fermat-Weber problem can be described as follows: Given three points in a plane, find a fourth point such that the sum of its distances to the three given points is minimal. This problem can be interpreted as a version of the facility location problem, where the assumption is made that the transportation costs per distance are the same for all destinations.</p>
-<p>Facility location problems have applications in a wide variety of industries. For supply chain management and logistics, this problem  can be used to find the optimal location for stores, factories, warehouses, etc. Other applications range from public policy (e.g. positioning  police officers in a city), telecommunications (e.g. cell towers in a network), and even particle physics (e.g. separation distance between repulsive charges). Another application of the facility location problem is to determine the locations for natural gas transmission equipment. Finally, facility location problems can be applied to cluster analysis.</p>
+<h2 id="&#38382;&#39064;&#25551;&#36848;">&#38382;&#39064;&#25551;&#36848;<a class="anchor-link" href="#&#38382;&#39064;&#25551;&#36848;">&#182;</a></h2><p>一家电信公司需要建造一组蜂窝塔，以为给定城市的居民提供信号覆盖范围。已经确定了可以建造塔楼的许多潜在位置。这些塔有固定的范围，并且-由于预算限制，只能建造数量有限的塔。鉴于这些限制，该公司希望将覆盖范围扩大到尽可能多的人口。为了简化问题，该公司将其希望覆盖的区域划分为一组区域，每个区域都有已知的人口。然后，目标是选择公司应在哪些潜在位置上建造手机信号塔，以便覆盖尽可能多的人。</p>
+<p>蜂窝基站覆盖问题是最大覆盖位置问题[1]的一个实例。它也与集合覆盖问题（Set Cover Problem）有关。集合覆盖问题出现在许多不同的领域，非常重要的应用来自航空工业。例如，机组调度和航道分配问题[2]。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Problem-Description">Problem Description<a class="anchor-link" href="#Problem-Description">&#182;</a></h2><p>A large supermarket chain in the UK needs to build warehouses for a set of supermarkets it is opening in Northern England. The locations of the supermarkets have been decided, but the locations of the warehouses have yet to be determined.</p>
-<p>Several good candidate locations for the warehouses have been identified, but decisions must be made regarding 
-how many warehouses to open and at which candidate locations to build them.</p>
-<p>Opening many warehouses would be advantageous as this would reduce the average distance a truck has to drive from the warehouse to the supermarket, and hence reduce the delivery cost. However, opening a warehouse has a fixed cost associated with it.</p>
-<p>In this example, our goal is to find the optimal tradeoff between delivery cost and the cost of building new facilities.</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Solution-Approach">Solution Approach<a class="anchor-link" href="#Solution-Approach">&#182;</a></h2><p>Mathematical programming is a declarative approach where the modeler formulates a mathematical optimization model that captures the key aspects of a complex decision problem. The Gurobi Optimizer solves such models using state-of-the-art mathematics and computer science.</p>
-<p>A mathematical optimization model has five components, namely:</p>
+<h2 id="&#35299;&#20915;&#26041;&#27861;">&#35299;&#20915;&#26041;&#27861;<a class="anchor-link" href="#&#35299;&#20915;&#26041;&#27861;">&#182;</a></h2><p>数学优化（也称为数学编程）是一种声明性方法，其中建模者制定了一个优化问题，该问题捕获了复杂决策问题的关键特征。然后 Gurobi 使用最先进的数学和计算机科学技术来解决这一类数学优化问题。</p>
+<p>数学优化模型具有五个组成部分：</p>
 <ul>
-<li>Sets and indices.</li>
-<li>Parameters.</li>
-<li>Decision variables.</li>
-<li>Objective function(s).</li>
-<li>Constraints.</li>
+<li>数据集（Sets）</li>
+<li>参数(Parameters)</li>
+<li>决策变量(Decision variables)</li>
+<li>约束（Constraints）</li>
+<li>目标函数（Objective function(s)）</li>
 </ul>
-<p>We now present a MIP formulation for the facility location problem.</p>
+<p>我们现在提出一个混合整数规划（MIP）模型来解决信号塔覆盖问题。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Model-Formulation">Model Formulation<a class="anchor-link" href="#Model-Formulation">&#182;</a></h2><h3 id="Sets-and-Indices">Sets and Indices<a class="anchor-link" href="#Sets-and-Indices">&#182;</a></h3><p>$i \in I$: Index and set of supermarket (or customer) locations.</p>
-<p>$j \in J$: Index and set of candidate warehouse (or facility) locations.</p>
-<h3 id="Parameters">Parameters<a class="anchor-link" href="#Parameters">&#182;</a></h3><p>$f_{j} \in \mathbb{R}^+$: Fixed cost associated with constructing facility $j \in J$.</p>
-<p>$d_{i,j} \in \mathbb{R}^+$: Distance between facility $j \in J$ and customer $i \in I$.</p>
-<p>$c_{i,j} \in \mathbb{R}^+$: Cost of shipping between candidate facility site $j \in J$ and customer location $i \in I$. We assume that this cost is proportional to the distance between the facility and the customer. That is, $c_{i,j} = \alpha \cdot d_{i,j}$, where $\alpha$ is the cost per mile of driving, adjusted to incorporate the average number of trips a delivery truck would be expected to make over a five year period.</p>
-<h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$select_{j} \in \{0, 1 \}$: This variable is equal to 1 if we build a facility at candidate location $j \in J$; and 0 otherwise.</p>
-<p>$0 \leq assign_{i,j} \leq 1$: This non-negative continuous variable determines the fraction of supply received by customer $i \in I$ from facility $j \in J$.</p>
-<h3 id="Objective-Function">Objective Function<a class="anchor-link" href="#Objective-Function">&#182;</a></h3><ul>
-<li><strong>Total costs</strong>. We want to minimize the total cost to open and operate the facilities. This is the sum of the cost of opening facilities and the cost related to shipping between facilities and customers. This total cost measures the tradeoff between the cost of building a new facility and the total delivery cost over a five year period.</li>
+<h2 id="Model-Formulation">Model Formulation<a class="anchor-link" href="#Model-Formulation">&#182;</a></h2><h3 id="Sets-and-Indices">Sets and Indices<a class="anchor-link" href="#Sets-and-Indices">&#182;</a></h3><p>$i \in T$: Index and set of potential sites to build a tower.</p>
+<p>$j \in R$: Index and set of regions.</p>
+<p>$G(T,R,E)$: A bipartite graph defined over the set $T$ of potential sites to build a tower,  the set of regions $R$ that we want to cover, and $E$ is the set of edges, where we have an edge $(i,j) \in E$ if region $j \in R$ can be covered by a tower on location $i \in T$.</p>
+<h3 id="Parameters">Parameters<a class="anchor-link" href="#Parameters">&#182;</a></h3><p>$c_{i} \in \mathbb{R}^+$: The cost of setting up a tower at site $i$.</p>
+<p>$p_{j} \in \mathbb{N}$: The population at region $j$.</p>
+<h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$covered_{j} \in \{0, 1 \}$: This variable is equal to 1 if region $j$ is covered; and 0 otherwise.</p>
+<p>$build_{i} \in \{0, 1 \}$: This variable is equal to 1 if tower $i$ is built; and 0 otherwise.</p>
+<h3 id="Objective-Function(s)">Objective Function(s)<a class="anchor-link" href="#Objective-Function(s)">&#182;</a></h3><ul>
+<li><strong>Population covered</strong>. We seek to maximize the total population covered by the towers.</li>
 </ul>
 \begin{equation}
-\text{Max} \quad Z = \sum_{j \in J} f_{j} \cdot select_{j} + \sum_{j \in J} \sum_{i \in I} c_{i,j} \cdot assign_{i,j}
+\text{Max} \quad Z = \sum_{j \in R} p_{j} \cdot covered_{j}
 \tag{0}
 \end{equation}<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Demand</strong>. For each customer  $i \in I$ ensure that its demand is fulfilled. That is, the sum of the fraction received from each facility for each customer must be equal to 1:</li>
+<li><strong>Coverage</strong>. For each region $j \in R$ ensure that at least one tower that covers a region must be selected.</li>
 </ul>
 \begin{equation}
-\sum_{j \in J} assign_{i,j} = 1 \quad \forall i \in I
+\sum_{(i,j) \in E} build_{i} \geq covered_{j} \quad \forall j \in R
 \tag{1}
 \end{equation}<ul>
-<li><strong>Shipping</strong>. We need to ensure that we  only ship from facility $j \in J$,  if that facility has actually been built.</li>
+<li><strong>Budget</strong>. We need to ensure that the total cost of building towers do not exceed the allocated budget.</li>
 </ul>
 \begin{equation}
-assign_{i,j} \leq select_{j} \quad \forall i \in I \quad \forall j \in J
+\sum_{i \in T} c_{i} \cdot build_{i} \leq \text{budget}
 \tag{2}
 \end{equation}
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Python-Implementation">Python Implementation<a class="anchor-link" href="#Python-Implementation">&#182;</a></h2><p>This example considers two supermarkets and nine warehouse candidates. The coordinates of each supermarket are provided in the following table.</p>
+<h2 id="Python-Implementation">Python Implementation<a class="anchor-link" href="#Python-Implementation">&#182;</a></h2><p>This example considers a bipartite graph for 6 towers and 9 regions. The following table illustrates which regions (columns) are covered by each cell tower site (rows).</p>
 <table>
 <thead><tr>
 <th><i></i></th>
-<th>Coordinates</th>
+<th>Region 0</th>
+<th>Region 1</th>
+<th>Region 2</th>
+<th>Region 3</th>
+<th>Region 4</th>
+<th>Region 5</th>
+<th>Region 6</th>
+<th>Region 7</th>
+<th>Region 8</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Supermarket 1</td>
-<td>(0,1.5)</td>
+<td>Tower 0</td>
+<td>1</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
 </tr>
 <tr>
-<td>Supermarket 2</td>
-<td>(2.5,1.2)</td>
-</tr>
-</tbody>
-</table>
-<p>The following table shows the coordinates of the candidate warehouse sites and the fixed cost of building the warehouse in millions of GBP.</p>
-<table>
-<thead><tr>
-<th><i></i></th>
-<th>coordinates</th>
-<th>fixed cost</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Warehouse 1</td>
-<td>(0,0)</td>
-<td>3</td>
-</tr>
-<tr>
-<td>Warehouse 2</td>
-<td>(0,1)</td>
-<td>2</td>
-</tr>
-<tr>
-<td>Warehouse 3</td>
-<td>(0,2)</td>
-<td>3</td>
-</tr>
-<tr>
-<td>Warehouse 4</td>
-<td>(1,0)</td>
+<td>Tower 1</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
 <td>1</td>
 </tr>
 <tr>
-<td>Warehouse 5</td>
-<td>(1,1)</td>
-<td>3</td>
+<td>Tower 2</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
 </tr>
 <tr>
-<td>Warehouse 6</td>
-<td>(1,2)</td>
-<td>3</td>
+<td>Tower 3</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
 </tr>
 <tr>
-<td>Warehouse 7</td>
-<td>(2,0)</td>
-<td>4</td>
+<td>Tower 4</td>
+<td>1</td>
+<td>-</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
 </tr>
 <tr>
-<td>Warehouse 8</td>
-<td>(2,1)</td>
-<td>3</td>
-</tr>
-<tr>
-<td>Warehouse 9</td>
-<td>(2,2)</td>
-<td>2</td>
+<td>Tower 5</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>1</td>
 </tr>
 </tbody>
 </table>
-<p>The cost per mile is $\$1$ million GBP.</p>
-<h2 id="Python-Implementation">Python Implementation<a class="anchor-link" href="#Python-Implementation">&#182;</a></h2><p>We now import the Gurobi Python Module and other Python libraries. Then, we initialize the data structures with the given data.</p>
+<p>The population at each region is stated in the following table.</p>
+<table>
+<thead><tr>
+<th><i></i></th>
+<th>Region 0</th>
+<th>Region 1</th>
+<th>Region 2</th>
+<th>Region 3</th>
+<th>Region 4</th>
+<th>Region 5</th>
+<th>Region 6</th>
+<th>Region 7</th>
+<th>Region 8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Population</td>
+<td>523</td>
+<td>690</td>
+<td>420</td>
+<td>1010</td>
+<td>1200</td>
+<td>850</td>
+<td>400</td>
+<td>1008</td>
+<td>950</td>
+</tr>
+</tbody>
+</table>
+<p>The cost to build a cell tower at each location site is stated inthe following table.</p>
+<table>
+<thead><tr>
+<th><i></i></th>
+<th>Cost (millions of USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tower 0</td>
+<td>4.2</td>
+</tr>
+<tr>
+<td>Tower 1</td>
+<td>6.1</td>
+</tr>
+<tr>
+<td>Tower 2</td>
+<td>5.2</td>
+</tr>
+<tr>
+<td>Tower 3</td>
+<td>5.5</td>
+</tr>
+<tr>
+<td>Tower 4</td>
+<td>4.8</td>
+</tr>
+<tr>
+<td>Tower 5</td>
+<td>9.2</td>
+</tr>
+</tbody>
+</table>
+<p>The allocated budget is $\$20,000,000$.</p>
+<p>We now import the Gurobi Python Module. Then, we initialize the data structures with the given data.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14434,19 +14508,27 @@ assign_{i,j} \leq select_{j} \quad \forall i \in I \quad \forall j \in J
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
-
-<span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gp</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gp</span>
 <span class="kn">from</span> <span class="nn">gurobipy</span> <span class="kn">import</span> <span class="n">GRB</span>
 
 <span class="c1"># tested with Gurobi v9.0.0 and Python 3.7.0</span>
 
 <span class="c1"># Parameters</span>
-<span class="n">customers</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">1.2</span><span class="p">)]</span>
-<span class="n">facilities</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
-<span class="n">setup_cost</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">cost_per_mile</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">budget</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">regions</span><span class="p">,</span> <span class="n">population</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="mi">523</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">690</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">420</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="mi">1010</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">1200</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">850</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="mi">1008</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="mi">950</span>
+<span class="p">})</span>
+
+<span class="n">sites</span><span class="p">,</span> <span class="n">coverage</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="p">[{</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">},</span> <span class="mf">4.2</span><span class="p">],</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="p">[{</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">},</span> <span class="mf">6.1</span><span class="p">],</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="p">[{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">},</span> <span class="mf">5.2</span><span class="p">],</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="p">[{</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">},</span> <span class="mf">5.5</span><span class="p">],</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="p">[{</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">},</span> <span class="mf">4.8</span><span class="p">],</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="p">[{</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">},</span> <span class="mf">9.2</span><span class="p">]</span>
+<span class="p">})</span>
 </pre></div>
 
      </div>
@@ -14457,63 +14539,28 @@ assign_{i,j} \leq select_{j} \quad \forall i \in I \quad \forall j \in J
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Preprocessing">Preprocessing<a class="anchor-link" href="#Preprocessing">&#182;</a></h3><p>We define a function that determines the Euclidean distance between each facility and customer sites. In addition, we compute key parameters required by the MIP model formulation of the facility location problem.</p>
-
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># This function determines the Euclidean distance between a facility and customer sites.</span>
-
-<span class="k">def</span> <span class="nf">compute_distance</span><span class="p">(</span><span class="n">loc1</span><span class="p">,</span> <span class="n">loc2</span><span class="p">):</span>
-    <span class="n">dx</span> <span class="o">=</span> <span class="n">loc1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">loc2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">dy</span> <span class="o">=</span> <span class="n">loc1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">loc2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">dx</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">dy</span><span class="o">*</span><span class="n">dy</span><span class="p">)</span>
-
-<span class="c1"># Compute key parameters of MIP model formulation</span>
-
-<span class="n">num_facilities</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">facilities</span><span class="p">)</span>
-<span class="n">num_customers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">customers</span><span class="p">)</span>
-<span class="n">cartesian_prod</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_customers</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_facilities</span><span class="p">)))</span>
-
-<span class="c1"># Compute shipping costs</span>
-
-<span class="n">shipping_cost</span> <span class="o">=</span> <span class="p">{(</span><span class="n">c</span><span class="p">,</span><span class="n">f</span><span class="p">):</span> <span class="n">cost_per_mile</span><span class="o">*</span><span class="n">compute_distance</span><span class="p">(</span><span class="n">customers</span><span class="p">[</span><span class="n">c</span><span class="p">],</span> <span class="n">facilities</span><span class="p">[</span><span class="n">f</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">cartesian_prod</span><span class="p">}</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Model-Deployment">Model Deployment<a class="anchor-link" href="#Model-Deployment">&#182;</a></h3><p>We now determine the MIP model for the facility location problem, by defining the decision variables, constraints, and objective function. Next, we start the optimization process and Gurobi finds the plan to build facilities that minimizes total costs.</p>
+<h3 id="Model-Deployment">Model Deployment<a class="anchor-link" href="#Model-Deployment">&#182;</a></h3><p>We now determine the model for the Cell Tower Coverage Problem, by defining the decision variables, constraints, and objective function. Next, we start the optimization process and Gurobi finds the plan to build towers that maximizes  the coverage of the population given the budget allocated.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># MIP  model formulation</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s2">&quot;cell_tower&quot;</span><span class="p">)</span>
 
-<span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s1">&#39;facility_location&#39;</span><span class="p">)</span>
+<span class="n">build</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sites</span><span class="p">),</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Build&quot;</span><span class="p">)</span>
+<span class="n">is_covered</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">),</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Is_covered&quot;</span><span class="p">)</span>
 
-<span class="n">select</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">num_facilities</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Select&#39;</span><span class="p">)</span>
-<span class="n">assign</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">cartesian_prod</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">CONTINUOUS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Assign&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">gp</span><span class="o">.</span><span class="n">quicksum</span><span class="p">(</span><span class="n">build</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sites</span> <span class="k">if</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">coverage</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">is_covered</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">regions</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Build2cover&quot;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">build</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">budget</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;budget&quot;</span><span class="p">)</span>
 
-<span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">assign</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span><span class="n">f</span><span class="p">)]</span> <span class="o">&lt;=</span> <span class="n">select</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="n">cartesian_prod</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Setup2ship&#39;</span><span class="p">)</span>
-<span class="n">m</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">gp</span><span class="o">.</span><span class="n">quicksum</span><span class="p">(</span><span class="n">assign</span><span class="p">[(</span><span class="n">c</span><span class="p">,</span><span class="n">f</span><span class="p">)]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_facilities</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_customers</span><span class="p">)),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Demand&#39;</span><span class="p">)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">is_covered</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">population</span><span class="p">),</span> <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
 
-<span class="n">m</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">select</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">setup_cost</span><span class="p">)</span><span class="o">+</span><span class="n">assign</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">shipping_cost</span><span class="p">),</span> <span class="n">GRB</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">)</span>
-
-<span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span> 
 </pre></div>
 
      </div>
@@ -14536,32 +14583,34 @@ assign_{i,j} \leq select_{j} \quad \forall i \in I \quad \forall j \in J
 <pre>Using license file c:\gurobi\gurobi.lic
 Set parameter TokenServer to value SANTOS-SURFACE-
 Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (win64)
-Optimize a model with 20 rows, 27 columns and 54 nonzeros
-Model fingerprint: 0x0939f503
-Variable types: 18 continuous, 9 integer (9 binary)
+Optimize a model with 10 rows, 15 columns and 36 nonzeros
+Model fingerprint: 0xfa0fabb2
+Variable types: 0 continuous, 15 integer (15 binary)
 Coefficient statistics:
-  Matrix range     [1e+00, 1e+00]
-  Objective range  [5e-01, 4e+00]
+  Matrix range     [1e+00, 9e+00]
+  Objective range  [4e+02, 1e+03]
   Bounds range     [1e+00, 1e+00]
-  RHS range        [1e+00, 1e+00]
+  RHS range        [2e+01, 2e+01]
+Found heuristic solution: objective -0.0000000
+Presolve removed 4 rows and 5 columns
 Presolve time: 0.00s
-Presolved: 20 rows, 27 columns, 54 nonzeros
-Variable types: 18 continuous, 9 integer (9 binary)
+Presolved: 6 rows, 10 columns, 21 nonzeros
+Variable types: 0 continuous, 10 integer (10 binary)
 
-Root relaxation: objective 4.723713e+00, 15 iterations, 0.00 seconds
+Root relaxation: objective 7.051000e+03, 1 iterations, 0.00 seconds
 
     Nodes    |    Current Node    |     Objective Bounds      |     Work
  Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
 
-*    0     0               0       4.7237129    4.72371  0.00%     -    0s
+*    0     0               0    7051.0000000 7051.00000  0.00%     -    0s
 
-Explored 0 nodes (15 simplex iterations) in 0.02 seconds
+Explored 0 nodes (1 simplex iterations) in 0.02 seconds
 Thread count was 8 (of 8 available processors)
 
-Solution count 1: 4.72371 
+Solution count 2: 7051 -0 
 
 Optimal solution found (tolerance 1.00e-04)
-Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
+Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 </pre>
 </div>
 </div>
@@ -14573,8 +14622,60 @@ Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Analysis">Analysis<a class="anchor-link" href="#Analysis">&#182;</a></h2><p>The result of the optimization model shows that the minimum total cost value is 4.72 million GBP. Let's see the solution that achieves that optimal result.</p>
-<h3 id="Warehouse-Build-Plan">Warehouse Build Plan<a class="anchor-link" href="#Warehouse-Build-Plan">&#182;</a></h3><p>This plan determines at which site locations to build a warehouse.</p>
+<h2 id="&#20998;&#26512;">&#20998;&#26512;<a class="anchor-link" href="#&#20998;&#26512;">&#182;</a></h2><p>优化模型的结果表明，$\$20,000,000$ 预算可以覆盖的最大人数为 7,051 人。让我们看看实现最佳结果的解决方案。</p>
+<h3 id="Cell-Tower-Build-Plan">Cell Tower Build Plan<a class="anchor-link" href="#Cell-Tower-Build-Plan">&#182;</a></h3><p>This plan determines at which site locations to build a cell tower.</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># display optimal values of decision variables</span>
+
+<span class="k">for</span> <span class="n">tower</span> <span class="ow">in</span> <span class="n">build</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">build</span><span class="p">[</span><span class="n">tower</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Build a cell tower at location Tower </span><span class="si">{</span><span class="n">tower</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>
+ Build a cell tower at location Tower 0.
+
+ Build a cell tower at location Tower 2.
+
+ Build a cell tower at location Tower 4.
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Demand-Fulfillment-Metrics">Demand Fulfillment Metrics<a class="anchor-link" href="#Demand-Fulfillment-Metrics">&#182;</a></h3><ul>
+<li><strong>Coverage</strong>: Percentage of the population covered by the cell towers built.</li>
+</ul>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14583,11 +14684,16 @@ Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># display optimal values of decision variables</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Percentage of the population covered by the cell towers built is computed as follows.</span>
 
-<span class="k">for</span> <span class="n">facility</span> <span class="ow">in</span> <span class="n">select</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">select</span><span class="p">[</span><span class="n">facility</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Build a warehouse at location </span><span class="si">{</span><span class="n">facility</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="n">total_population</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">region</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regions</span><span class="p">)):</span>
+    <span class="n">total_population</span> <span class="o">+=</span> <span class="n">population</span><span class="p">[</span><span class="n">region</span><span class="p">]</span>
+
+<span class="n">coverage</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">objVal</span><span class="o">/</span><span class="n">total_population</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> The population coverage associated to the cell towers build plan is: </span><span class="si">{</span><span class="n">coverage</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14608,7 +14714,7 @@ Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
- Build a warehouse at location 4.
+ The population coverage associated to the cell towers build plan is: 100.0 %
 </pre>
 </div>
 </div>
@@ -14620,7 +14726,9 @@ Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Shipment-Plan">Shipment Plan<a class="anchor-link" href="#Shipment-Plan">&#182;</a></h3><p>This plan determines the percentage of shipments to be sent from each facility built to each customer.</p>
+<h3 id="Resources-Utilization-Metrics">Resources Utilization Metrics<a class="anchor-link" href="#Resources-Utilization-Metrics">&#182;</a></h3><ul>
+<li><strong>Budget consumption</strong>: Percentage of the budget allocated to build the cell towers.</li>
+</ul>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14629,11 +14737,17 @@ Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Shipments from facilities to customers.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Percentage of budget consumed to build cell towers</span>
 
-<span class="k">for</span> <span class="n">customer</span><span class="p">,</span> <span class="n">facility</span> <span class="ow">in</span> <span class="n">assign</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">assign</span><span class="p">[</span><span class="n">customer</span><span class="p">,</span> <span class="n">facility</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Supermarket </span><span class="si">{</span><span class="n">customer</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> recieves from Warehouse </span><span class="si">{</span><span class="n">facility</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">assign</span><span class="p">[</span><span class="n">customer</span><span class="p">,</span> <span class="n">facility</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> % of its demand.&quot;</span><span class="p">)</span>
+<span class="n">total_cost</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">tower</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sites</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">build</span><span class="p">[</span><span class="n">tower</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">):</span>
+        <span class="n">total_cost</span> <span class="o">+=</span> <span class="n">cost</span><span class="p">[</span><span class="n">tower</span><span class="p">]</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">build</span><span class="p">[</span><span class="n">tower</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">budget_consumption</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">total_cost</span><span class="o">/</span><span class="n">budget</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> The percentage of budget consumed associated to the cell towers build plan is: </span><span class="si">{</span><span class="n">budget_consumption</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14654,9 +14768,7 @@ Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
- Supermarket 1 recieves from Warehouse 4 100.0 % of its demand.
-
- Supermarket 2 recieves from Warehouse 4 100.0 % of its demand.
+ The percentage of budget consumed associated to the cell towers build plan is: 71.0 %
 </pre>
 </div>
 </div>
@@ -14668,19 +14780,21 @@ Best objective 4.723712908962e+00, best bound 4.723712908962e+00, gap 0.0000%
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>In this example, we addressed a facility location problem where we want to build warehouses to supply a large number of supermarkets while minimizing the fixed total costs of building warehouses and the total variable shipping costs from warehouses to supermarkets. We learned how to formulate the problem as a MIP model. Also, we learned how to implement the MIP model formulation and solve it using the Gurobi Python API.</p>
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>In this example, we address the problem of building cell towers to provide signal coverage  to the largest number of people while satisfying a budget constraint. We learned how to formulate the problem as a MIP model. Also, we learned how to implement the MIP model formulation and solve it using the Gurobi Python API.</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>[1] Laporte, Gilbert, Stefan Nickel, and Saldanha da Gama, Francisco. Location Science. Springer, 2015.</p>
+<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>[1] Richard Church and Charles R. Velle. "The Maximal Covering Location Problem". Papers in Regional Science, 1974, vol. 32, issue 1, 101-118.</p>
+<p>[2] Tail Assignment Problem. <a href="https://www.gurobi.com/case_study/air-france-tail-assignment-optimization/">https://www.gurobi.com/case_study/air-france-tail-assignment-optimization/</a></p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Copyright © 2020 Gurobi Optimization, LLC</p>
+<p>翻译 By Arvin Xu</p>
 
 </div>
 </div>
