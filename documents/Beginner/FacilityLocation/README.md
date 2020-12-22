@@ -43,9 +43,9 @@
 
 你可以通过单击 [此处](https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip) 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，您必须具有 Gurobi 许可证。如果您没有，则可以**商业用户身份**申请 [试用许可证](https://www.gurobi.com/downloads/request-an-evaluation-license/) ，或以**学术用户身份**下载 [免费许可证](https://www.gurobi.com/academia/academic-program-and-licenses)。
 
-## HTML Example URL
+## 查看网页版
 
-https://gurobi.github.io/modeling-examples/facility_location/facility_location.html
+本案例也包含了一个网页版本 如果你没有 Jupter Notebook  的话，可以直接查看网页版来学习。➡️ [传送门](https://arvinxx.github.io/gurobi-official-examples/facility-location)
 
 Copyright © 2020 Gurobi Optimization, LLC
 
