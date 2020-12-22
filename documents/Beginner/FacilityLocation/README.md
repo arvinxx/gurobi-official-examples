@@ -1,64 +1,52 @@
-# Facility Location
+# 设施位置 Facility Location
 
-## Objective and Prerequisites
+## 目的和先决条件
 
-In this example, we will solve a facility location problem where we want to build warehouses to supply a certain number 
-of supermarkets. We will construct a mixed-integer programming (MIP) model of this problem, implement this model in the 
-Gurobi Python interface, and compute an optimal solution.
+在此示例中，我们将解决设施位置问题，即我们要建立仓库以供应一定数量的超级市场。我们将构建此问题的混合整数编程（MIP）模型，在Gurobi Python界面中实现此模型，并计算最佳解决方案。
 
-This modeling example is at the beginner level, where we assume that you know Python and that you have some knowledge 
-about building mathematical optimization models.
+该建模示例处于初级阶段，我们假设你了解 Python，并且具有一些有关构建数学优化模型的知识。
 
-## Motivation
-
-The study of facility location problems -also known as location analysis- is a branch of operations research and 
-computational geometry concerned with the optimal placement of facilities to minimize transportation costs while 
-considering factors like avoiding placing hazardous materials near housing, and the location of  competitors' 
-facilities.
-
-The Fermat-Weber problem, formulated in the 17'th century, was one of the first facility location problems ever proposed. 
-The Fermat-Weber problem can be described as follows: Given three points in a plane, find a fourth point such that the 
-sum of its distances to the three given points is minimal. This problem can be interpreted as a version of the facility 
-location problem, where the assumption is made that the transportation costs per distance are the same for all 
-destinations.
-
-Facility location problems have applications in a wide variety of industries. For supply chain management and logistics, 
-this problem  can be used to find the optimal location for stores, factories, warehouses, etc. Other applications range 
-from public policy (e.g. positioning  police officers in a city), telecommunications (e.g. cell towers in a network), 
-and even particle physics (e.g. separation distance between repulsive charges). Another application of the facility 
-location problem is to determine the locations for natural gas transmission equipment. Finally, facility location 
-problems can be applied to cluster analysis.
-
-## Problem Description
-
-A large supermarket chain in the UK needs to build warehouses for a set of supermarkets it is opening in Northern 
-England. The locations of the supermarkets have been decided, but the locations of the warehouses have yet to be 
-determined.
-
-Several good candidate locations for the warehouses have been identified, but decisions must be made regarding 
-how many warehouses to open and at which candidate locations to build them.
-
-Opening many warehouses would be advantageous as this would reduce the average distance a truck has to drive from the 
-warehouse to the supermarket, and hence reduce the delivery cost. However, opening a warehouse has a fixed cost 
-associated with it.
-
-In this example, our goal is to find the optimal tradeoff between delivery cost and the cost of building new facilities.
-
-## Proposed Solution
-
-A mixed-integer programming (MIP) formulation for the facility location problem.
+**注意：** 你可以通过单击 [此处](https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip) 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，您必须具有 Gurobi 许可证。如果您没有，则可以**商业用户身份**申请 [试用许可证](https://www.gurobi.com/downloads/request-an-evaluation-license/)，或以**学术用户身份**下载 [免费许可证](https://www.gurobi.com/academia/academic-program-and-licenses)。
 
 
-## Licensing
+## 动机
 
-In order to run this Jupyter Notebook properly, you must have a valid Gurobi license. If you do not have one, you can request 
-an [evaluation license](https://www.gurobi.com/downloads/request-an-evaluation-license/?utm_source=Github&utm_medium=website_JupyterME&utm_campaign=CommercialDataScience) 
-as a *commercial user*, or download a [free license](https://www.gurobi.com/academia/academic-program-and-licenses/?utm_source=Github&utm_medium=website_JupyterME&utm_campaign=AcademicDataScience) 
-as an *academic user*.
+设施选址问题的研究（也称为位置分析）是运筹学和计算几何学的一个分支，与设施的最佳布置有关，以最大程度地降低运输成本，同时考虑避免在房屋附近放置危险材料以及竞争对手设施的位置等因素。
+
+费马-韦伯问题（Fermat-Weber Problem）是17世纪提出的最早的设施选址问题之一。
+
+费马-韦伯问题可以描述如下：
+
+> 给定一个平面中的三个点，找到第四个点，使得其到三个给定点的距离之和最小。
+
+该问题可以解释为设施位置问题的一种形式，其中假设所有目的地的每距离运输成本都相同。
+
+设施选址问题在许多行业都有应用。对于供应链管理和物流，该问题可用于寻找商店、工厂、仓库等的最佳位置。其他应用范围包括公共政策（例如在城市中安置警察）、电信（例如网络中的蜂窝塔），甚至还有粒子物理学（例如，排斥电荷之间的分离距离）。设施选址问题的另一个应用是确定天然气输送设备的位置。最后，设施选址问题可应用于聚类分析。
+
+
+## 问题描述
+
+英国的一家大型连锁超市需要为其在英格兰北部开设的一系列超市建立仓库。超级市场的位置已经确定，但是仓库的位置尚未确定。
+
+目前已经确定了若干仓库的备选地点，但必须就建立多少个仓库以及在哪些候选地点建立仓库作出决定。
+
+建设多个仓库是有好处的，因为这将减少卡车从仓库到超市的平均行驶距离，从而降低运输成本。但是，建一个仓库有一定的固定成本。
+
+在这个例子中，我们的目标是找到运输成本和建造新仓库成本之间的最佳权衡。
+
+
+## 拟议的解决方案
+
+设施选址问题的混合整数规划（MIP）模型。
+
+## 协议
+
+你可以通过单击 [此处](https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip) 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，您必须具有 Gurobi 许可证。如果您没有，则可以**商业用户身份**申请 [试用许可证](https://www.gurobi.com/downloads/request-an-evaluation-license/) ，或以**学术用户身份**下载 [免费许可证](https://www.gurobi.com/academia/academic-program-and-licenses)。
 
 ## HTML Example URL
 
 https://gurobi.github.io/modeling-examples/facility_location/facility_location.html
 
-
 Copyright © 2020 Gurobi Optimization, LLC
+
+翻译 By Arvin Xu

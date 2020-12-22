@@ -13,20 +13,20 @@
 
 建模案例集使用 Jupyter Notebook 中的 Gurobi Python API。
 
-建模示例说明了Gurobi Python API建模对象的重要功能，例如添加决策变量，建立线性表达式，添加约束以及为数学添加目标函数
-优化模型。此外，他们还解释了更高级的功能，例如广义约束，分段线性函数，多目标分层优化以及“典型”类型的约束，例如“分配” 约束”，“平衡约束”，“排序约束”，“优先约束”等。此外，这些 建模示例说明了如何在不同的情况下使用 Gurobi
+建模案例集说明了Gurobi Python API建模对象的重要功能，例如添加决策变量，建立线性表达式，添加约束以及为数学添加目标函数
+优化模型。此外，他们还解释了更高级的功能，例如广义约束，分段线性函数，多目标分层优化以及“典型”类型的约束，例如“分配” 约束”，“平衡约束”，“排序约束”，“优先约束”等。此外，这些建模案例集说明了如何在不同的情况下使用 Gurobi
 的建模对象和典型约束类型上下文。
 
 ## 目录
 
 ### 介绍
 
-- [x] [数学优化建模简介](./documents/IntroToModeling)
+- [x] [数学优化建模简介 Intro To Modeling](./documents/IntroToModeling)
 
 ### 初级
 
+- [x] [设施位置 Facility Location](./documents/Beginner/FacilityLocation)
 - [ ] [Cell Tower](https://github.com/Gurobi/modeling-examples/tree/master/cell_tower_coverage)
-- [ ] [Facility Location](https://github.com/Gurobi/modeling-examples/tree/master/facility_location)
 - [ ] [Offshore Wind Farming](https://github.com/Gurobi/modeling-examples/tree/master/offshore_wind_farming)
 
 ### 中级
