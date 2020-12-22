@@ -25,7 +25,7 @@
 
 ### 初级
 
-- [x] [设施位置 Facility Location](./documents/Beginner/FacilityLocation)
+- [x] [设施选址问题 Facility Location](./documents/Beginner/FacilityLocation)
 - [ ] [Cell Tower](https://github.com/Gurobi/modeling-examples/tree/master/cell_tower_coverage)
 - [ ] [Offshore Wind Farming](https://github.com/Gurobi/modeling-examples/tree/master/offshore_wind_farming)
 
