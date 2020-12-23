@@ -4,7 +4,7 @@
 
 ### 目标受众
 
-数据科学家，工程师，计算机科学家，经济学家，以及通常具有以下背景的专业人员 Pytho n的数学建模和基础知识。
+数据科学家，工程师，计算机科学家，经济学家，以及通常具有以下背景的专业人员 Python 的数学建模和基础知识。
 
 ### 建模案例集的受众
 
@@ -26,7 +26,7 @@
 ### 初级
 
 - [x] [设施选址问题 Facility Location](./documents/Beginner/FacilityLocation)
-- [ ] [Cell Tower](https://github.com/Gurobi/modeling-examples/tree/master/cell_tower_coverage)
+- [x] [基站覆盖问题 Cell Tower Coverage](./documents/Beginner/CellTowerCoverage)
 - [ ] [Offshore Wind Farming](https://github.com/Gurobi/modeling-examples/tree/master/offshore_wind_farming)
 
 ### 中级
@@ -46,7 +46,7 @@
 - [ ] [Standard Pooling](https://github.com/Gurobi/modeling-examples/tree/master/pooling)
 - [ ] [Traveling Salesman](https://github.com/Gurobi/modeling-examples/tree/master/traveling_salesman)
 
-## 
+##  
 
 原地址：https://github.com/Gurobi/modeling-examples
 
