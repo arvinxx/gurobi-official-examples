@@ -14314,27 +14314,27 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Model-Formulation">Model Formulation<a class="anchor-link" href="#Model-Formulation">&#182;</a></h2><h3 id="Sets-and-Indices">Sets and Indices<a class="anchor-link" href="#Sets-and-Indices">&#182;</a></h3><p>$i \in T$: Index and set of potential sites to build a tower.</p>
-<p>$j \in R$: Index and set of regions.</p>
-<p>$G(T,R,E)$: A bipartite graph defined over the set $T$ of potential sites to build a tower,  the set of regions $R$ that we want to cover, and $E$ is the set of edges, where we have an edge $(i,j) \in E$ if region $j \in R$ can be covered by a tower on location $i \in T$.</p>
-<h3 id="Parameters">Parameters<a class="anchor-link" href="#Parameters">&#182;</a></h3><p>$c_{i} \in \mathbb{R}^+$: The cost of setting up a tower at site $i$.</p>
-<p>$p_{j} \in \mathbb{N}$: The population at region $j$.</p>
-<h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$covered_{j} \in \{0, 1 \}$: This variable is equal to 1 if region $j$ is covered; and 0 otherwise.</p>
-<p>$build_{i} \in \{0, 1 \}$: This variable is equal to 1 if tower $i$ is built; and 0 otherwise.</p>
-<h3 id="Objective-Function(s)">Objective Function(s)<a class="anchor-link" href="#Objective-Function(s)">&#182;</a></h3><ul>
-<li><strong>Population covered</strong>. We seek to maximize the total population covered by the towers.</li>
+<h2 id="&#27169;&#22411;&#21046;&#23450;">&#27169;&#22411;&#21046;&#23450;<a class="anchor-link" href="#&#27169;&#22411;&#21046;&#23450;">&#182;</a></h2><h3 id="&#32034;&#24341;&#21644;&#38598;&#21512;">&#32034;&#24341;&#21644;&#38598;&#21512;<a class="anchor-link" href="#&#32034;&#24341;&#21644;&#38598;&#21512;">&#182;</a></h3><p>$i \in T$: 信号塔候选地点的索引和集合。</p>
+<p>$j \in R$: 区域的索引和集合。</p>
+<p>$G(T,R,E)$: 在候选地点 $T$ 中定义的<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%88%86%E5%9B%BE">二分图</a>，我们要覆盖的区域集为 $R$，而 $E$ 是集合的另一组边。其中，如果中的区域 $j \in R$ 可以被位置为 $i \in T$ 的塔覆盖，则在 $(i,j) \in E$ 有一条边。</p>
+<h3 id="&#21442;&#25968;">&#21442;&#25968;<a class="anchor-link" href="#&#21442;&#25968;">&#182;</a></h3><p>$c_{i} \in \mathbb{R}^+$: 在站点 $i$ 建立塔的成本。</p>
+<p>$p_{j} \in \mathbb{N}$: 区域$j$的人口。</p>
+<h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>$covered_{j} \in \{0, 1 \}$: 如果覆盖区域 $j$，则值等于1；否则为0。</p>
+<p>$build_{i} \in \{0, 1 \}$: 如果建造了塔 $i$，则此变量等于1，否则为0。</p>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>人口覆盖</strong>：我们力求使塔楼覆盖的总人口最大化。</li>
 </ul>
 \begin{equation}
 \text{Max} \quad Z = \sum_{j \in R} p_{j} \cdot covered_{j}
 \tag{0}
-\end{equation}<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Coverage</strong>. For each region $j \in R$ ensure that at least one tower that covers a region must be selected.</li>
+\end{equation}<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>覆盖</strong>：对于每个区域$j \in R$，确保至少有一个信号塔。</li>
 </ul>
 \begin{equation}
 \sum_{(i,j) \in E} build_{i} \geq covered_{j} \quad \forall j \in R
 \tag{1}
 \end{equation}<ul>
-<li><strong>Budget</strong>. We need to ensure that the total cost of building towers do not exceed the allocated budget.</li>
+<li><strong>预算</strong>：我们需要确保建造塔楼的总成本不超过指定的预算。</li>
 </ul>
 \begin{equation}
 \sum_{i \in T} c_{i} \cdot build_{i} \leq \text{budget}
@@ -14344,24 +14344,24 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Python-Implementation">Python Implementation<a class="anchor-link" href="#Python-Implementation">&#182;</a></h2><p>This example considers a bipartite graph for 6 towers and 9 regions. The following table illustrates which regions (columns) are covered by each cell tower site (rows).</p>
+<h2 id="Python-&#23454;&#29616;">Python &#23454;&#29616;<a class="anchor-link" href="#Python-&#23454;&#29616;">&#182;</a></h2><p>本示例考虑了6个塔和9个区域的二分图。下表说明了每个手机信号塔站点（行）所覆盖的区域（列）。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
-<th>Region 0</th>
-<th>Region 1</th>
-<th>Region 2</th>
-<th>Region 3</th>
-<th>Region 4</th>
-<th>Region 5</th>
-<th>Region 6</th>
-<th>Region 7</th>
-<th>Region 8</th>
+<th>地区0</th>
+<th>地区1</th>
+<th>地区2</th>
+<th>地区3</th>
+<th>地区4</th>
+<th>地区5</th>
+<th>地区6</th>
+<th>地区7</th>
+<th>地区8</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Tower 0</td>
+<td>塔0</td>
 <td>1</td>
 <td>1</td>
 <td>-</td>
@@ -14373,7 +14373,7 @@ a.anchor-link {
 <td>-</td>
 </tr>
 <tr>
-<td>Tower 1</td>
+<td>塔1</td>
 <td>1</td>
 <td>-</td>
 <td>-</td>
@@ -14385,7 +14385,7 @@ a.anchor-link {
 <td>1</td>
 </tr>
 <tr>
-<td>Tower 2</td>
+<td>塔2</td>
 <td>-</td>
 <td>-</td>
 <td>1</td>
@@ -14397,7 +14397,7 @@ a.anchor-link {
 <td>-</td>
 </tr>
 <tr>
-<td>Tower 3</td>
+<td>塔3</td>
 <td>-</td>
 <td>-</td>
 <td>1</td>
@@ -14409,7 +14409,7 @@ a.anchor-link {
 <td>-</td>
 </tr>
 <tr>
-<td>Tower 4</td>
+<td>塔4</td>
 <td>1</td>
 <td>-</td>
 <td>1</td>
@@ -14421,7 +14421,7 @@ a.anchor-link {
 <td>1</td>
 </tr>
 <tr>
-<td>Tower 5</td>
+<td>塔5</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
@@ -14434,24 +14434,24 @@ a.anchor-link {
 </tr>
 </tbody>
 </table>
-<p>The population at each region is stated in the following table.</p>
+<p>下表列出了每个地区的人口。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
-<th>Region 0</th>
-<th>Region 1</th>
-<th>Region 2</th>
-<th>Region 3</th>
-<th>Region 4</th>
-<th>Region 5</th>
-<th>Region 6</th>
-<th>Region 7</th>
-<th>Region 8</th>
+<th>地区0</th>
+<th>地区1</th>
+<th>地区2</th>
+<th>地区3</th>
+<th>地区4</th>
+<th>地区5</th>
+<th>地区6</th>
+<th>地区7</th>
+<th>地区8</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Population</td>
+<td>人口</td>
 <td>523</td>
 <td>690</td>
 <td>420</td>
@@ -14464,56 +14464,58 @@ a.anchor-link {
 </tr>
 </tbody>
 </table>
-<p>The cost to build a cell tower at each location site is stated inthe following table.</p>
+<p>在下表中列出了在每个地点建造基站塔的成本。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
-<th>Cost (millions of USD)</th>
+<th>成本 (百万美元)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Tower 0</td>
+<td>塔0</td>
 <td>4.2</td>
 </tr>
 <tr>
-<td>Tower 1</td>
+<td>塔1</td>
 <td>6.1</td>
 </tr>
 <tr>
-<td>Tower 2</td>
+<td>塔2</td>
 <td>5.2</td>
 </tr>
 <tr>
-<td>Tower 3</td>
+<td>塔3</td>
 <td>5.5</td>
 </tr>
 <tr>
-<td>Tower 4</td>
+<td>塔4</td>
 <td>4.8</td>
 </tr>
 <tr>
-<td>Tower 5</td>
+<td>塔5</td>
 <td>9.2</td>
 </tr>
 </tbody>
 </table>
-<p>The allocated budget is $\$20,000,000$.</p>
-<p>We now import the Gurobi Python Module. Then, we initialize the data structures with the given data.</p>
+<p>总预算为 $\$20,000,000$。</p>
+<p>我们现在导入 Gurobi Python 模块。然后用给定的数据初始化数据结构。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gp</span>
 <span class="kn">from</span> <span class="nn">gurobipy</span> <span class="kn">import</span> <span class="n">GRB</span>
 
-<span class="c1"># tested with Gurobi v9.0.0 and Python 3.7.0</span>
+<span class="c1"># 官方测试版本 Gurobi v9.0.0 &amp; Python 3.7.0</span>
 
-<span class="c1"># Parameters</span>
+<span class="c1"># 译者测试版本 Gurobi v9.1.0 &amp; Python 3.8.6</span>
+
+<span class="c1"># 参数</span>
 <span class="n">budget</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">regions</span><span class="p">,</span> <span class="n">population</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
     <span class="mi">0</span><span class="p">:</span> <span class="mi">523</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">690</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">420</span><span class="p">,</span>
@@ -14539,16 +14541,17 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Model-Deployment">Model Deployment<a class="anchor-link" href="#Model-Deployment">&#182;</a></h3><p>We now determine the model for the Cell Tower Coverage Problem, by defining the decision variables, constraints, and objective function. Next, we start the optimization process and Gurobi finds the plan to build towers that maximizes  the coverage of the population given the budget allocated.</p>
+<h3 id="&#27169;&#22411;&#24320;&#21457;">&#27169;&#22411;&#24320;&#21457;<a class="anchor-link" href="#&#27169;&#22411;&#24320;&#21457;">&#182;</a></h3><p>现在，我们通过定义决策变量、约束条件和目标函数来确定蜂窝基站覆盖问题的模型。然后进行优化过程，Gurobi 会得到建造信号塔的最佳方案（在给定的预算分配下，将人口覆盖范围最大化）。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># MIP  model formulation</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># MIP  模型</span>
+
 <span class="n">m</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s2">&quot;cell_tower&quot;</span><span class="p">)</span>
 
 <span class="n">build</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sites</span><span class="p">),</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Build&quot;</span><span class="p">)</span>
@@ -14580,9 +14583,8 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Using license file c:\gurobi\gurobi.lic
-Set parameter TokenServer to value SANTOS-SURFACE-
-Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (win64)
+<pre>Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (mac64)
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
 Optimize a model with 10 rows, 15 columns and 36 nonzeros
 Model fingerprint: 0xfa0fabb2
 Variable types: 0 continuous, 15 integer (15 binary)
@@ -14604,8 +14606,8 @@ Root relaxation: objective 7.051000e+03, 1 iterations, 0.00 seconds
 
 *    0     0               0    7051.0000000 7051.00000  0.00%     -    0s
 
-Explored 0 nodes (1 simplex iterations) in 0.02 seconds
-Thread count was 8 (of 8 available processors)
+Explored 0 nodes (1 simplex iterations) in 0.01 seconds
+Thread count was 12 (of 12 available processors)
 
 Solution count 2: 7051 -0 
 
@@ -14623,20 +14625,20 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="&#20998;&#26512;">&#20998;&#26512;<a class="anchor-link" href="#&#20998;&#26512;">&#182;</a></h2><p>优化模型的结果表明，$\$20,000,000$ 预算可以覆盖的最大人数为 7,051 人。让我们看看实现最佳结果的解决方案。</p>
-<h3 id="Cell-Tower-Build-Plan">Cell Tower Build Plan<a class="anchor-link" href="#Cell-Tower-Build-Plan">&#182;</a></h3><p>This plan determines at which site locations to build a cell tower.</p>
+<h3 id="&#22522;&#31449;&#24314;&#36896;&#35745;&#21010;">&#22522;&#31449;&#24314;&#36896;&#35745;&#21010;<a class="anchor-link" href="#&#22522;&#31449;&#24314;&#36896;&#35745;&#21010;">&#182;</a></h3><p>此计划决定在该场地的哪个位置建造基站。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># display optimal values of decision variables</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 显示决策变量的最佳值</span>
 
 <span class="k">for</span> <span class="n">tower</span> <span class="ow">in</span> <span class="n">build</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">build</span><span class="p">[</span><span class="n">tower</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Build a cell tower at location Tower </span><span class="si">{</span><span class="n">tower</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> 建造基站塔的位置为：</span><span class="si">{</span><span class="n">tower</span><span class="si">}</span><span class="s2">。&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14657,11 +14659,11 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
- Build a cell tower at location Tower 0.
+ 建造基站塔的位置为：0.
 
- Build a cell tower at location Tower 2.
+ 建造基站塔的位置为：2.
 
- Build a cell tower at location Tower 4.
+ 建造基站塔的位置为：4.
 </pre>
 </div>
 </div>
@@ -14673,18 +14675,18 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Demand-Fulfillment-Metrics">Demand Fulfillment Metrics<a class="anchor-link" href="#Demand-Fulfillment-Metrics">&#182;</a></h3><ul>
-<li><strong>Coverage</strong>: Percentage of the population covered by the cell towers built.</li>
+<h3 id="&#38656;&#27714;&#23436;&#25104;&#25351;&#26631;">&#38656;&#27714;&#23436;&#25104;&#25351;&#26631;<a class="anchor-link" href="#&#38656;&#27714;&#23436;&#25104;&#25351;&#26631;">&#182;</a></h3><ul>
+<li><strong>覆盖率</strong>: 所建基站覆盖人口的百分比。</li>
 </ul>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Percentage of the population covered by the cell towers built is computed as follows.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 建造的信号塔所覆盖的人口百分比</span>
 
 <span class="n">total_population</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -14693,7 +14695,7 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 
 <span class="n">coverage</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">m</span><span class="o">.</span><span class="n">objVal</span><span class="o">/</span><span class="n">total_population</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> The population coverage associated to the cell towers build plan is: </span><span class="si">{</span><span class="n">coverage</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> 与基站建设计划相关的人口覆盖率为： </span><span class="si">{</span><span class="n">coverage</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14714,7 +14716,7 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
- The population coverage associated to the cell towers build plan is: 100.0 %
+ 与基站建设计划相关的人口覆盖率为： 100.0 %
 </pre>
 </div>
 </div>
@@ -14726,18 +14728,18 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Resources-Utilization-Metrics">Resources Utilization Metrics<a class="anchor-link" href="#Resources-Utilization-Metrics">&#182;</a></h3><ul>
-<li><strong>Budget consumption</strong>: Percentage of the budget allocated to build the cell towers.</li>
+<h3 id="&#36164;&#28304;&#21033;&#29992;&#29575;&#25351;&#26631;">&#36164;&#28304;&#21033;&#29992;&#29575;&#25351;&#26631;<a class="anchor-link" href="#&#36164;&#28304;&#21033;&#29992;&#29575;&#25351;&#26631;">&#182;</a></h3><ul>
+<li><strong>预算消耗</strong>: 占用于建造基站的总预算的百分比。</li>
 </ul>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Percentage of budget consumed to build cell towers</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 建造基站所需的预算百分比</span>
 
 <span class="n">total_cost</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -14747,7 +14749,7 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 
 <span class="n">budget_consumption</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">total_cost</span><span class="o">/</span><span class="n">budget</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> The percentage of budget consumed associated to the cell towers build plan is: </span><span class="si">{</span><span class="n">budget_consumption</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> 与基站建造计划相关的预算消耗百分比为: </span><span class="si">{</span><span class="n">budget_consumption</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14768,7 +14770,7 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
- The percentage of budget consumed associated to the cell towers build plan is: 71.0 %
+ 与基站建造计划相关的预算消耗百分比为: 71.0 %
 </pre>
 </div>
 </div>
@@ -14780,13 +14782,13 @@ Best objective 7.051000000000e+03, best bound 7.051000000000e+03, gap 0.0000%
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>In this example, we address the problem of building cell towers to provide signal coverage  to the largest number of people while satisfying a budget constraint. We learned how to formulate the problem as a MIP model. Also, we learned how to implement the MIP model formulation and solve it using the Gurobi Python API.</p>
+<h2 id="&#32467;&#35770;">&#32467;&#35770;<a class="anchor-link" href="#&#32467;&#35770;">&#182;</a></h2><p>在这个例子中，我们解决了建立基站塔以在满足预算限制的情况下为最多的人提供信号覆盖的问题。我们学习了如何将问题表示为一个 MIP 模型。此外，我们还学习了如何实现MIP模型公式，并使用 Gurobi 对其求解。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>[1] Richard Church and Charles R. Velle. "The Maximal Covering Location Problem". Papers in Regional Science, 1974, vol. 32, issue 1, 101-118.</p>
+<h2 id="&#21442;&#32771;&#36164;&#26009;">&#21442;&#32771;&#36164;&#26009;<a class="anchor-link" href="#&#21442;&#32771;&#36164;&#26009;">&#182;</a></h2><p>[1] Richard Church and Charles R. Velle. "The Maximal Covering Location Problem". Papers in Regional Science, 1974, vol. 32, issue 1, 101-118.</p>
 <p>[2] Tail Assignment Problem. <a href="https://www.gurobi.com/case_study/air-france-tail-assignment-optimization/">https://www.gurobi.com/case_study/air-france-tail-assignment-optimization/</a></p>
 
 </div>
