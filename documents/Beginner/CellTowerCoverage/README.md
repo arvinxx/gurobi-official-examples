@@ -14,18 +14,13 @@
 
 蜂窝网络是一种手持式智能手机网络，其中每部手机通过蜂窝基站(蜂窝基站)的本地天线通过无线电波与电话网络进行通信。一个重要的问题是如何安置手机信号塔，以便向最多的人提供信号覆盖。
 
-## Problem Description
+## 问题描述
 
-A telecom company needs to build a set of cell towers to provide signal coverage for the inhabitants of a given city. A
-number of potential locations where the towers could be built have been identified. The towers have a fixed range, and
--due to budget constraints- only a limited number of them can be built. Given these restrictions, the company wishes to
-provide coverage to the largest percentage of the population possible
+一家电信公司需要建造一组蜂窝塔，以为给定城市的居民提供信号覆盖范围。已经确定了可以建造塔楼的许多潜在位置。这些塔有固定的范围，并且-由于预算限制，只能建造数量有限的塔。鉴于这些限制，该公司希望将覆盖范围扩大到尽可能多的人口。为了简化问题，该公司将其希望覆盖的区域划分为一组区域，每个区域都有已知的人口。然后，目标是选择公司应在哪些潜在位置上建造手机信号塔，以便覆盖尽可能多的人。
 
-## Proposed Solution
+## 拟议解法
 
-A mixed-integer programming (MIP) formulation for the Cell Tower Coverage Problem..
-
-
+蜂窝塔覆盖问题的混合整数规划（MIP）模型。
 
 ## 协议
 
