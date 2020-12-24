@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>3d_tic_tac_toe</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>3d-tic-tac-toe</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14272,35 +14272,54 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="3D&#20117;&#23383;&#28216;&#25103;">3D&#20117;&#23383;&#28216;&#25103;<a class="anchor-link" href="#3D&#20117;&#23383;&#28216;&#25103;">&#182;</a></h1><p>等级：入门</p>
+<h1 id="&#19977;&#32500;&#20117;&#23383;&#28216;&#25103;">&#19977;&#32500;&#20117;&#23383;&#28216;&#25103;<a class="anchor-link" href="#&#19977;&#32500;&#20117;&#23383;&#28216;&#25103;">&#182;</a></h1><p>等级：初级</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;<a class="anchor-link" href="#&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#182;</a></h2><p>该模型解决了在三维井字游戏板上排列 $X$ 和 $O$ 的问题，从而最大程度地减少了完成的线或对角线的数量。它演示了如何使用混合整数编程来捕获简单的逻辑约束。</p>
 <p>这是第五版《数学建模》（ H. Paul Williams 著）第272和327-328页的示例17。</p>
-<p>这个建模示例处于入门等级。我们假设您对 Python 和 Gurobi Python API 有所了解，但是希望您可以从示例中了解所有遗漏的概念。</p>
-<p><strong>Note:</strong> You can download the repository containing this and other examples by clicking <a href="https://github.com/Gurobi/modeling-examples/archive/master.zip">here</a>. In order to run this Jupyter Notebook properly, you must have a Gurobi license. If you do not have one, you can request an <a href="https://www.gurobi.com/downloads/request-an-evaluation-license/?utm_source=Github&amp;utm_medium=website_JupyterME&amp;utm_campaign=CommercialDataScience">evaluation license</a> as a <em>commercial user</em>, or download a <a href="https://www.gurobi.com/academia/academic-program-and-licenses/?utm_source=Github&amp;utm_medium=website_JupyterME&amp;utm_campaign=AcademicDataScience">free license</a> as an <em>academic user</em>.</p>
-<hr>
-<h2 id="Problem-Description">Problem Description<a class="anchor-link" href="#Problem-Description">&#182;</a></h2><p>Given a 3-D tic-tac-toe board, where players take turns placing $X$'s and $O$'s, the game typically ends when one player completes a line or diagonal; that is, when they manage to place their symbols in three cells that form a line or diagonal in the grid.  The twist that is tackled here is that the game continues until every cell contains a symbol, and the goal is to arrange the symbols to minimize the number of completed lines or diagonals.</p>
-<hr>
-<h2 id="Model-Formulation">Model Formulation<a class="anchor-link" href="#Model-Formulation">&#182;</a></h2><h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$\text{isX}_{ijk} \in [0,1]$: Does cell $(i,j,k)$ contain an $X$ ($isX=1$) or an $O$ ($isX=0$)?</p>
-<p>$\text{isLine}_{l} \in [0,1]$: Does line/diagonal $l$ contain 3 of the same symbol?</p>
-<h3 id="Objective-Function">Objective Function<a class="anchor-link" href="#Objective-Function">&#182;</a></h3><ul>
-<li><strong>Lines</strong>: Minimize the number of completed lines or diagonals</li>
+<p>该建模示例处于初级阶段，我们假设你了解Python，并且具有一些有关构建数学优化模型的知识。希望你可以从示例中了解所有遗漏的概念。</p>
+<p><strong>注意：</strong> 你可以通过单击 <a href="https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip">此处</a> 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，你必须具有 Gurobi 许可证。如果你没有，则可以<strong>商业用户身份</strong>申请 <a href="https://www.gurobi.com/downloads/request-an-evaluation-license/">试用许可证</a>，或以<strong>学术用户身份</strong>下载 <a href="https://www.gurobi.com/academia/academic-program-and-licenses">免费许可证</a>。</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="&#38382;&#39064;&#25551;&#36848;">&#38382;&#39064;&#25551;&#36848;<a class="anchor-link" href="#&#38382;&#39064;&#25551;&#36848;">&#182;</a></h2><p>给定一个井字棋盘，玩家轮流放置$X$和 $O$，游戏通常在一个玩家完成一条线或一条对角线时结束；也就是说，当他们设法将自己的棋子放置在网格中形成线或对角线的三个单元格中时。游戏将持续到每个单元格都下满棋子位置。这里要达成的目标是排列棋子以最大程度地减少已完成的线或对角线的数量。</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="&#27169;&#22411;&#21046;&#23450;">&#27169;&#22411;&#21046;&#23450;<a class="anchor-link" href="#&#27169;&#22411;&#21046;&#23450;">&#182;</a></h2><h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>$\text{isX}_{ijk} \in [0,1]$: 单元格 $(i,j,k)$ 是否包含 $X$ ($isX=1$) 或 $O$ ($isX=0$)？</p>
+<p>$\text{isLine}_{l} \in [0,1]$: 直线/对角线 $l$ 包含 3 个相同的棋子吗?</p>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>连线</strong>: 尽量减少完成的线或对角线的数量</li>
 </ul>
 \begin{equation}
 \text{Minimize} \quad Z = \sum_{l \in \text{Lines}}\text{isLine}_l
-\end{equation}<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Take turns</strong>: The board must contain 14 $X$'s and 13 $O$'s ($X$ goes first).</li>
+\end{equation}<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>轮次</strong>: 棋盘必须包含14个 $X$ 和13个 $O$ ($X$ 先下)。</li>
 </ul>
 \begin{equation}
 \sum_{ijk} \text{isX}_{ijk} = 14
 \end{equation}<ul>
-<li><strong>Lines</strong>: For a line to not be complete, one cell must have a different value.  The simple observation here is that the sum of the corresponding 3 binary variables would be 3 if they are all $X$ and 0 if they were all $O$.   We need to forbid those outcomes whenever $isLine_l == 0$.  Note that $l_0$ is the first cell in line $l$, $l_1$ is the second, and $l_2$ is the third.</li>
+<li><strong>连线</strong>: 要使一行不完整，一行中的单元格必须有不同的值。我们可以观察到，如果3个单元格都是 $X$，那么相应的零一变量的和就是3，如果它们都是 $O$，那么它们的和就是0。 因此我们需要禁止 $isLine_l == 0$ 的情况。</li>
 </ul>
+<blockquote><p>注意：$l_0$ 是 $l$ 行的第一个单元格，$l_1$ 是第二个，$l_2$ 是第三个单元格。</p>
+</blockquote>
 \begin{equation}
 \text{isLine}_l == 0 \implies isX[l_0] + isX[l_1] + isX[l_2] &gt;= 1 \quad \forall l \in \text{Lines}
 \end{equation}\begin{equation}
 \text{isLine}_l == 0 \implies isX[l_0] + isX[l_1] + isX[l_2] &lt;= 2 \quad \forall l \in \text{Lines}
-\end{equation}<hr>
-<h2 id="Python-Implementation">Python Implementation<a class="anchor-link" href="#Python-Implementation">&#182;</a></h2><p>We import the Gurobi Python Module.</p>
+\end{equation}
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Python-&#23454;&#29616;">Python &#23454;&#29616;<a class="anchor-link" href="#Python-&#23454;&#29616;">&#182;</a></h2><p>首先导入模型</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14312,7 +14331,9 @@ a.anchor-link {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gp</span>
 <span class="kn">from</span> <span class="nn">gurobipy</span> <span class="kn">import</span> <span class="n">GRB</span>
 
-<span class="c1"># tested with Python 3.7.0 &amp; Gurobi 9.0</span>
+<span class="c1"># 官方测试版本 Gurobi v9.0.0 &amp; Python 3.7.0</span>
+
+<span class="c1"># 译者测试版本 Gurobi v9.1.0 &amp; Python 3.8.6</span>
 </pre></div>
 
      </div>
@@ -14323,7 +14344,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Model-Deployment">Model Deployment<a class="anchor-link" href="#Model-Deployment">&#182;</a></h2><p>We first create a list of all possible lines and diagonals in a 3-D tic-tac-toe board.  Each is represented as a Python tuple with 3 entries, where each entry gives the (i,j,k) position of the corresponding cell.  There are 49 in total.</p>
+<h2 id="&#27169;&#22411;&#24320;&#21457;">&#27169;&#22411;&#24320;&#21457;<a class="anchor-link" href="#&#27169;&#22411;&#24320;&#21457;">&#182;</a></h2><p>我们首先在三维井字棋盘上创建一个所有可能的线和对角线的列表。每个条目都表示为一个包含3个条目的 Python 元组，其中每个条目给出相应单元格的(i,j,k)位置。总共有49个。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14370,7 +14391,7 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Next we create our model and our decision variables.</p>
+<p>接下来，我们创建模型和决策变量。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14401,8 +14422,8 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Using license file c:\gurobi\gurobi.lic
-Set parameter TokenServer to value SANTOS-SURFACE-
+<pre>Using license file /Users/arvinxx/gurobi.lic
+Academic license - for non-commercial use only - expires 2021-02-01
 </pre>
 </div>
 </div>
@@ -14414,7 +14435,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Now we create the constraints.  The first states the board will contain 14 X's (and 13 O's):</p>
+<p>现在我们创建约束。第一个状态是棋盘将包含14个 $X$（和13个 $O$）：</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14434,7 +14455,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The remaining constraints establish the relationship between the $isLine[]$ and $isX[]$ variables.  A line is complete if all three cells contain the same symbol.  In our model, this would correspond to three associated $isX[]$ variables summing to either 3 (all $X$) or 0 (all $O$).  For our purposes, it is enough to enforce the condition that if $isLine[] = 0$, the sum must be strictly between these two values.</p>
+<p>其余的约束建立了 $isLine[]$ 和 $isX[]$ 变量之间的关系。如果所有三个单元格都包含相同的棋子，则该行是完整的。在我们的模型中，这将对应于三个相关的  $isX[]$ 变量，其总和为3（所有 $X$ ）或0（所有 $O$ ）。就我们的目的而言，足以执行以下条件：如果 $isLine = 0 $，则总和必须严格在这两个值之间。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14456,7 +14477,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Finally, we set the optimization objective, which is to minimize the number of completed lines.</p>
+<p>最后，我们设定了优化目标，这是尽量减少线的数量。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14476,7 +14497,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>Now we perform the optimization.</p>
+<p>现在我们执行优化。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14505,9 +14526,10 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (win64)
+<pre>Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (mac64)
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
 Optimize a model with 1 rows, 76 columns and 27 nonzeros
-Model fingerprint: 0x61d864c3
+Model fingerprint: 0xcbf7569f
 Model has 98 general constraints
 Variable types: 0 continuous, 76 integer (76 binary)
 Coefficient statistics:
@@ -14530,18 +14552,17 @@ Root relaxation: objective 0.000000e+00, 46 iterations, 0.00 seconds
 H    0     0                       5.0000000    0.00000   100%     -    0s
      0     0    0.00000    0   18    5.00000    0.00000   100%     -    0s
 H    0     0                       4.0000000    0.00000   100%     -    0s
-     0     0    0.00000    0   14    4.00000    0.00000   100%     -    0s
+     0     0    0.00000    0   19    4.00000    0.00000   100%     -    0s
      0     0    0.00000    0    8    4.00000    0.00000   100%     -    0s
-     0     0    0.50000    0   18    4.00000    0.50000  87.5%     -    0s
-     0     0    0.50000    0   16    4.00000    0.50000  87.5%     -    0s
-     0     2    0.50000    0   16    4.00000    0.50000  87.5%     -    0s
+     0     0    0.50000    0   22    4.00000    0.50000  87.5%     -    0s
+     0     0    0.50000    0    8    4.00000    0.50000  87.5%     -    0s
+     0     2    0.50000    0    8    4.00000    0.50000  87.5%     -    0s
 
 Cutting planes:
-  Inf proof: 6
-  Zero half: 12
+  Zero half: 3
 
-Explored 2109 nodes (13804 simplex iterations) in 0.28 seconds
-Thread count was 8 (of 8 available processors)
+Explored 1939 nodes (12811 simplex iterations) in 0.15 seconds
+Thread count was 12 (of 12 available processors)
 
 Solution count 3: 4 5 7 
 
@@ -14559,7 +14580,7 @@ Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <hr>
-<h2 id="Result">Result<a class="anchor-link" href="#Result">&#182;</a></h2><p>The optimal solution completes only 4 lines or diagonals.  We can visualize the result using matplotlib (we've peeled off the third dimension of the 3-D tic-tac-toe board).</p>
+<h2 id="&#32467;&#26524;">&#32467;&#26524;<a class="anchor-link" href="#&#32467;&#26524;">&#182;</a></h2><p>最佳解决方案仅完成4条线或对角线。我们可以使用 <code>matplotlib</code> 可视化结果（已除去 3D 井字棋的三维尺寸）。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14604,7 +14625,7 @@ Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
 
 
 <div class="jp-RenderedImage jp-OutputArea-output ">
-<img src="data:image/png;base64,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
+<img src="data:image/png;base64,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
 "
 >
 </div>
@@ -14619,8 +14640,9 @@ Best objective 4.000000000000e+00, best bound 4.000000000000e+00, gap 0.0000%
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <hr>
-<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>H. Paul Williams, Model Building in Mathematical Programming, fifth edition.</p>
+<h2 id="&#21442;&#32771;&#36164;&#26009;">&#21442;&#32771;&#36164;&#26009;<a class="anchor-link" href="#&#21442;&#32771;&#36164;&#26009;">&#182;</a></h2><p>H. Paul Williams, Model Building in Mathematical Programming, fifth edition.</p>
 <p>Copyright © 2020 Gurobi Optimization, LLC</p>
+<p>翻译 By Arvin Xu</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
