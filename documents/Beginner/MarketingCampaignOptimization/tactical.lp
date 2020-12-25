@@ -6,6 +6,8 @@ Maximize
 Subject To
  maxOffers[k1]: allocate[k1,p1] + allocate[k1,p2] <= 5
  maxOffers[k2]: allocate[k2,p1] + allocate[k2,p2] <= 5
+ maxOffers[k1]: allocate[k1,p1] + allocate[k1,p2] <= 5
+ maxOffers[k2]: allocate[k2,p1] + allocate[k2,p2] <= 5
  budget: 200 allocate[k1,p1] + 100 allocate[k1,p2] + 300 allocate[k2,p1]
    + 200 allocate[k2,p2] - budget_correction <= 200
  min_offers[p1]: allocate[k1,p1] + allocate[k2,p1] >= 2

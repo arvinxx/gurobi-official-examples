@@ -3,13 +3,9 @@
 ## 目的和先决条件
 
 
-此 Jupyter Notebook 描述了银行和金融服务行业常见的营销活动优化问题。
+此 Jupyter Notebook 描述了银行和金融服务行业常见的营销活动优化问题。 该问题使用 Gurobi Python API 构建，并使用 Gurobi Optimizer 解决。
 
-该问题使用 Gurobi Python API 构建，并使用 Gurobi Optimizer 解决。
-
-在这个营销活动问题中，数学优化模型的关键参数是通过机器学习预测响应模型预估出来的。
-
-营销活动优化问题是指在满足各种业务约束的情况下，为使总预期利润最大化而向每个客户提供何种产品。
+在这个营销活动问题中，数学优化模型的关键参数是通过机器学习预测响应模型预估出来的。 营销活动优化问题是指在满足各种业务约束的情况下，为使总预期利润最大化而向每个客户提供何种产品。
 
 该建模示例处于初级阶段，我们假设你了解Python，并且具有一些有关构建数学优化模型的知识。你也可以参考 Gurobi Python API 的[文档](https://www.gurobi.com/resources/?category-filter=documentation)。
 
