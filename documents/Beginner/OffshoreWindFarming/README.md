@@ -1,4 +1,4 @@
-# 海上风电场 Offshore Wind Farming
+# 海上风力发电场 Offshore Wind Farming
 
 ## 目的和先决条件
 

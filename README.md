@@ -29,7 +29,7 @@
 - [x] [基站覆盖问题 Cell Tower Coverage](./documents/Beginner/CellTowerCoverage)
 - [x] [3D 井字棋 3D Tic Tac Toe](./documents/Beginner/3DTicTacToe)
 - [x] [营销活动优化 Marketing Campaign Optimization](./documents/Beginner/MarketingCampaignOptimization)
-- [ ] [海上风电场 Offshore Wind Farming](./documents/Beginner/OffshoreWindFarming)
+- [ ] [海上风力发电场 Offshore Wind Farming](./documents/Beginner/OffshoreWindFarming)
 
 ### 中级
 
