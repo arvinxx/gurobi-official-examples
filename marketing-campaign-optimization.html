@@ -3,7 +3,7 @@
 <head><meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>marketing_campaign_optimization</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>marketing-campaign-optimization</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
 
 
@@ -14272,131 +14272,116 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Marketing-Campaign-Optimization">Marketing Campaign Optimization<a class="anchor-link" href="#Marketing-Campaign-Optimization">&#182;</a></h1>
+<h1 id="&#33829;&#38144;&#27963;&#21160;&#20248;&#21270;">&#33829;&#38144;&#27963;&#21160;&#20248;&#21270;<a class="anchor-link" href="#&#33829;&#38144;&#27963;&#21160;&#20248;&#21270;">&#182;</a></h1>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Objective-and-Prerequisites">Objective and Prerequisites<a class="anchor-link" href="#Objective-and-Prerequisites">&#182;</a></h2><p>This Jupyter Notebook  describes a marketing campaign optimization problem that is common in 
-the banking and financial services industry. 
-The problem is formulated using the Gurobi Python API and solved using the Gurobi Optimizer. 
-We assume that key parameters of the mathematical optimization model of the marketing campaign problem are estimated using machine learning predictive response models. 
-The marketing campaign optimization problem entails determining which products to offer to each customer 
-in order 
-to maximize total expected profit while satisfying various business constraints.</p>
-<p>This modeling example is at the beginner level, where we assume that you know Python and that you have some knowledge about building mathematical optimization models. The reader should also consult the  <a href="https://www.gurobi.com/resources/?category-filter=documentation">documentation</a>
-of the Gurobi Python API.</p>
-<p><strong>Note:</strong> You can download the repository containing this and other examples by clicking <a href="https://github.com/Gurobi/modeling-examples/archive/master.zip">here</a>. In order to run this Jupyter Notebook properly, you must have a Gurobi license. If you do not have one, you can request an <a href="https://www.gurobi.com/downloads/request-an-evaluation-license/?utm_source=Github&amp;utm_medium=website_JupyterME&amp;utm_campaign=CommercialDataScience">evaluation license</a> as a <em>commercial user</em>, or download a <a href="https://www.gurobi.com/academia/academic-program-and-licenses/?utm_source=Github&amp;utm_medium=website_JupyterME&amp;utm_campaign=AcademicDataScience">free license</a> as an <em>academic user</em>.</p>
+<h2 id="&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;<a class="anchor-link" href="#&#30446;&#30340;&#21644;&#20808;&#20915;&#26465;&#20214;">&#182;</a></h2><p>此 Jupyter Notebook 描述了银行和金融服务行业常见的营销活动优化问题。</p>
+<p>该问题使用 Gurobi Python API 构建，并使用 Gurobi Optimizer 解决。</p>
+<p>在这个营销活动问题中，数学优化模型的关键参数是通过机器学习预测响应模型预估出来的。</p>
+<p>营销活动优化问题是指在满足各种业务约束的情况下，为使总预期利润最大化而向每个客户提供何种产品。</p>
+<p>该建模示例处于初级阶段，我们假设你了解Python，并且具有一些有关构建数学优化模型的知识。希望你可以从示例中了解所有遗漏的概念。</p>
+<p><strong>注意：</strong> 你可以通过单击 <a href="https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip">此处</a> 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，你必须具有 Gurobi 许可证。如果你没有，则可以<strong>商业用户身份</strong>申请 <a href="https://www.gurobi.com/downloads/request-an-evaluation-license/">试用许可证</a>，或以<strong>学术用户身份</strong>下载 <a href="https://www.gurobi.com/academia/academic-program-and-licenses">免费许可证</a>。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Motivation">Motivation<a class="anchor-link" href="#Motivation">&#182;</a></h2><p>The main goal of marketing in the banking and financial services industry is to offer "the right product to the right customer at the right time". However, 
-actually being able to achieve this goal is a complicated and challenging undertaking. What makes this particularly difficult is that companies have multiple products and operate under a complex set of business constraints. Choosing which products to offer to which customers in order to maximize the marketing return on investment and satisfy the business constraints is enormously complex.</p>
-<p>Consider a major bank  that has made a deliberate effort to become a customer-focused institution, as opposed to a vertical product driven company. The goal of the bank is "to be the best at helping customers become financially better off by providing relevant solutions to their unique needs". A direct consequence of this goal is that marketing campaigns are multiple product campaigns as opposed to single product campaigns. 
-This transforms the data science and campaign targeting process from a fairly simple application of individual response models into a significantly more complex process that invloves  choosing which product to offer to which customer and through which channel.</p>
-<p>The marketing team of the bank are used to applying business rules to target customers directly. 
-For example, 
-they target 
-customers solely on their product gaps or on marketers' business intuition. 
-The bank's
-marketers have also applied RFM type analysis where general recency, frequency, and monetary measurements as well as product gaps are used to target customers for specific offers.</p>
-<p>The marketing team's current approach, which 
-is widely used, 
-relies on predictive response models to target customers for offers. These models estimate the probability that a customer will respond to a specific offer and can significantly increase the response rate to a product offering. However, simply knowing a customer's probability of responding to a particular offer is not enough when a company has several products to promote and other business constraints to consider in its marketing planning.</p>
-<p>Generally speaking, marketing teams also face the problem of knowing which product to offer to a customer, not just which customer to offer a product. In practice, many ad hoc rules are used:</p>
+<h2 id="&#21160;&#26426;">&#21160;&#26426;<a class="anchor-link" href="#&#21160;&#26426;">&#182;</a></h2><p>银行和金融服务行业营销的主要目标是“在正确的时间向正确的客户提供正确的产品”。然而，实际上能够实现这一目标是一项复杂且具有挑战性的任务。让这变得特别困难的是，公司拥有多种产品，并在一组复杂的业务约束下运作。为了最大化市场投资回报和满足业务约束，选择向哪些客户提供哪些产品是非常复杂的。</p>
+<p>假设有一家大型银行，该银行已努力成为一家以客户为中心的机构，而不是一家垂直产品驱动型公司。该银行的目标是“通过提供满足客户独特需求的解决方案，尽最大可能帮助他们在经济上有所改善”。此目标的直接结果是，营销活动是多个产品活动，而不是单个产品活动。</p>
+<p>这将数据科学和营销活动的定位过程从相当简单的单个响应模型变为一个相当复杂的过程，包括选择哪个产品通过哪个渠道提供给哪个客户。</p>
+<p>银行的营销团队习惯于将业务规则直接应用于目标客户。例如，他们仅根据产品差距或营销人员的业务直觉来瞄准客户。该银行的营销人员还应用了RFM类型分析，使用一般近因、频率、货币度量以及产品缺口来针对特定的目标客户。</p>
+<p>营销团队目前广泛使用的方法是依赖预测响应模型来锁定客户。这些模型估计客户响应特定报价的可能性，并且可以显着提高对产品报价的响应率。然而，当一家公司有好几种产品要推销，在营销计划中要考虑其他业务约束时，仅仅知道客户对特定报价做出响应概率是不够的。</p>
+<p>一般来说，营销团队还面临一个问题，就是要知道该向客户提供哪种产品，而不仅仅是该向哪个客户提供产品。在实践中，使用了许多特殊规则:</p>
 <ul>
-<li><p>prioritization rules based on response rates or estimated expected profitability measures</p>
+<li><p>基于响应率或估计预期盈利能力指标的优先级规则</p>
 </li>
-<li><p>business rules to prioritize products that can be marketed</p>
+<li><p>对可以销售的产品进行优先级排序的业务规则</p>
 </li>
-<li><p>product response models to select customers for a particular campaign.</p>
+<li><p>为特定活动选择客户的产品响应模型。</p>
 </li>
 </ul>
-<p>One approach that is easily implemented but may not produce optimal customer contact plans relies on a measure of expected offer profitability to choose which products to offer customers. However, a shortcoming of this approach is its inability to effectively handle complex constraints on the customer contact plan.</p>
-<p>To address this marketing campaign optimization problem, M. D. Cohen [1] proposed a MIP approach with data from Scotiabank. The marketing campaign optimization problem considered eleven unique offers: five investment, three lending, and three day-to-day banking offers. The investment offers included Guaranteed Investment Certificates (GICs), mutual funds, Registered Education Savings Program (RESP) and two unique discount brokerage offers. The lending offers included a mortgage and two credit card offers. 
-The day-to-day banking offers included one of two Scotia online banking service offers and a deposit account acquisition. The term campaign is used here to imply one large pro-active customer contact campaign that is comprised of eleven distinct offers; it can be thought of as eleven single product campaigns that are being offered at generally the same time to a non-overlapping set of customers. Approximately 2.5 million customers were included in the potential target market for the campaign.</p>
-<p>In this Jupyter Notebook, we will use this MIP approach to address the bank’s marketing campaign optimization problem. It should be noted that this approach could be used by virtually any company across various industries to optimize their marketing campaigns, while taking into account their business constraints.</p>
+<p>有一种方法很容易实现，但可能不能产生最佳的客户联系方案，它依赖于预期报价获利能力的指标，以选择向客户提供哪些产品。然而，这种方法的一个缺点是它不能有效地处理客户联系方案上的复杂约束。</p>
+<p>为了解决这个营销活动优化问题，M.D.Cohen[1] 提出了一种基于丰业银行数据的MIP方法。营销活动优化问题考虑了11种独特的报价：5种投资、3种贷款和3种日常银行报价。投资优惠包括担保投资证书（GICs）、共同基金、注册教育储蓄计划（RESP）和两个独特的折扣经纪服务。贷款优惠包括一项抵押贷款和两项信用卡贷款。</p>
+<p>日常银行服务包括两项 Scotia 网上银行服务中的一项和存款账户获取服务。在这里，“活动”一词指的是一个大型的、积极主动的客户联系活动，包括11个不同的优惠;它可以被认为是十一个单一的产品活动，通常是在同一时间提供给一个不重叠的客户群。该活动的潜在目标市场包括大约250万客户。</p>
+<p>在此Jupyter Notebook中，我们将使用此MIP方法来解决银行的营销活动优化问题。应该注意的是，几乎所有行业的任何公司都可以使用这种方法在其业务限制优化营销活动方案。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Problem-Description">Problem Description<a class="anchor-link" href="#Problem-Description">&#182;</a></h2><p>The bank's marketing team needs to determine what products to offer to each customer in a way that maximizes the marketing campaign return on investment while considering the following constraints:</p>
+<h2 id="&#38382;&#39064;&#25551;&#36848;">&#38382;&#39064;&#25551;&#36848;<a class="anchor-link" href="#&#38382;&#39064;&#25551;&#36848;">&#182;</a></h2><p>银行的营销团队需要确定向每个客户提供什么样的产品，以使营销活动的投资回报最大化，同时考虑以下限制因素：</p>
 <ul>
-<li>limits on funding available for the campaign.</li>
-<li>restrictions on the minimum number of product offers that can be made in a campaign.</li>
-<li>campaign return-on-investment hurdle rates that must be met.</li>
+<li><p>活动可用资金的限制。</p>
+</li>
+<li><p>活动中可以提供的最低产品数量的限制。</p>
+</li>
+<li><p>活动必须满足的投资回报率最低要求。</p>
+</li>
 </ul>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Solution-Approach">Solution Approach<a class="anchor-link" href="#Solution-Approach">&#182;</a></h2><p>Mathematical programming is a declarative approach where the modeler formulates a mathematical optimization model that captures the key aspects of a complex decision problem. The Gurobi Optimizer solves such models using state-of-the-art mathematics and computer science.</p>
-<p>A mathematical optimization model has five components, namely:</p>
+<h2 id="&#35299;&#20915;&#26041;&#27861;">&#35299;&#20915;&#26041;&#27861;<a class="anchor-link" href="#&#35299;&#20915;&#26041;&#27861;">&#182;</a></h2><p>数学优化（也称为数学编程）是一种声明性方法，其中建模者制定了一个优化问题，该问题捕获了复杂决策问题的关键特征。然后 Gurobi 使用最先进的数学和计算机科学技术来解决这一类数学优化问题。</p>
+<p>数学优化模型具有五个组成部分：</p>
 <ul>
-<li>Sets and indices.</li>
-<li>Parameters.</li>
-<li>Decision variables.</li>
-<li>Objective function(s).</li>
-<li>Constraints.</li>
+<li>数据集（Sets）</li>
+<li>参数(Parameters)</li>
+<li>决策变量(Decision variables)</li>
+<li>约束（Constraints）</li>
+<li>目标函数（Objective function(s)）</li>
 </ul>
-<p>We now present a MIP approach for this marketing campaign optimization problem.</p>
-<p>The MIP solution approach proposed by Cohen [1] is an improvement over the 
-traditional myopic
-approach of picking the customers that have the largest expected value for a particular product because it
-produces a globally optimal solution 
-from the viewpoint of the bank and allows for the effective implementation of business constraints across customers and business units. The approach accounts for limited resources and other business constraints.</p>
-<p>We assume that the estimates for customer/offer expected incremental profit, costs, and business constraints serve as inputs to the marketing campaign optimization approach. The optimization phase is independent of the construction of these inputs.</p>
-<p>The MIP approach
-involves 
-a tactical and an operational problem. 
-For the tactical problem, we aggregate customers based on the individual expected profit parameters.  The estimated individual expected profit can be determined with data science techniques such as predictive response models. The key idea is to cluster the estimated individual expected profits and then consider the cluster centroids as representative of the data for all the individual customers within a single cluster. This aggregation enables the problem to be formulated as a linear programming problem so that rather than assigning offers to individual customers, the model identifies proportions within each cluster for each product offer that maximizes the marketing campaign return on investment while considering the business constraints. Typically, the number of customers in a cluster will be in the hundreds of thousands, which is the main decision variable of the tactical problem, consequently these variables can be considered as a continuous; therefore, the linear programming approach is justified.</p>
-<p>The operational problem can be formulated as a MIP model, where the estimated individual expected profits and the output of the tactical model can be used as inputs to assign <em>products offers</em> to individual customers of each cluster in such a way that the  total marketing campaign return on investment is maximized.</p>
+<p>现在，我们针对此营销活动优化问题提出一种MIP方法。</p>
+<p>Cohen[1]提出的MIP解决方案方法是对传统的短视方法（myopic approach）的改进，即选择对特定产品具有最大预期价值的客户，因为它从银行的角度产生了一个全局最优的解决方案，并允许有效地在构建有关客户和业务部门的业务约束。这种方法考虑到有限的资源和其他业务限制。</p>
+<p>我们假设对客户/要约的预期增量利润，成本和业务约束的估计可以用作营销活动优化方法的输入。优化阶段与这些输入的构造无关。</p>
+<p>MIP方法涉及一个策略和操作问题。</p>
+<p>对于策略问题，我们根据单个预期利润参数汇总客户。可以使用诸如预测响应模型之类的数据科学技术来确定估计的个人预期利润。关键思想是对估计的单个预期利润进行聚类，然后将聚类质心视为代表单个聚类中所有单个客户的数据的代表。这种聚合使问题可以表述为线性规划问题，因此该模型无需为单个客户分配报价，而是在考虑业务约束的同时，为每个产品报价在每个集群中确定要最大化营销活动投资回报率的比例。通常，集群中的客户数量将成千上万，这是策略问题的主要决策变量，因此，这些变量可以视为连续变量；因此，线性规划方法是合理的。</p>
+<p>操作问题可以表述为MIP模型，其中估计的个人预期利润和战术模型的输出可以用作输入，以将<em>产品报价</em> 分配给每个集群的单个客户，从而使整个营销活动投资回报最大化。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Tactical-Model-Formulation">Tactical Model Formulation<a class="anchor-link" href="#Tactical-Model-Formulation">&#182;</a></h2><h3 id="Sets-and-Indices">Sets and Indices<a class="anchor-link" href="#Sets-and-Indices">&#182;</a></h3><p>$k \in K$: Index and set of clusters.</p>
-<p>$j \in J$: Index and set of products.</p>
-<h3 id="Parameters">Parameters<a class="anchor-link" href="#Parameters">&#182;</a></h3><p>$\pi_{k,j}$: Expected profit to the bank from the offer of product $j \in J$ to an average customer of cluster $k \in K$.</p>
-<p>$\nu_{k,j}$: Average variable cost associated with the offer of product  $j \in J$ to an average customer of cluster $k \in K$.</p>
-<p>$N_{k}$: Number of customers in cluster $k \in K$.</p>
-<p>$Q_{j}$: Minimum number of offers of product $j \in J$.</p>
-<p>$R$: Corporate hurdle rate. This hurdle rate is used for the ROI calculation of the marketing campaign.</p>
-<p>$B$: Marketing campaign budget.</p>
-<p>$M$: Big M penalty. This penalty is associated with corrections on the budget that are necessary to satisfy other business constraints.</p>
-<h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$y_{k,j} \geq 0$: Number of customers in cluster $k \in K$ that are offered product $j \in J$.</p>
-<p>$z \geq 0$: Increase in budget in order to have a feasible campaign.</p>
-<h3 id="Objective-Function">Objective Function<a class="anchor-link" href="#Objective-Function">&#182;</a></h3><ul>
-<li><strong>Total profit</strong>. Maximize total expected profit from marketing campaign and heavily penalize any correction to the budget.</li>
+<h2 id="&#31574;&#30053;&#27169;&#22411;&#21046;&#23450;">&#31574;&#30053;&#27169;&#22411;&#21046;&#23450;<a class="anchor-link" href="#&#31574;&#30053;&#27169;&#22411;&#21046;&#23450;">&#182;</a></h2><h3 id="&#38598;&#21512;&#19982;&#32034;&#24341;">&#38598;&#21512;&#19982;&#32034;&#24341;<a class="anchor-link" href="#&#38598;&#21512;&#19982;&#32034;&#24341;">&#182;</a></h3><p>$k \in K$: 类的索引和集合。</p>
+<p>$j \in J$: 产品的索引和集合。</p>
+<h3 id="&#21442;&#25968;">&#21442;&#25968;<a class="anchor-link" href="#&#21442;&#25968;">&#182;</a></h3><p>$\pi_{k,j}$: 将产品 $j \in J$ 提供给类 $k \in K$ 的客户时所获得的平均期望利润。</p>
+<p>$\nu_{k,j}$: 将产品 $j \in J$ 提供给类 $k \in K$ 的客户时平均可变成本。</p>
+<p>$N_{k}$: 类 $k \in K$ 中包含的客户数量。</p>
+<p>$Q_{j}$: 产品 $j \in J$ 的最低要约数量。</p>
+<p>$R$: 企业最低回报率。此最低回报率用于计算营销活动的投资回报率。</p>
+<p>$B$: 营销活动预算。</p>
+<p>$M$: Big M 惩罚。此惩罚与预算修正相关，预算修正是满足其他业务限制所必需的。</p>
+<h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>$y_{k,j} \geq 0$: 类 $k \in K$  中的客户接受产品 $j \in J$ 要约的客户数量。</p>
+<p>$z \geq 0$: 增加预算，以便有一个可行的营销活动。</p>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>总利润</strong>： 最大限度地提高营销活动的预期总利润，并对任何对预算的调整进行严厉惩罚。</li>
 </ul>
 \begin{equation}
 \text{Max} \quad Z = \sum_{k \in K} \sum_{j \in J} \pi_{k,j} \cdot y_{k,j} - M \cdot z
 \tag{0}
-\end{equation}<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Number of offers</strong>. Maximum number of offers of products for each cluster is limited by the number of customers in the cluster.</li>
+\end{equation}<h3 id="&#32422;&#26463;&#26465;&#20214;">&#32422;&#26463;&#26465;&#20214;<a class="anchor-link" href="#&#32422;&#26463;&#26465;&#20214;">&#182;</a></h3><ul>
+<li><strong>要约数量</strong>： 每个集群中产品的最大要约数量受集群中客户数量的限制。</li>
 </ul>
 \begin{equation}
 \sum_{j \in J} y_{k,j} \leq N_{k} \quad \forall k \in K
 \tag{1}
 \end{equation}<ul>
-<li><strong>Budget</strong>. The marketing campaign budget constraint enforces that the total cost of the campaign should be less than the budget campaign. There is the possibility of increasing the budget to ensure the feasibility of the model, the minimum number of offers for all the product may require this increase in the budget.</li>
+<li><strong>预算</strong>： 营销活动预算约束要求活动的总成本应该低于活动预算。有可能需要增加预算以确保模型的可行性。因为为了使所有产品达到最低要约数量，可能需要增加预算。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K} \sum_{j \in J} \nu_{k,j} \cdot y_{k,j} \leq B + z
 \tag{2}
 \end{equation}<ul>
-<li><strong>Offers limit</strong>. Minimum number of offers of each product.</li>
+<li><strong>要约限制</strong>： 每个产品的最低要约数量。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K} y_{k,j} \geq Q_{j}  \quad \forall j \in J
 \tag{3}
 \end{equation}<ul>
-<li><strong>ROI</strong>. The minimum ROI constraint ensures that the ratio of total profits over cost is at least one plus the corporate hurdle rate.</li>
+<li><strong>ROI</strong>： 最小 ROI 约束可确保总利润与成本的比率至少为 1 + 企业的最低预期回报率。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K} \sum_{j \in J} \pi_{k,j} \cdot y_{k,j} \geq (1+R) \cdot \sum_{k \in K} \sum_{j \in J} \nu_{k,j} \cdot y_{k,j}
@@ -14406,33 +14391,34 @@ For the tactical problem, we aggregate customers based on the individual expecte
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Operational-Model-Formulation">Operational Model Formulation<a class="anchor-link" href="#Operational-Model-Formulation">&#182;</a></h2><p>Once the optimal values $y_{k,j}$, for all $j \in J$ and $k \in K$, of the Tactical model have been found, we should determine which individual customers in cluster $k$ should get an offer of a product. Suppose that for a given cluster $k \in K$, the allocation of offers of product $j_1$ and $j_2$ are positive, i.e. $y_{k,j_1} &gt; 0$ and $y_{k,j_2} &gt; 0$. Then, $y_{k,j_1}$ and $y_{k,j_2}$ of customers in cluster $k$ must be offered product $j_1$ and $j_2$, respectively. The optimal way to do that is to solve an assignment problem using the estimated expected profit for the individual customers and not the one for clusters.</p>
-<p>We now provide a formulation of the operational problem.</p>
-<h3 id="Sets-and-Indices">Sets and Indices<a class="anchor-link" href="#Sets-and-Indices">&#182;</a></h3><p>$i \in I^{k}$: Index and set of customers in cluster $k \in K$.</p>
-<p>$j \in J^{k}$: Index and subset of products offered to customers in cluster $k \in K$ , where $J^{k} = \{ j \in J: y_{k,j} &gt; 0 \}$ .</p>
-<h3 id="Parameters">Parameters<a class="anchor-link" href="#Parameters">&#182;</a></h3><p>$r_{k,i,j}$: Expected individual profit of customer $i \in I^{k}$ from  offer of product $j \in J^{k}$.</p>
-<p>$Y_{k,j} = \lfloor y_{k,j} \rfloor $: Number of customers in cluster k that will get an offer of product $j \in J^{k}$.</p>
-<h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$x_{k,i,j} \in \{0,1 \}$: This variable is equal to 1, if product $j \in J^{k}$  is offered to customer $i \in I^{k}$, and 0 otherwise.</p>
-<h3 id="Objective-Function">Objective Function<a class="anchor-link" href="#Objective-Function">&#182;</a></h3><ul>
-<li><strong>Total profit</strong>. Maximize total individual profit.</li>
+<h2 id="&#25805;&#20316;&#27169;&#22411;&#21046;&#23450;">&#25805;&#20316;&#27169;&#22411;&#21046;&#23450;<a class="anchor-link" href="#&#25805;&#20316;&#27169;&#22411;&#21046;&#23450;">&#182;</a></h2><p>一旦找到了策略模型中所有 $j \in J$ 和 $k \in K$ 的最优值 $y_{k,j}$ ，我们就需要确定集群 $k$ 中的哪个个体客户得到哪个产品的要约。假设给定集群 $k \in K$ 中，产品 $j_1$ 和 $j_2$ 的要约分配为正，即 $y_{k,j_1} &gt; 0$ 和$y_{k,j_2} &gt; 0$。那么，集群 $k$ 中的顾客 $y_{k,j_1}$ 和 $y_{k,j_2}$ 必须分别是产品 $j_1 $和 $j_2$ 的要约。要做到这一点，最优的方法是使用单个客户的预期利润来解决分配问题，而不是使用集群的预期利润。</p>
+<p>我们现在提供操作问题的表述。</p>
+<h3 id="&#38598;&#21512;&#19982;&#32034;&#24341;">&#38598;&#21512;&#19982;&#32034;&#24341;<a class="anchor-link" href="#&#38598;&#21512;&#19982;&#32034;&#24341;">&#182;</a></h3><p>$i \in I^{k}$: 集群 $k \in K$ 中客户的索引和集合。</p>
+<p>$j \in J^{k}$: 集群 $k \in K$ 中提供给客户的产品索引和子集，其中 $J^{k} = \{ j \in J: y_{k,j} &gt; 0 \}$ .</p>
+<h3 id="&#21442;&#25968;">&#21442;&#25968;<a class="anchor-link" href="#&#21442;&#25968;">&#182;</a></h3><p>$r_{k,i,j}$: 从客户 $i \in I^{k}$ 的产品要约 $j \in J^{k}$ 的预期个人利润。</p>
+<p>$Y_{k,j} = \lfloor y_{k,j} \rfloor $: 在集群 $k$ 中产品 $j \in J^{k}$ 提供要约的客户数量
+.</p>
+<h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>$x_{k,i,j} \in \{0,1 \}$: 如果产品 $j \in J^{k}$  给客户 $i \in I^{k}$ 提供了要约，此变量等于1, 否则为 0。</p>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>总利润</strong>： 最大化总个人利润。</li>
 </ul>
 \begin{equation}
 \text{Max} \quad Z = \sum_{k \in K} \sum_{i \in I^{k}} \sum_{j \in J^{k}} r_{k,i,j} \cdot x_{k,i,j}
 \tag{0}
-\end{equation}<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Product offers</strong>. Allocate offers of a product to customers of each cluster.</li>
+\end{equation}<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>产品要约</strong>： 将产品的要约分配给每个集群的客户。</li>
 </ul>
 \begin{equation}
 \sum_{i \in  I^{k}}  x_{k,i,j} = Y_{k,j}  \quad \forall j \in J^{k}, k \in K
 \tag{1}
 \end{equation}<ul>
-<li><strong>Offers limit</strong>. At most one product may be offered to a customer of a cluster.</li>
+<li><strong>要约限制</strong>： 最多可以向集群的一个客户提供一个产品。</li>
 </ul>
 \begin{equation}
 \sum_{j \in J^{k}} x_{k,i,j} \leq 1 \quad \forall i \in I^{k}, k \in K
 \tag{2}
 \end{equation}<ul>
-<li><strong>Binary constraints</strong>. Either a product offer is given to a customer of cluster k or not.</li>
+<li><strong>布尔限制</strong>： 是否向集群 $k$ 的客户提供产品要约。</li>
 </ul>
 \begin{equation}
 x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
@@ -14442,8 +14428,8 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Problem-Instance">Problem Instance<a class="anchor-link" href="#Problem-Instance">&#182;</a></h2><p>We consider two products, ten customers, and two clusters of customers. The corporate hurdle-rate is twenty percent.</p>
-<h3 id="Tactical-problem-data">Tactical problem data<a class="anchor-link" href="#Tactical-problem-data">&#182;</a></h3><p>The following table defines the expected profit of an average customer in each cluster when offered a product.</p>
+<h2 id="&#38382;&#39064;&#23454;&#20363;">&#38382;&#39064;&#23454;&#20363;<a class="anchor-link" href="#&#38382;&#39064;&#23454;&#20363;">&#182;</a></h2><p>我们考虑两个产品、十个客户和两个客户群。公司的最低回报率预期是百分之二十。</p>
+<h3 id="&#31574;&#30053;&#38382;&#39064;&#25968;&#25454;">&#31574;&#30053;&#38382;&#39064;&#25968;&#25454;<a class="anchor-link" href="#&#31574;&#30053;&#38382;&#39064;&#25968;&#25454;">&#182;</a></h3><p>下表定义了提供产品时每个集群中平均客户的预期利润。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14464,7 +14450,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </tr>
 </tbody>
 </table>
-<p>The expected cost of offering a product to an average customer in a cluster is determined by the following table.</p>
+<p>下表确定了向集群中的普通客户提供产品的预期成本。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14485,8 +14471,8 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </tr>
 </tbody>
 </table>
-<p>The budget available for the marketing campaign is $\$200$.</p>
-<p>The number of customers in each cluster is given by the following table.</p>
+<p>这个营销活动的预算是$\$200$。</p>
+<p>下表给出了每个集群中的客户数量。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14504,7 +14490,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </tr>
 </tbody>
 </table>
-<p>The minimum number of offers of each product is provided in the following table,</p>
+<p>下表列出每种产品的最低要约数量。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14522,7 +14508,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </tr>
 </tbody>
 </table>
-<h3 id="Operational-problem-data">Operational problem data<a class="anchor-link" href="#Operational-problem-data">&#182;</a></h3><p>The following table shows the expected profit of each customer in each cluster when offered a product.</p>
+<h3 id="&#25805;&#20316;&#38382;&#39064;&#25968;&#25454;">&#25805;&#20316;&#38382;&#39064;&#25968;&#25454;<a class="anchor-link" href="#&#25805;&#20316;&#38382;&#39064;&#25968;&#25454;">&#182;</a></h3><p>下表显示了向每个集群中每个客户提供产品的预期利润。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14583,7 +14569,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </tr>
 </tbody>
 </table>
-<p>The following table shows the cost of offering a product to a customer in a cluster.</p>
+<p>下表显示了向集群中的客户提供产品的成本。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14649,7 +14635,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Python-Implementation">Python Implementation<a class="anchor-link" href="#Python-Implementation">&#182;</a></h2><p>We now import the Gurobi Python Module. Then, we initialize the data structures with the given data.</p>
+<h2 id="Python-&#23454;&#29616;">Python &#23454;&#29616;<a class="anchor-link" href="#Python-&#23454;&#29616;">&#182;</a></h2><p>首先导入 Gurobi 的 Python 模块和相关 Python 库。然后用给定的数据初始化数据结构。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14661,9 +14647,11 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">gurobipy</span> <span class="k">as</span> <span class="nn">gp</span>
 <span class="kn">from</span> <span class="nn">gurobipy</span> <span class="kn">import</span> <span class="n">GRB</span>
 
-<span class="c1"># tested with Gurobi v9.0.0 and Python 3.7.0</span>
+<span class="c1"># 官方测试版本 Gurobi v9.0.0 &amp; Python 3.7.0</span>
 
-<span class="c1">### SETS</span>
+<span class="c1"># 译者测试版本 Gurobi v9.1.0 &amp; Python 3.8.6</span>
+
+<span class="c1">### 集合</span>
 
 <span class="n">products</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;p1&#39;</span><span class="p">,</span> <span class="s1">&#39;p2&#39;</span><span class="p">]</span>
 <span class="n">clusters</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;k2&#39;</span><span class="p">]</span>
@@ -14677,7 +14665,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Expected-profit">Expected profit<a class="anchor-link" href="#Expected-profit">&#182;</a></h3><p>The following tables shows the expected profit of a customer in each cluster when offered a product.</p>
+<h3 id="&#39044;&#26399;&#21033;&#28070;">&#39044;&#26399;&#21033;&#28070;<a class="anchor-link" href="#&#39044;&#26399;&#21033;&#28070;">&#182;</a></h3><p>下表显示了提供产品时每个集群中客户的预期利润。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14706,9 +14694,9 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Parameters</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 参数</span>
 
-<span class="c1"># Expected profit</span>
+<span class="c1"># 预期利润</span>
 <span class="n">cp</span><span class="p">,</span> <span class="n">expected_profit</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
     <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;p1&#39;</span><span class="p">):</span> <span class="mi">2000</span><span class="p">,</span>
     <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;p2&#39;</span><span class="p">):</span> <span class="mi">1000</span><span class="p">,</span>
@@ -14725,7 +14713,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Expected-cost">Expected cost<a class="anchor-link" href="#Expected-cost">&#182;</a></h3><p>The expected cost of offering a product to a customer in a cluster is shown in the following table.</p>
+<h3 id="&#39044;&#26399;&#25104;&#26412;">&#39044;&#26399;&#25104;&#26412;<a class="anchor-link" href="#&#39044;&#26399;&#25104;&#26412;">&#182;</a></h3><p>下表显示了产品对客户的预期成本。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14754,7 +14742,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Expected cost</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 预期成本</span>
 
 <span class="n">cp</span><span class="p">,</span> <span class="n">expected_cost</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
     <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;p1&#39;</span><span class="p">):</span> <span class="mi">200</span><span class="p">,</span>
@@ -14772,7 +14760,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Number-of-customers">Number of customers<a class="anchor-link" href="#Number-of-customers">&#182;</a></h3><p>The number of customers in each cluster can be seen in the following table.</p>
+<h3 id="&#23458;&#25143;&#25968;&#37327;">&#23458;&#25143;&#25968;&#37327;<a class="anchor-link" href="#&#23458;&#25143;&#25968;&#37327;">&#182;</a></h3><p>下表中列出了每个群集中的客户数量。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
@@ -14798,7 +14786,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Num of customers in each cluster</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 每个集群中的客户数量</span>
 
 <span class="n">clusters</span><span class="p">,</span> <span class="n">number_customers</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
     <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">):</span> <span class="mi">5</span><span class="p">,</span>
@@ -14814,11 +14802,11 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Minimum-number-of-offers">Minimum number of offers<a class="anchor-link" href="#Minimum-number-of-offers">&#182;</a></h3><p>The minimum number of offers of each product is provided in the following table.</p>
+<h3 id="&#26368;&#20302;&#35201;&#32422;&#25968;&#37327;">&#26368;&#20302;&#35201;&#32422;&#25968;&#37327;<a class="anchor-link" href="#&#26368;&#20302;&#35201;&#32422;&#25968;&#37327;">&#182;</a></h3><p>下表列出每种产品的最低要约数量。</p>
 <table>
 <thead><tr>
 <th><i></i></th>
-<th>Min Offers</th>
+<th>最低要约</th>
 </tr>
 </thead>
 <tbody>
@@ -14840,7 +14828,7 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Minimum number offers for each product</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 每个产品的最低要约数量</span>
 
 <span class="n">products</span><span class="p">,</span> <span class="n">min_offers</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
     <span class="p">(</span><span class="s1">&#39;p1&#39;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
@@ -14856,8 +14844,8 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Scalars">Scalars<a class="anchor-link" href="#Scalars">&#182;</a></h3><p>The corporate hurdle-rate is twenty percent ($R = 0.20$).</p>
-<p>The budget available for the marketing campaign is $\$200$.</p>
+<h3 id="&#26631;&#37327;">&#26631;&#37327;<a class="anchor-link" href="#&#26631;&#37327;">&#182;</a></h3><p>公司的最低回报率是百分之二十 ($R = 0.20$).</p>
+<p>可用于市场营销活动的预算是 $\$200$.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14866,11 +14854,11 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Scalars</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 标量</span>
 
 <span class="n">R</span> <span class="o">=</span> <span class="mf">0.20</span>
 
-<span class="c1">#tight budget</span>
+<span class="c1"># 预算紧张</span>
 <span class="n">budget</span> <span class="o">=</span> <span class="mi">200</span> 
 </pre></div>
 
@@ -14882,8 +14870,8 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Tactical-Model-Formulation">Tactical Model Formulation<a class="anchor-link" href="#Tactical-Model-Formulation">&#182;</a></h2><h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$y_{k,j} \geq 0$: Number of customers in cluster $k \in K$ that are offered product $j \in J$.</p>
-<p>$z \geq 0$: Increase in budget in order to have a feasible campaign.</p>
+<h2 id="&#25191;&#34892;&#27169;&#22411;&#21046;&#23450;">&#25191;&#34892;&#27169;&#22411;&#21046;&#23450;<a class="anchor-link" href="#&#25191;&#34892;&#27169;&#22411;&#21046;&#23450;">&#182;</a></h2><h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>$y_{k,j} \geq 0$: 集群 $k \in K$ 中被提供产品 $j \in J$ 要约的客户数量。</p>
+<p>$z \geq 0$: 为了使营销活动可行的额外增加的预算。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -14892,16 +14880,16 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Declare and initialize model</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 初始化决策变量</span>
 <span class="n">mt</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s1">&#39;Tactical&#39;</span><span class="p">)</span>
 
-<span class="c1">### Decisions variables</span>
+<span class="c1">### 决策变量</span>
 
-<span class="c1"># Allocation of product offers to customers in clusters.</span>
+<span class="c1"># 分配要约给集群中的客户。</span>
 
 <span class="n">y</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;allocate&quot;</span><span class="p">)</span>
 
-<span class="c1"># Budget correction</span>
+<span class="c1"># 预算纠正</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">addVar</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;budget_correction&quot;</span><span class="p">)</span>
 </pre></div>
@@ -14923,8 +14911,8 @@ x_{k,i,j} \in \{0,1 \} \quad \forall i \in I^{k},  j \in J^{k}, k \in K
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Using license file c:\gurobi\gurobi.lic
-Set parameter TokenServer to value SANTOS-SURFACE-
+<pre>Using license file /Users/arvinxx/gurobi.lic
+Academic license - for non-commercial use only - expires 2021-02-01
 </pre>
 </div>
 </div>
@@ -14936,15 +14924,15 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Number of offers</strong>. Maximum number of offers of products for each cluster.</li>
+<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>要约数量</strong>： 每个集群中产品的最大要约数量受集群中客户数量的限制。</li>
 </ul>
 \begin{equation}
 \sum_{j \in J} y_{k,j} \leq N_{k} \quad \forall k \in K
 \tag{1}
-\end{equation}<p>Where</p>
-<p>$y_{k,j} \geq 0$: Number of customers in cluster $k \in K$ that are offered product $j \in J$.</p>
-<p>$N_{k}$: Number of customers in cluster $k \in K$.</p>
+\end{equation}<p>其中：</p>
+<p>$y_{k,j} \geq 0$:  集群 $k \in K$ 中被提供产品 $j \in J$ 要约的客户数量。</p>
+<p>$N_{k}$: 集群 $k \in K$ 中总共客户数量。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14953,9 +14941,9 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Constraints</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 约束</span>
 
-<span class="c1"># Constraint on number of offers at each cluster</span>
+<span class="c1"># 约束：集群中的要约数量</span>
 
 <span class="n">maxOffers_cons</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="s1">&#39;*&#39;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">number_customers</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;maxOffers&#39;</span><span class="p">)</span>
 </pre></div>
@@ -14968,17 +14956,17 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Budget</strong>. The marketing campaign budget constraint enforces that the total cost of the campaign should be less than the budget campaign. There is the possibility of increasing the budget to ensure the feasibility of the model, the minimum number of offers for all the product may require this increase in the budget.</li>
+<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>预算</strong>： 营销活动预算约束要求活动的总成本应该低于活动预算。有可能需要增加预算以确保模型的可行性。因为为了使所有产品达到最低要约数量，可能需要增加预算。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K} \sum_{j \in J} \nu_{k,j} \cdot y_{k,j} \leq B + z
 \tag{2}
-\end{equation}<p>Where</p>
-<p>$y_{k,j} \geq 0$: Number of customers in cluster $k \in K$ that are offered product $j \in J$.</p>
-<p>$z \geq 0$: Increase in budget in order to have a feasible campaign.</p>
-<p>$\nu_{k,j}$: Average variable cost associated with the offer of product  $j \in J$ to an average customer of cluster $k \in K$.</p>
-<p>$B$: Marketing campaign budget.</p>
+\end{equation}<p>其中：</p>
+<p>$y_{k,j} \geq 0$:  集群 $k \in K$ 中被提供产品 $j \in J$ 要约的客户数量。</p>
+<p>$z \geq 0$: 为了使营销活动可行的额外增加的预算。</p>
+<p>$\nu_{k,j}$: 与向集群 $k \in K$ 的客户提供产品 $j \in J$ 的平均成本。</p>
+<p>$B$: 营销活动总预算。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14987,7 +14975,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Budget constraint</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 预算约束</span>
 
 <span class="n">budget_con</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">addConstr</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">expected_cost</span><span class="p">)</span> <span class="o">-</span> <span class="n">z</span> <span class="o">&lt;=</span> <span class="n">budget</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;budget&#39;</span><span class="p">)</span>
 </pre></div>
@@ -15000,15 +14988,15 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Offers limit</strong>. Minimum number of offers of each product.</li>
+<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>要约限制</strong>： 每个产品的最低要约数量。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K} y_{k,j} \geq Q_{j}  \quad \forall j \in J
 \tag{3}
-\end{equation}<p>Where</p>
-<p>$y_{k,j} \geq 0$: Number of customers in cluster $k \in K$ that are offered product $j \in J$.</p>
-<p>$Q_{j}$: Minimum number of offers of product $j \in J$.</p>
+\end{equation}<p>其中：</p>
+<p>$y_{k,j} \geq 0$: 集群 $k \in K$ 中被提供产品 $j \in J$ 要约的客户数量。</p>
+<p>$Q_{j}$: 产品 $j \in J$ 的最小要约数量。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15017,7 +15005,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Constraints on min number of offers of each product</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 约束：最小要约数量</span>
 
 <span class="n">minOffers_cons</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">addConstrs</span><span class="p">(</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_offers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">products</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;min_offers&#39;</span><span class="p">)</span>
 </pre></div>
@@ -15030,17 +15018,17 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>ROI</strong>. The minimum ROI constraint ensures that the ratio of total profits over cost is at least  one plus the corporate hurdle rate.</li>
+<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>ROI</strong>： 最小 ROI 约束可确保总利润与成本的比率至少为 1 + 企业的最低预期回报率。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K} \sum_{j \in J} \pi_{k,j} \cdot y_{k,j} \geq (1+R) \cdot \sum_{k \in K} \sum_{j \in J} \nu_{k,j} \cdot y_{k,j}
 \tag{4}
-\end{equation}<p>Where</p>
-<p>$y_{k,j} \geq 0$: Number of customers in cluster $k \in K$ that are offered product $j \in J$.</p>
-<p>$\pi_{k,j}$: Expected profit to the bank from the offer of product $j \in J$ to an average customer of cluster $k \in K$.</p>
-<p>$\nu_{k,j}$: Average variable cost associated with the offer of product  $j \in J$ to an average customer of cluster $k \in K$.</p>
-<p>$R$: Corporate hurdle rate.</p>
+\end{equation}<p>其中：</p>
+<p>$y_{k,j} \geq 0$:  集群 $k \in K$ 中被提供产品 $j \in J$ 要约的客户数量。</p>
+<p>$\pi_{k,j}$: 与向集群 $k \in K$ 的客户提供产品 $j \in J$ 的预期利润。</p>
+<p>$\nu_{k,j}$: 与向集群 $k \in K$ 的客户提供产品 $j \in J$ 的平均成本。</p>
+<p>$R$: 企业要求的最低 ROI。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15049,7 +15037,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Constraint to ensure minimum ROI</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 约束：保证 ROI</span>
 
 <span class="n">ROI_con</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">addConstr</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">expected_profit</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">R</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">expected_cost</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ROI&#39;</span><span class="p">)</span>
 </pre></div>
@@ -15062,17 +15050,17 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Objective-Function">Objective Function<a class="anchor-link" href="#Objective-Function">&#182;</a></h3><ul>
-<li><strong>Total profit</strong>. Maximize total expected profit from marketing campaign and heavily penalize any correction to the budget.</li>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>总利润</strong>： 最大化市场营销活动的总预期利润，并对任何对预算的修正进行惩罚。</li>
 </ul>
 \begin{equation}
 \text{Max} \quad Z = \sum_{k \in K} \sum_{j \in J} \pi_{k,j} \cdot y_{k,j} - M \cdot z
 \tag{0}
-\end{equation}<p>Where</p>
-<p>$y_{k,j} \geq 0$: Number of customers in cluster $k \in K$ that are offered product $j \in J$.</p>
-<p>$z \geq 0$: Increase in budget in order to have a feasible campaign.</p>
-<p>$\pi_{k,j}$: Expected profit to the bank from the offer of product $j \in J$ to an average customer of cluster $k \in K$.</p>
-<p><strong>Note:</strong> The value of $M$ should be higher than any of the expected profits to ensure that the budget is increased only when the model is infeasible if this parameter is not increased.</p>
+\end{equation}<p>其中：</p>
+<p>$y_{k,j} \geq 0$: 集群 $k \in K$ 中被提供产品 $j \in J$ 要约的客户数量。</p>
+<p>$z \geq 0$: 为了使营销活动可行，额外增加的预算。</p>
+<p>$\pi_{k,j}$: 与向集群 $k \in K$ 的客户提供产品 $j \in J$ 的预期利润。</p>
+<p><strong>注意：</strong>  $M$  的值应该高于任何预期利润，以确保仅在不增加此参数且模型不可行时才增加预算。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15081,9 +15069,9 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Objective function</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 目标哈数</span>
 
-<span class="c1"># Maximize total expected profit</span>
+<span class="c1"># 最大化总利润</span>
 
 <span class="n">M</span> <span class="o">=</span> <span class="mi">10000</span>
 
@@ -15101,7 +15089,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Verify model formulation</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 验证模型公式</span>
 
 <span class="n">mt</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;tactical.lp&#39;</span><span class="p">)</span>
 </pre></div>
@@ -15117,7 +15105,7 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Run optimization engine</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 执行优化引擎</span>
 
 <span class="n">mt</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
 </pre></div>
@@ -15139,7 +15127,8 @@ Set parameter TokenServer to value SANTOS-SURFACE-
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (win64)
+<pre>Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (mac64)
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
 Optimize a model with 6 rows, 5 columns and 17 nonzeros
 Model fingerprint: 0x1eac2f22
 Coefficient statistics:
@@ -15148,7 +15137,7 @@ Coefficient statistics:
   Bounds range     [0e+00, 0e+00]
   RHS range        [2e+00, 2e+02]
 Presolve removed 1 rows and 0 columns
-Presolve time: 0.01s
+Presolve time: 0.00s
 Presolved: 5 rows, 5 columns, 13 nonzeros
 
 Iteration    Objective       Primal Inf.    Dual Inf.      Time
@@ -15171,26 +15160,27 @@ Optimal objective -3.994000000e+06
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Output Reports</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 输出报告</span>
 
-<span class="c1"># Optimal allocation of product offers to clusters</span>
+<span class="c1"># 为集群客户提供产品要约的最优分配方案</span>
+
 
 <span class="n">total_expected_profit</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">total_expected_cost</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Optimal allocation of product offers to clusters.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📃 最优分配方案&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">p</span> <span class="ow">in</span> <span class="n">cp</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
         <span class="c1">#print(y[k,p].varName, y[k,p].x)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The number of customers in cluster </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> that gets an offer of product </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2"> is: </span><span class="si">{</span><span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;集群 </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> 中被提供产品 </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2"> 要约的客户数量为：</span><span class="si">{</span><span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">total_expected_profit</span> <span class="o">+=</span> <span class="n">expected_profit</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
         <span class="n">total_expected_cost</span> <span class="o">+=</span> <span class="n">expected_cost</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="o">*</span><span class="n">y</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
 
 <span class="n">increased_budget</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">The increase correction in the campaign budget is </span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">营销预算的增加预算为： </span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
-<span class="c1"># Financial reports</span>
+<span class="c1"># 财务报告</span>
 
 <span class="n">optimal_ROI</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">total_expected_profit</span><span class="o">/</span><span class="n">total_expected_cost</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">min_ROI</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">R</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span>
@@ -15199,11 +15189,11 @@ Optimal objective -3.994000000e+06
 <span class="n">money_expected_cost</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_expected_cost</span><span class="p">)</span>
 <span class="n">money_budget</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">budget</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Financial reports.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal total expected profit is </span><span class="si">{</span><span class="n">money_expected_profit</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal total expected cost is </span><span class="si">{</span><span class="n">money_expected_cost</span><span class="si">}</span><span class="s2"> with a budget of </span><span class="si">{</span><span class="n">money_budget</span><span class="si">}</span><span class="s2"> and an extra amount of </span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal ROI is </span><span class="si">{</span><span class="n">optimal_ROI</span><span class="si">}</span><span class="s2">% with a minimum ROI of  </span><span class="si">{</span><span class="n">min_ROI</span><span class="si">}</span><span class="s2">%.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📃 财务报告&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优总预期利润为： </span><span class="si">{</span><span class="n">money_expected_profit</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优总预期成本为： </span><span class="si">{</span><span class="n">money_expected_cost</span><span class="si">}</span><span class="s2"> ，其中目标预算为： </span><span class="si">{</span><span class="n">money_budget</span><span class="si">}</span><span class="s2">，额外开支为：</span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优 ROI 为： </span><span class="si">{</span><span class="n">optimal_ROI</span><span class="si">}</span><span class="s2">% ，最小为 </span><span class="si">{</span><span class="n">min_ROI</span><span class="si">}</span><span class="s2">%.&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15224,18 +15214,18 @@ Optimal objective -3.994000000e+06
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
-Optimal allocation of product offers to clusters.
-___________________________________________________
-The number of customers in cluster k1 that gets an offer of product p1 is: 2.0
-The number of customers in cluster k1 that gets an offer of product p2 is: 2.0
+📃 最优分配方案
+--------------------------------------------
+集群 k1 中被提供产品 p1 要约的客户数量为：2.0
+集群 k1 中被提供产品 p2 要约的客户数量为：2.0
 
-The increase correction in the campaign budget is $400.00.
+营销预算的增加预算为： $400.00.
 
-Financial reports.
-___________________________________________________
-Optimal total expected profit is $6,000.00.
-Optimal total expected cost is $600.00 with a budget of $200.00 and an extra amount of $400.00.
-Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
+📃 财务报告
+--------------------------------------------
+最优总预期利润为： $6,000.00.
+最优总预期成本为： $600.00 ，其中目标预算为： $200.00，额外开支为：$400.00.
+最优 ROI 为： 1000.0% ，最小为 120.0%.
 </pre>
 </div>
 </div>
@@ -15247,14 +15237,13 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Analysis">Analysis<a class="anchor-link" href="#Analysis">&#182;</a></h2><p>The cost of allocating products to clusters required an increase in the budget of $\$400$. The total expected profit is 
-$\$6,000$. The total expected cost is $\$600$ which is equal to the original budget of $\$200$ plus the increase of $\$400$. The expected ROI is 1,000 % which is much higher than the minimum ROI required.</p>
+<h2 id="&#20998;&#26512;">&#20998;&#26512;<a class="anchor-link" href="#&#20998;&#26512;">&#182;</a></h2><p>将产品分配到集群的成本需要增加预算 $\$400$ 。总预期利润是 $\$6,000$ 。总成本为 $\$600$ ，初步预算为 $\$200$ ，额外增加的预算为 $\$400$。预期投资回报率为 1000%，远高于最低 ROI 要求。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Operational-Model-Formulation">Operational Model Formulation<a class="anchor-link" href="#Operational-Model-Formulation">&#182;</a></h2><h3 id="Customer-expected-profit">Customer expected profit<a class="anchor-link" href="#Customer-expected-profit">&#182;</a></h3>
+<h2 id="&#25805;&#20316;&#27169;&#22411;&#21046;&#23450;">&#25805;&#20316;&#27169;&#22411;&#21046;&#23450;<a class="anchor-link" href="#&#25805;&#20316;&#27169;&#22411;&#21046;&#23450;">&#182;</a></h2><h3 id="&#23458;&#25143;&#39044;&#26399;&#21033;&#28070;">&#23458;&#25143;&#39044;&#26399;&#21033;&#28070;<a class="anchor-link" href="#&#23458;&#25143;&#39044;&#26399;&#21033;&#28070;">&#182;</a></h3>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
@@ -15262,13 +15251,13 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Sets</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 集合</span>
 
 <span class="n">customers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;c1&#39;</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">,</span><span class="s1">&#39;c3&#39;</span><span class="p">,</span><span class="s1">&#39;c4&#39;</span><span class="p">,</span><span class="s1">&#39;c5&#39;</span><span class="p">,</span><span class="s1">&#39;c6&#39;</span><span class="p">,</span><span class="s1">&#39;c7&#39;</span><span class="p">,</span><span class="s1">&#39;c8&#39;</span><span class="p">,</span><span class="s1">&#39;c9&#39;</span><span class="p">,</span><span class="s1">&#39;c10&#39;</span><span class="p">]</span>
 
-<span class="c1">### Parameters</span>
+<span class="c1">### 参数</span>
 
-<span class="c1"># Expected profit from a product offering for each customer in each cluster</span>
+<span class="c1"># 为集群中的不同客户提供不同产品的预期利润表</span>
 <span class="n">ccp</span><span class="p">,</span> <span class="n">customer_profit</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
     <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;c1&#39;</span><span class="p">,</span> <span class="s1">&#39;p1&#39;</span><span class="p">):</span> <span class="mi">2050</span><span class="p">,</span>
     <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;c1&#39;</span><span class="p">,</span> <span class="s1">&#39;p2&#39;</span><span class="p">):</span> <span class="mi">1050</span><span class="p">,</span>
@@ -15301,7 +15290,7 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Customer-offering-cost">Customer offering cost<a class="anchor-link" href="#Customer-offering-cost">&#182;</a></h3>
+<h3 id="&#23458;&#25143;&#35201;&#32422;&#25104;&#26412;">&#23458;&#25143;&#35201;&#32422;&#25104;&#26412;<a class="anchor-link" href="#&#23458;&#25143;&#35201;&#32422;&#25104;&#26412;">&#182;</a></h3>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
@@ -15309,7 +15298,7 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Customer cost of offering a product at a cluster</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 为集群中的不同客户提供不同产品的预期成本表</span>
 
 <span class="n">ccp</span><span class="p">,</span> <span class="n">customer_cost</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">multidict</span><span class="p">({</span>
     <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;c1&#39;</span><span class="p">,</span> <span class="s1">&#39;p1&#39;</span><span class="p">):</span> <span class="mi">205</span><span class="p">,</span>
@@ -15343,12 +15332,12 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Operational-Model-Formulation">Operational Model Formulation<a class="anchor-link" href="#Operational-Model-Formulation">&#182;</a></h2>
+<h2 id="&#25805;&#20316;&#27169;&#22411;&#23454;&#29616;">&#25805;&#20316;&#27169;&#22411;&#23454;&#29616;<a class="anchor-link" href="#&#25805;&#20316;&#27169;&#22411;&#23454;&#29616;">&#182;</a></h2>
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Decision-Variables">Decision Variables<a class="anchor-link" href="#Decision-Variables">&#182;</a></h3><p>$x_{k,i,j} \in \{0,1 \}$: This variable is equal to 1, if product $j \in J^{k}$  is offered to customer $i \in I^{k}$, and 0 otherwise.</p>
+<h3 id="&#20915;&#31574;&#21464;&#37327;">&#20915;&#31574;&#21464;&#37327;<a class="anchor-link" href="#&#20915;&#31574;&#21464;&#37327;">&#182;</a></h3><p>$x_{k,i,j} \in \{0,1 \}$: 如果产品 $j \in J^{k}$  给客户 $i \in I^{k}$ 提供了要约，此变量等于1, 否则为 0。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15357,10 +15346,10 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Declare and initialize model</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 定义并初始化模型</span>
 <span class="n">mo</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s1">&#39;Operational&#39;</span><span class="p">)</span>
 
-<span class="c1">### Decision variables</span>
+<span class="c1">### 定义变量</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">mo</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">ccp</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;assign&quot;</span><span class="p">)</span>
 </pre></div>
@@ -15373,15 +15362,15 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Product offers</strong>. Allocate offers of a product to customers of each cluster.</li>
+<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>产品要约</strong>： 将产品的要约分配给每个集群的客户。</li>
 </ul>
 \begin{equation}
 \sum_{i \in  I^{k}}  x_{k,i,j} = Y_{k,j}  \quad \forall j \in J^{k}, k \in K
 \tag{1}
-\end{equation}<p>Where</p>
-<p>$x_{k,i,j} \in \{0,1 \}$: This variable is equal to 1, if product $j \in J^{k}$  is offered to customer $i \in I^{k}$, and 0 otherwise.</p>
-<p>$Y_{k,j} = \lfloor y_{k,j} \rfloor $: Number of customers in cluster k that will get an offer of product $j \in J^{k}$.</p>
+\end{equation}<p>其中：</p>
+<p>$x_{k,i,j} \in \{0,1 \}$:  如果产品 $j \in J^{k}$  给客户 $i \in I^{k}$ 提供了要约，此变量等于1, 否则为 0。</p>
+<p>$Y_{k,j} = \lfloor y_{k,j} \rfloor $: 在集群 $k$ 中产品 $j \in J^{k}$ 提供要约的客户数量。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15390,7 +15379,7 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Product offers constraint</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 约束：产品要约</span>
 
 <span class="n">productOffers</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -15408,14 +15397,14 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Offers limit</strong>. At most one product may be offered to a customer of a cluster.</li>
+<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>要约限制</strong>： 最多可以向集群的一个客户提供一个产品。</li>
 </ul>
 \begin{equation}
 \sum_{j \in J^{k}} x_{k,i,j} \leq 1 \quad \forall i \in I^{k}, k \in K
 \tag{2}
-\end{equation}<p>Where</p>
-<p>$x_{k,i,j} \in \{0,1 \}$: This variable is equal to 1, if product $j \in J^{k}$  is offered to customer $i \in I^{k}$, and 0 otherwise.</p>
+\end{equation}<p>其中：</p>
+<p>$x_{k,i,j} \in \{0,1 \}$: 如果产品 $j \in J^{k}$  给客户 $i \in I^{k}$ 提供了要约，此变量等于1, 否则为 0。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15424,7 +15413,7 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># limit on the number of offers to each customer in a cluster.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 对集群中每个客户的要约数量进行限制。</span>
 
 <span class="n">ki</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;c1&#39;</span><span class="p">),</span> 
       <span class="p">(</span><span class="s1">&#39;k1&#39;</span><span class="p">,</span> <span class="s1">&#39;c2&#39;</span><span class="p">),</span> 
@@ -15452,15 +15441,15 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="Objective-Function">Objective Function<a class="anchor-link" href="#Objective-Function">&#182;</a></h3><ul>
-<li><strong>Total profit</strong>. Maximize total individual expected profit.</li>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>总利润</strong>： 最大化总预期利润。</li>
 </ul>
 \begin{equation}
 \text{Max} \quad Z = \sum_{k \in K}  \sum_{i \in I^{k}} \sum_{j \in J^{k}} r_{k,i,j} \cdot x_{k,i,j}
 \tag{0}
-\end{equation}<p>Where</p>
-<p>$x_{k,i,j} \in \{0,1 \}$: This variable is equal to 1, if product $j \in J^{k}$  is offered to customer $i \in I^{k}$, and 0 otherwise.</p>
-<p>$r_{k,i,j}$: Expected individual profit of customer $i \in I^{k}$ from  offer of product $j \in J^{k}$.</p>
+\end{equation}<p>其中：</p>
+<p>$x_{k,i,j} \in \{0,1 \}$: 如果产品 $j \in J^{k}$  给客户 $i \in I^{k}$ 提供了要约，此变量等于1, 否则为 0。</p>
+<p>$r_{k,i,j}$: 从客户 $i \in I^{k}$ 的产品要约 $j \in J^{k}$ 的预期客户利润。</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -15469,9 +15458,9 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Objective function</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 目标函数</span>
 
-<span class="c1"># Maximoze total profit</span>
+<span class="c1"># 最大化总利润</span>
 
 <span class="n">mo</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">customer_profit</span><span class="p">),</span> <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
 </pre></div>
@@ -15487,11 +15476,11 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Verify model formulation</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 验证模型</span>
 
 <span class="n">mo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;operational.lp&#39;</span><span class="p">)</span>
 
-<span class="c1"># Run optimization engine</span>
+<span class="c1"># 运行优化</span>
 
 <span class="n">mo</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
 </pre></div>
@@ -15513,7 +15502,8 @@ $\$6,000$. The total expected cost is $\$600$ which is equal to the original bud
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (win64)
+<pre>Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (mac64)
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
 Optimize a model with 14 rows, 20 columns and 40 nonzeros
 Model fingerprint: 0xe1e9d99f
 Variable types: 0 continuous, 20 integer (20 binary)
@@ -15535,8 +15525,8 @@ Root relaxation: objective 6.100000e+03, 2 iterations, 0.00 seconds
 
 *    0     0               0    6100.0000000 6100.00000  0.00%     -    0s
 
-Explored 0 nodes (2 simplex iterations) in 0.02 seconds
-Thread count was 8 (of 8 available processors)
+Explored 0 nodes (2 simplex iterations) in 0.01 seconds
+Thread count was 12 (of 12 available processors)
 
 Solution count 2: 6100 6050 
 
@@ -15556,9 +15546,10 @@ Best objective 6.100000000000e+03, best bound 6.100000000000e+03, gap 0.0000%
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Output Reports</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 输出报告</span>
 
-<span class="c1"># Optimal assignment of product offers to customers</span>
+<span class="c1"># 向客户提供产品要约的最优分配方案</span>
+
 
 <span class="n">total_customer_profit</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">total_customer_cost</span> <span class="o">=</span> <span class="mi">0</span>
@@ -15567,16 +15558,16 @@ Best objective 6.100000000000e+03, best bound 6.100000000000e+03, gap 0.0000%
 <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">num_assignments</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Optimal assignment of product offers to customers.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📃 最优分配方案&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="n">ccp</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">kvalue</span><span class="p">:</span>
         <span class="n">prevk</span> <span class="o">=</span> <span class="n">kvalue</span>
         <span class="n">kvalue</span> <span class="o">=</span> <span class="n">k</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">first</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of assignments in cluster </span><span class="si">{</span><span class="n">prevk</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">num_assignments</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;集群 </span><span class="si">{</span><span class="n">prevk</span><span class="si">}</span><span class="s2"> 中分配的要约数量为 </span><span class="si">{</span><span class="n">num_assignments</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
             <span class="n">num_assignments</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
             <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
@@ -15584,27 +15575,26 @@ Best objective 6.100000000000e+03, best bound 6.100000000000e+03, gap 0.0000%
         <span class="c1">#print(x[k,i,j].varName, x[k,i,j].x)</span>
         <span class="n">profit</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">customer_profit</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span>
         <span class="n">cost</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">customer_cost</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Customer </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> in cluster </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> gets an offer of product </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The expected profit is </span><span class="si">{</span><span class="n">profit</span><span class="si">}</span><span class="s2"> at a cost of </span><span class="si">{</span><span class="n">cost</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;集群 </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> 的客户 </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> 获得产品 </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">的要约：利润为 </span><span class="si">{</span><span class="n">profit</span><span class="si">}</span><span class="s2">，成本为 </span><span class="si">{</span><span class="n">cost</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">total_customer_profit</span> <span class="o">+=</span> <span class="n">customer_profit</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
         <span class="n">total_customer_cost</span> <span class="o">+=</span> <span class="n">customer_cost</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
         <span class="n">num_assignments</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of assignments in cluster </span><span class="si">{</span><span class="n">kvalue</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">num_assignments</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;集群 </span><span class="si">{</span><span class="n">kvalue</span><span class="si">}</span><span class="s2"> 中分配的要约数量为 </span><span class="si">{</span><span class="n">num_assignments</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         
-<span class="c1"># Financial reports</span>
+<span class="c1"># 财务报告</span>
 
 <span class="n">customers_ROI</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">total_customer_profit</span><span class="o">/</span><span class="n">total_customer_cost</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="n">money_customers_profit</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_customer_profit</span><span class="p">)</span>
 <span class="n">money_customers_cost</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_customer_cost</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Financial reports.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal total customers profit is </span><span class="si">{</span><span class="n">money_customers_profit</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal total customers cost is </span><span class="si">{</span><span class="n">money_customers_cost</span><span class="si">}</span><span class="s2"> with a budget of </span><span class="si">{</span><span class="n">money_budget</span><span class="si">}</span><span class="s2"> and an extra amount of </span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal ROI is </span><span class="si">{</span><span class="n">customers_ROI</span><span class="si">}</span><span class="s2">% with a minimum ROI of  </span><span class="si">{</span><span class="n">min_ROI</span><span class="si">}</span><span class="s2">%.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📃 财务报告&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优总客户预期利润为：</span><span class="si">{</span><span class="n">money_customers_profit</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优总成本为： </span><span class="si">{</span><span class="n">money_customers_cost</span><span class="si">}</span><span class="s2"> ，其中预期预算为 </span><span class="si">{</span><span class="n">money_budget</span><span class="si">}</span><span class="s2">，额外预算为： </span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优 ROI 为 </span><span class="si">{</span><span class="n">customers_ROI</span><span class="si">}</span><span class="s2">%，最小值为： </span><span class="si">{</span><span class="n">min_ROI</span><span class="si">}</span><span class="s2">%.&quot;</span><span class="p">)</span>
         
 </pre></div>
 
@@ -15626,29 +15616,25 @@ Best objective 6.100000000000e+03, best bound 6.100000000000e+03, gap 0.0000%
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
-Optimal assignment of product offers to customers.
-___________________________________________________
-Customer c1 in cluster k1 gets an offer of product p2:
-The expected profit is $1,050.00 at a cost of $105.00
-Customer c2 in cluster k1 gets an offer of product p2:
-The expected profit is $950.00 at a cost of $95.00
-Customer c3 in cluster k1 gets an offer of product p1:
-The expected profit is $2,000.00 at a cost of $200.00
-Customer c4 in cluster k1 gets an offer of product p1:
-The expected profit is $2,100.00 at a cost of $210.00
-___________________________________________________
-Number of assignments in cluster k1 is 4
-___________________________________________________
-___________________________________________________
-Number of assignments in cluster k2 is 0
-___________________________________________________
+📃 最优分配方案
+--------------------------------------------
+集群 k1 的客户 c1 获得产品 p2的要约：利润为 $1,050.00，成本为 $105.00
+集群 k1 的客户 c2 获得产品 p2的要约：利润为 $950.00，成本为 $95.00
+集群 k1 的客户 c3 获得产品 p1的要约：利润为 $2,000.00，成本为 $200.00
+集群 k1 的客户 c4 获得产品 p1的要约：利润为 $2,100.00，成本为 $210.00
+--------------------------------------------
+集群 k1 中分配的要约数量为 4
+--------------------------------------------
+--------------------------------------------
+集群 k2 中分配的要约数量为 0
+--------------------------------------------
 
 
-Financial reports.
-___________________________________________________
-Optimal total customers profit is $6,100.00.
-Optimal total customers cost is $610.00 with a budget of $200.00 and an extra amount of $400.00.
-Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
+📃 财务报告
+--------------------------------------------
+最优总客户预期利润为：$6,100.00.
+最优总成本为： $610.00 ，其中预期预算为 $200.00，额外预算为： $400.00.
+最优 ROI 为 1000.0%，最小值为： 120.0%.
 </pre>
 </div>
 </div>
@@ -15660,42 +15646,42 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Analysis">Analysis<a class="anchor-link" href="#Analysis">&#182;</a></h2><p>Each customer got, at most, one product offer.  Product p2 is offered to customers c1 and c2, and product p1 is offered to customers c3 and c4. Products p1 and p2 are offerred to at least two customers -this is a constraint from the tactical model. Observe that to ensure these hard business constraints, the budget needs to be increased by $\$400$</p>
-<p>The cost of assigning  products to customers is $\$610$, which slightly violates the total budget available of $\$600$. The total customers profit is $\$6,100$. The  ROI is 1,000 %, which is much higher than the minimum ROI required.</p>
-<p>If the total available budget needs to be enforced, the following constraint can be added to the operational model:</p>
+<h2 id="&#20998;&#26512;">&#20998;&#26512;<a class="anchor-link" href="#&#20998;&#26512;">&#182;</a></h2><p>每个顾客最多只能得到一个产品要约。 产品 p2 的要约提供给了客户 c1 和 c2， 产品 p1 的要约提供给了客户 c3 和 c4。产品 p1 和 p2 都提供了两份要约——这是来自策略模型的约束。然而需要注意的是，为了确保这些严格的业务限制，预算需要增加 $\$400$。</p>
+<p>提供产品要约的总成本是 $\$610$，，这稍微违反了可用的总预算 of $\$600$. 总客户预期利润为 $\$6,100$。ROI 为 1,000 %，远高于最低 ROI 要求。</p>
+<p>如果需要约束总可用预算，可以向该营销模型添加以下约束：</p>
 <ul>
-<li><strong>Budget</strong>. Enforce budget constraint.</li>
+<li><strong>预算</strong>： 约束总可用预算。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K}  \sum_{i \in I^{k}} \sum_{j \in J^{k}} c_{k,i,j} \cdot x_{k,i,j} \leq B'
 \tag{4}
-\end{equation}<p>The new budget is the original budget plus the correction, that is  $B' = B + z$</p>
+\end{equation}<p>新的预算是原预算加上修正后的预算，即 $B' = B + z$</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Scenario-1">Scenario 1<a class="anchor-link" href="#Scenario-1">&#182;</a></h2><p>Enforce total budget available constraint. In this case, the operational model is:</p>
-<h3 id="Objective-function">Objective function<a class="anchor-link" href="#Objective-function">&#182;</a></h3><ul>
-<li><strong>Total profit</strong>. Maximize total individual expected profit.</li>
+<h2 id="&#22330;&#26223;-1">&#22330;&#26223; 1<a class="anchor-link" href="#&#22330;&#26223;-1">&#182;</a></h2><p>约束总可用预算，在这个场景下，操作模型为:</p>
+<h3 id="&#30446;&#26631;&#20989;&#25968;">&#30446;&#26631;&#20989;&#25968;<a class="anchor-link" href="#&#30446;&#26631;&#20989;&#25968;">&#182;</a></h3><ul>
+<li><strong>总利润</strong>： 最大化总预期利润。</li>
 </ul>
 \begin{equation}
 \text{Max} \quad Z = \sum_{k \in K}  \sum_{i \in I^{k}} \sum_{j \in J^{k}} r_{k,i,j} \cdot x_{k,i,j}
 \tag{0}
-\end{equation}<h3 id="Constraints">Constraints<a class="anchor-link" href="#Constraints">&#182;</a></h3><ul>
-<li><strong>Product offers</strong>. Allocate offers of a product to customers of each cluster.</li>
+\end{equation}<h3 id="&#32422;&#26463;">&#32422;&#26463;<a class="anchor-link" href="#&#32422;&#26463;">&#182;</a></h3><ul>
+<li><strong>产品要约</strong>： 将产品的要约分配给每个集群的客户。</li>
 </ul>
 \begin{equation}
 \sum_{i \in  I^{k}}  x_{k,i,j} = Y_{k,j}  \quad \forall j \in J^{k}, k \in K
 \tag{1}
 \end{equation}<ul>
-<li><strong>Offers limit</strong>. At most one product may be offered to a customer in each cluster.</li>
+<li><strong>要约限制</strong>： 最多可以向集群的一个客户提供一个产品。</li>
 </ul>
 \begin{equation}
 \sum_{j \in J^{k}} x_{k,i,j} \leq 1 \quad \forall i \in I^{k}, k \in K
 \tag{2}
 \end{equation}<ul>
-<li><strong>Budget</strong>. Enforce budget constraint.</li>
+<li><strong>预算</strong>： 约束总可用预算。</li>
 </ul>
 \begin{equation}
 \sum_{k \in K}  \sum_{i \in I^{k}} \sum_{j \in J^{k}} c_{k,i,j} \cdot x_{k,i,j} \leq B'
@@ -15708,12 +15694,12 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Operational model enforcing constraint for total budget available </span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 约束总预算的营销模型</span>
 
-<span class="c1"># Declare and initialize model</span>
+<span class="c1"># 声明模型</span>
 <span class="n">mob</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="s1">&#39;OperationalB&#39;</span><span class="p">)</span>
 
-<span class="c1">### Decision variables</span>
+<span class="c1">### 决策变量</span>
 
 <span class="n">xb</span> <span class="o">=</span> <span class="n">mob</span><span class="o">.</span><span class="n">addVars</span><span class="p">(</span><span class="n">ccp</span><span class="p">,</span> <span class="n">vtype</span><span class="o">=</span><span class="n">GRB</span><span class="o">.</span><span class="n">BINARY</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;assign&quot;</span><span class="p">)</span>
 </pre></div>
@@ -15729,7 +15715,7 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Product offers constraint</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 约束：产品要约</span>
 
 <span class="n">productOffersb</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -15750,7 +15736,7 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># limit on the number of offers to each customer in a cluster.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 约束：对集群中每个客户的要约数量进行限制。</span>
 
 <span class="n">customerOffersb</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -15770,9 +15756,9 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># budget constraint</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 约束：预算</span>
 
-<span class="c1"># New budget</span>
+<span class="c1"># 新预算</span>
 <span class="n">new_budget</span> <span class="o">=</span> <span class="n">budget</span> <span class="o">+</span> <span class="n">z</span><span class="o">.</span><span class="n">x</span>
 
 <span class="n">totBudget</span> <span class="o">=</span> <span class="n">mob</span><span class="o">.</span><span class="n">addConstr</span><span class="p">(</span><span class="n">xb</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">customer_cost</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">new_budget</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;total_budget&#39;</span><span class="p">)</span>
@@ -15789,9 +15775,9 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[28]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Objective function</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 目标函数</span>
 
-<span class="c1"># Maximize total profit</span>
+<span class="c1"># 最大化总利润</span>
 
 <span class="n">mob</span><span class="o">.</span><span class="n">setObjective</span><span class="p">(</span><span class="n">xb</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">customer_profit</span><span class="p">),</span> <span class="n">GRB</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">)</span>
 </pre></div>
@@ -15807,11 +15793,11 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Verify model formulation</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 验证模型</span>
 
 <span class="n">mob</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;operationalB.lp&#39;</span><span class="p">)</span>
 
-<span class="c1"># Run optimization engine</span>
+<span class="c1"># 运行优化</span>
 
 <span class="n">mob</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
 </pre></div>
@@ -15833,7 +15819,8 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>Gurobi Optimizer version 9.0.0 build v9.0.0rc2 (win64)
+<pre>Gurobi Optimizer version 9.1.0 build v9.1.0rc0 (mac64)
+Thread count: 6 physical cores, 12 logical processors, using up to 12 threads
 Optimize a model with 15 rows, 20 columns and 60 nonzeros
 Model fingerprint: 0x96da858f
 Variable types: 0 continuous, 20 integer (20 binary)
@@ -15855,8 +15842,8 @@ Root relaxation: objective 6.000000e+03, 2 iterations, 0.00 seconds
 
 *    0     0               0    6000.0000000 6000.00000  0.00%     -    0s
 
-Explored 0 nodes (2 simplex iterations) in 0.02 seconds
-Thread count was 8 (of 8 available processors)
+Explored 0 nodes (2 simplex iterations) in 0.01 seconds
+Thread count was 12 (of 12 available processors)
 
 Solution count 2: 6000 5950 
 
@@ -15876,9 +15863,9 @@ Best objective 6.000000000000e+03, best bound 6.000000000000e+03, gap 0.0000%
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Output Reports</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### 输出报告</span>
 
-<span class="c1"># Optimal assignment of product offers to customers</span>
+<span class="c1"># 向客户提供产品要约的最优分配方案</span>
 
 <span class="n">total_customer_profitb</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">total_customer_costb</span> <span class="o">=</span> <span class="mi">0</span>
@@ -15887,16 +15874,16 @@ Best objective 6.000000000000e+03, best bound 6.000000000000e+03, gap 0.0000%
 <span class="n">firstb</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">num_assignmentsb</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Optimal assignment of product offers to customers.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📃 最优分配方案&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="n">ccp</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">kvalueb</span><span class="p">:</span>
         <span class="n">prevkb</span> <span class="o">=</span> <span class="n">kvalueb</span>
         <span class="n">kvalueb</span> <span class="o">=</span> <span class="n">k</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">firstb</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of assignments in cluster </span><span class="si">{</span><span class="n">prevkb</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">num_assignmentsb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;集群 </span><span class="si">{</span><span class="n">prevkb</span><span class="si">}</span><span class="s2"> 中分配的要约数量为 </span><span class="si">{</span><span class="n">num_assignmentsb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
             <span class="n">num_assignmentsb</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="n">firstb</span><span class="p">:</span>
             <span class="n">firstb</span> <span class="o">=</span> <span class="kc">False</span>
@@ -15904,14 +15891,13 @@ Best objective 6.000000000000e+03, best bound 6.000000000000e+03, gap 0.0000%
         <span class="c1">#print(x[k,i,j].varName, x[k,i,j].x)</span>
         <span class="n">profitb</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">customer_profit</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span>
         <span class="n">costb</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">customer_cost</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Customer </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> in cluster </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> gets an offer of product </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The expected profit is </span><span class="si">{</span><span class="n">profitb</span><span class="si">}</span><span class="s2"> at a cost of </span><span class="si">{</span><span class="n">costb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;集群 </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2"> 的客户 </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> 获得产品 </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">的要约：利润为 </span><span class="si">{</span><span class="n">profitb</span><span class="si">}</span><span class="s2">，成本为 </span><span class="si">{</span><span class="n">costb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">total_customer_profitb</span> <span class="o">+=</span> <span class="n">customer_profit</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">xb</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
         <span class="n">total_customer_costb</span> <span class="o">+=</span> <span class="n">customer_cost</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">xb</span><span class="p">[</span><span class="n">k</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">x</span>
         <span class="n">num_assignmentsb</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of assignments in cluster </span><span class="si">{</span><span class="n">kvalueb</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">num_assignmentsb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;集群 </span><span class="si">{</span><span class="n">kvalueb</span><span class="si">}</span><span class="s2"> 中分配的要约数量为 </span><span class="si">{</span><span class="n">num_assignmentsb</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         
 <span class="c1"># Financial reports</span>
 
@@ -15920,11 +15906,11 @@ Best objective 6.000000000000e+03, best bound 6.000000000000e+03, gap 0.0000%
 <span class="n">money_customers_profitb</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_customer_profitb</span><span class="p">)</span>
 <span class="n">money_customers_costb</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">total_customer_costb</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Financial reports.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;___________________________________________________&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal total customers profit is </span><span class="si">{</span><span class="n">money_customers_profitb</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal total customers cost is </span><span class="si">{</span><span class="n">money_customers_costb</span><span class="si">}</span><span class="s2"> with a budget of </span><span class="si">{</span><span class="n">money_budget</span><span class="si">}</span><span class="s2"> and an extra amount of </span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Optimal ROI is </span><span class="si">{</span><span class="n">customers_ROIb</span><span class="si">}</span><span class="s2">% with a minimum ROI of  </span><span class="si">{</span><span class="n">min_ROI</span><span class="si">}</span><span class="s2">%.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📃 财务报告&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优客户利润为： </span><span class="si">{</span><span class="n">money_customers_profitb</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最优客户总成本为 </span><span class="si">{</span><span class="n">money_customers_costb</span><span class="si">}</span><span class="s2"> ，其中原预算为： </span><span class="si">{</span><span class="n">money_budget</span><span class="si">}</span><span class="s2"> ，超额预算为： </span><span class="si">{</span><span class="n">increased_budget</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;最佳 ROI 为 </span><span class="si">{</span><span class="n">customers_ROIb</span><span class="si">}</span><span class="s2">% ， 最小 ROI 为  </span><span class="si">{</span><span class="n">min_ROI</span><span class="si">}</span><span class="s2">%.&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15945,29 +15931,25 @@ Best objective 6.000000000000e+03, best bound 6.000000000000e+03, gap 0.0000%
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>
-Optimal assignment of product offers to customers.
-___________________________________________________
-Customer c1 in cluster k1 gets an offer of product p2:
-The expected profit is $1,050.00 at a cost of $105.00
-Customer c2 in cluster k1 gets an offer of product p1:
-The expected profit is $1,950.00 at a cost of $195.00
-Customer c4 in cluster k1 gets an offer of product p1:
-The expected profit is $2,100.00 at a cost of $210.00
-Customer c5 in cluster k1 gets an offer of product p2:
-The expected profit is $900.00 at a cost of $90.00
-___________________________________________________
-Number of assignments in cluster k1 is 4
-___________________________________________________
-___________________________________________________
-Number of assignments in cluster k2 is 0
-___________________________________________________
+📃 最优分配方案
+--------------------------------------------
+集群 k1 的客户 c1 获得产品 p2的要约：利润为 $1,050.00，成本为 $105.00
+集群 k1 的客户 c2 获得产品 p1的要约：利润为 $1,950.00，成本为 $195.00
+集群 k1 的客户 c4 获得产品 p1的要约：利润为 $2,100.00，成本为 $210.00
+集群 k1 的客户 c5 获得产品 p2的要约：利润为 $900.00，成本为 $90.00
+--------------------------------------------
+集群 k1 中分配的要约数量为 4
+--------------------------------------------
+--------------------------------------------
+集群 k2 中分配的要约数量为 0
+--------------------------------------------
 
 
-Financial reports.
-___________________________________________________
-Optimal total customers profit is $6,000.00.
-Optimal total customers cost is $600.00 with a budget of $200.00 and an extra amount of $400.00.
-Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
+📃 财务报告
+--------------------------------------------
+最优客户利润为： $6,000.00.
+最优客户总成本为 $600.00 ，其中原预算为： $200.00 ，超额预算为： $400.00.
+最佳 ROI 为 1000.0% ， 最小 ROI 为  120.0%.
 </pre>
 </div>
 </div>
@@ -15979,51 +15961,36 @@ Optimal ROI is 1000.0% with a minimum ROI of  120.0%.
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Analysis">Analysis<a class="anchor-link" href="#Analysis">&#182;</a></h2><p>Each customer got, at most, one product offer. Products p1 and p2 are offerred to at least two customers. The cost of assigning  products to customers is $\$600$, which is equal to the total budget available. The total customers profit is $\$6,000$. The  ROI is 1,000 %, which is much higher than the minimum ROI required.</p>
-<p>In this scenario, we enforce the total available budget constraint and we get a different distribution for the assignment. 
-Product p1 is offered to customers c2 and c4, and product p2 is offered to customers c1 and c5.</p>
+<h2 id="&#20998;&#26512;">&#20998;&#26512;<a class="anchor-link" href="#&#20998;&#26512;">&#182;</a></h2><p>每个客户最多只能被提供一个产品要约。产品p1和p2提供给至少两个客户。将产品分配给客户的成本是 $\$600$，这等于最初sh可用的总预算。ROI为1,000％，远远高于所需的最低ROI。</p>
+<p>在这个场景中，我们限定总可用预算为定值，从而得到一个不同的执行方案。产品 p1 提供给客户 c2 和 c4，产品 p2 提供给 c1 和 c5。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>In this Jupyter Notebook, we discussed the importance of marketing campaigns for the banking industry. We discussed that machine learning predictive response models can be used to provide the input data of a marketing campaign optimization problem. We showed how the marketing campaign optimization problem can be decomposed into a tactical problem and an operational problem.</p>
-<p>The tactical problem is formulated as a linear programming problem where we aggregate data generated by the machine learning predictive response models.</p>
-<p>The solution of the tactical problem determines what products to offer to customers in clusters while maximizing the marketing campaign expected profits and considering the following constraints:</p>
+<h2 id="&#32467;&#35770;">&#32467;&#35770;<a class="anchor-link" href="#&#32467;&#35770;">&#182;</a></h2><p>在这个 Jupyter Notebook 中，我们讨论了营销活动对银行业的重要性。我们讨论了机器学习预测响应模型可用于提供营销活动优化问题的输入数据。我们展示了如何将营销活动优化问题分解为策略问题和操作问题。</p>
+<p>这个策略问题被表述为一个线性规划问题，我们将机器学习预测响应模型产生的数据进行聚合。策略问题的解决方案确定了向集群中的客户提供哪些产品，同时最大化了营销活动的预期利润，并考虑了以下约束：</p>
 <ul>
-<li>limits on funding available for the campaign.</li>
-<li>restrictions on the minimum number of product offers that can be made in a campaign.</li>
-<li>campaign return-on-investment hurdle rates that must be met.</li>
+<li>活动预算的限制。</li>
+<li>对活动中可以提供的产品的最小数量的限制。</li>
+<li>必须满足的投资回报率门槛。</li>
 </ul>
-<p>The operational problem is formulated as a MIP model, where the expected customer  profits and the output of the tactical model can be used as inputs to assign products offers to individual customers in such way that the total customers profit is maximized. We considered two cases for the operational problem. In the first case, the total available budget determined by tactical problem is not enforced. This means that the optimal solution of this problem might have slight violations of the total available budget. In the second case, we enforce a total available budget.</p>
+<p>该操作问题被表述为MIP模型，其中预期的客户利润和策略模型的输出可以作为输入，将产品提供分配给单个客户，从而使客户总利润最大化。我们考虑了两个操作问题的案例。在第一种情况下，不强制限定由策略问题决定的总可用预算。这意味着这个问题的最佳解决方案可能会稍微超出总可用预算。在第二种情况下，我们限定总可用预算。</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="References">References<a class="anchor-link" href="#References">&#182;</a></h2><p>[1] M. D. Cohen. <em>Exploiting response models—optimizing cross-sell and up-sell opportunities in banking.</em> Information Systems. Vol. 29. issue 4, June 2004, Pages 327-341</p>
+<h2 id="&#21442;&#32771;">&#21442;&#32771;<a class="anchor-link" href="#&#21442;&#32771;">&#182;</a></h2><p>[1] M. D. Cohen. <em>Exploiting response models—optimizing cross-sell and up-sell opportunities in banking.</em> Information Systems. Vol. 29. issue 4, June 2004, Pages 327-341</p>
 
 </div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Copyright © 2020 Gurobi Optimization, LLC</p>
+<p>翻译 By Arvin Xu</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
 </div>
 </body>
 
