@@ -1,81 +1,48 @@
-# Offshore Wind Farming
+# 海上风电场 Offshore Wind Farming
 
-## Objective and Prerequisites
+## 目的和先决条件
 
-In this example, we will solve the problem of how to minimize the cost of laying underwater cables to collect 
-electricity produced by an offshore wind farm. We will construct a mixed-integer programming (MIP)  model of this 
-problem, implement this model in the Gurobi Python interface, and compute an optimal solution.
+在此示例中，我们将解决如何最小化铺设水下电缆以收集海上风电场产生的电力的成本的问题。我们将构建此问题的混合整数编程（MIP）模型，在Gurobi Python界面中实现此模型，并计算最佳解决方案。
 
-This modeling example is at the beginner level, where we assume that you know Python and that you have some 
-knowledge about building mathematical optimization models.
+该建模示例处于初级阶段，我们假设您了解Python，并且具有一些有关构建数学优化模型的知识。
 
-## Motivation
+## 动机
 
-Global climate change has already had observable effects on the environment. Glaciers have shrunk, ice on rivers and 
-lakes is breaking up earlier than expected, plant and animal species have  been affected and trees are flowering sooner 
-than expected. The potential future effects of global climate change include more frequent wildfires, longer periods of 
-drought in some regions and an increase in the number, duration and intensity of tropical storms.
+全球气候变化已经对环境产生了明显影响。冰川消退，河流和湖泊上的冰块破裂早于预期，动植物物种受到影响，树木开花快于预期。全球气候变化的潜在未来影响包括更频繁的山货，某些地区更长的干旱时期以及热带风暴的数量，持续时间和强度增加。
 
-Climate change mitigation consists of actions to limit the magnitude or rate of global warming and its related 
-effects. The first challenge for climate change mitigation is eliminating the burning of coal, oil and, eventually, 
-natural gas. This is perhaps the most daunting challenge as denizens of richer nations literally eat, wear, work, 
-play and even sleep on the products made from fossil fuels. Also, citizens of developing nations want and arguably 
-deserve the same comforts. There are no perfect solutions for reducing dependence on fossil fuels (for example, 
-carbon neutral biofuels can drive up the price of food and lead to forest destruction, and while nuclear power does 
-not emit greenhouse gases, it does produce radioactive waste). Other alternatives include plant-derived plastics, 
-biodiesel, and wind power.
+缓解气候变化包括限制全球变暖的幅度或速度及其相关影响的行动。缓解气候变化的第一个挑战是消除煤炭，石油和最终天然气的燃烧。这可能是最艰巨的挑战，因为富裕国家的居民吃饭、穿衣、工作、娱乐甚至睡觉都离不开化石燃料。同样，发展中国家的人民也希望且也应该得到同样的生活。目前对于减少对化石燃料的依赖，并没有完美的解决方案（例如，碳中性生物燃料会抬高食品价格并导致森林破坏；核能虽然不会排放温室气体，但会产生放射性废物）。其他替代品还包括植物衍生的塑料，生物柴油和风力发电等。
 
-Offshore wind power is the use of wind farms constructed in bodies of water, usually in the ocean, to harvest wind 
-energy to generate electricity. Higher wind speeds are available offshore compared to on land, so offshore wind 
-power’s electricity generation is higher per amount of capacity installed. 
+海上风力发电是利用风力发电场建造在水体中，通常是在海洋中，以收集风能来发电。与陆地相比，海上的风速更高，因此海上风力发电的单位装机容量更高。
 
-The advantage of locating wind turbines offshore is that the wind is much stronger off the coasts, and unlike wind 
-over the continent, offshore breezes can be strong in the afternoon, matching the time when people are using the 
-most electricity. Offshore turbines can also be located close to the load centers along the coasts, such as large 
-cities, eliminating the need for new long-distance transmission lines.
+将风力涡轮机安装在海上的好处是，沿海地区的风力要强得多，与大陆上的风力不同，下午的海上微风可能很强劲，与人们用电最多的时间相称。海上涡轮机也可以靠近沿海地区（例如大城市）的负载中心，从而无需新的长距离传输线。
 
-## Problem Description
+## 问题描述
 
-An offshore wind farm is a collection of wind turbines placed at sea to take advantage of the strong offshore winds. 
-These strong winds produce more electricity, but offshore wind farms are more expensive to install and operate than 
-those on land.
+海上风电场是一组放置在海上的风力涡轮机，以利用强大的海上风力。这些强风可以产生更多的电力，但海上风力发电场的安装和运营成本比陆地上的要高。
 
-We will use a MIP model to reduce part of the cost of building an offshore wind farm. We will compute a plan for how 
-to lay the underwater cables that connect the turbines. These cables are necessary to transfer the power produced by 
-the turbines to land. The plan we compute will minimize the cost to install the underwater cables, while ensuring that 
-each turbine is connected to the shore and each cable has sufficient capacity to handle the electrical current generated.
+我们将使用MIP模型来减少建造海上风电场的部分成本。我们将计算出如何铺设连接涡轮机的水下电缆的计划。这些电缆是将涡轮机产生的电力输送到陆地所必需的。我们计算的计划将使安装水下电缆的成本降到最低，同时确保每个涡轮机都与海岸相连，每根电缆都有足够的容量来处理产生的电流。
 
-In our example, a wind farm is being built off the west coast of Denmark. There is a power station on the coast where 
-all the electricity must be transferred to be distributed to the electric grid. There are also transfer stations in the 
-wind farm where the power from several turbines can be collected and transferred along a single cable to the shore.
+在我们的例子中，丹麦西海岸正在建设一个风力发电场。海岸上有一座发电站，所有的电力都必须被输送到电网中。风电场中还设有中转站，可以收集来自多个涡轮机的电力，并通过一条电缆将其传送到岸上。
 
-There are two factors we must consider when installing the cables. First, there is a fixed cost to lay a cable on 
-the sea floor. This cost is proportional to the distance between the two stations the cable connects. Second, 
-we must consider how much current will flow through the cables. Connections that carry large currents need thick 
-cables. Thick cables are more expensive than thin cables.
+在安装电缆时，我们必须考虑两个因素。首先，在海底铺设电缆是有固定成本的。这种成本与电缆连接的两个站点之间的距离成正比。第二，我们必须考虑有多少电流会通过电缆。承载大电流的连接需要厚电缆。粗电缆比细电缆贵。
 
-The goal of this optimization problem is to decide which cables should be laid to connect the wind farm power network 
-at a minimum cost.
+该优化问题的目标是以最小的成本铺设连接风电场电网的电缆。
 
-The model of offshore wind farming optimization problem is an instance of a more general optimization model known 
-as fixed charge network flow problem. Fixed charge network flow problems can be applied to a large number of business 
-problems -for example, in the planning of communication and transport networks.
+海上风电场优化问题模型是一种更为普遍的优化模型（称为固定费用和流量问题）一个实例。固定收费网络流量问题可以应用于大量的业务问题——例如，在通信和运输网络的规划中。
 
-## Proposed Solution
+## 预期解法
 
-A mixed-integer programming (MIP) formulation for the offshore wind farming problem.
+用混合整数规划(MIP)方法解决海上风电场问题。
+
+## 查看网页版
+
+本案例也包含了一个网页版本 如果你没有 Jupter Notebook 的话，可以直接查看网页版来学习。➡️ [传送门](https://arvinxx.github.io/gurobi-official-examples/offshore-wind-farming)
 
 
-## Licensing
+## 协议
 
-In order to run this Jupyter Notebook properly, you must have a valid Gurobi license. If you do not have one, you can request 
-an [evaluation license](https://www.gurobi.com/downloads/request-an-evaluation-license/?utm_source=Github&utm_medium=website_JupyterME&utm_campaign=CommercialDataScience) 
-as a *commercial user*, or download a [free license](https://www.gurobi.com/academia/academic-program-and-licenses/?utm_source=Github&utm_medium=website_JupyterME&utm_campaign=AcademicDataScience) 
-as an *academic user*.
-
-## HTML Example URL
-
-https://gurobi.github.io/modeling-examples/offshore_wind_farming/offshore_wind_farming.html
-
+你可以通过单击 [此处](https://github.com/arvinxx/gurobi-and-mathematical-modeling/archive/master.zip) 下载包含此示例和其他示例的代码。为了正确运行此 Jupyter Notebook，你必须具有 Gurobi 许可证。如果你没有，则可以**商业用户身份**申请 [试用许可证](https://www.gurobi.com/downloads/request-an-evaluation-license/)，或以**学术用户身份**下载 [免费许可证](https://www.gurobi.com/academia/academic-program-and-licenses)。
 
 Copyright © 2020 Gurobi Optimization, LLC
+
+翻译 By Arvin Xu
